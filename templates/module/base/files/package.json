@@ -1,7 +1,7 @@
 {
-  "name": "{{project}}",
+  "name": "{{projectName}}",
   "version": "0.1.0",
-  "description": "{{description}}",
+  "description": "{{projectDescription}}",
   "main": "index.js",
   "scripts": {
     "demo": "node examples/index.js",
@@ -18,9 +18,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/{{username}}/{{project}}.git"
+    "url": "https://github.com/{{username}}/{{projectName}}.git"
   },
-  "author": "{{name}}",
+  "author": "{{fullName}}",
   "license": "MIT",
   "devDependencies": {
     "benchmarkify": "2.1.0",

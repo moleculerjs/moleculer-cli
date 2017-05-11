@@ -1,6 +1,6 @@
 /*
- * {{project}}
- * Copyright (c) {{year}} {{name}} (https://github.com/{{username}}/{{project}})
+ * {{projectName}}
+ * Copyright (c) {{year}} {{fullName}} (https://github.com/{{username}}/{{projectName}})
  * MIT Licensed
  */
 
@@ -8,7 +8,7 @@
 
 module.exports = {
 
-	name: "{{brand}}",
+	name: "{{serviceName}}",
 
 	/**
 	 * Default settings
