@@ -63,7 +63,7 @@ function init(opts) {
 			Object.assign(values, answers);
 
 			const { projectName } = values;
-			const projectFolder = values.projectFolder = path.join(".", projectName);
+			const projectFolder = values.projectFolder = path.resolve(".", projectName);
 			//if (fs.existsSync(projectFolder))
 			//	return fail(`The '${projectName} directory is exists!`);
 
@@ -72,7 +72,7 @@ function init(opts) {
 
 		})
 		.then(() => {
-			const templateFolder = path.join("..", "templates", "project", values.templateName);
+			const templateFolder = values.templateFolder = path.join(__dirname, "..", "templates", "project", values.templateName);
 			if (fs.existsSync(path.join(templateFolder, "config.js"))) {
 				const templateConfig = require(path.join(templateFolder, "config.js"));
 				if (templateConfig.questions) {
@@ -81,15 +81,22 @@ function init(opts) {
 			}
 		})
 		.then(() => {
-			const metalsmith = Metalsmith(templateFolder)
-				//.use(ask)
-				.use(template)
-				.clean(false)
-				.source('.')
-				.destination(values.projectFolder)
-				.build((err, files) => {
-					if (err) throw err;
-				});
+			return new Promise((resolve, reject) => {
+				const metalsmith = Metalsmith(values.templateFolder);
+				Object.assign(metalsmith.metadata(), values);
+				metalsmith
+					//.use(ask)
+					.use(template)
+					.clean(false)
+					.source('files')
+					.destination(values.projectFolder)
+					.build((err, files) => {
+						console.log("Next 3", values, files);
+						if (err) return reject(err);
+						resolve();
+					});
+
+			});
 		})
 		.then(() => {
 		})
@@ -105,14 +112,16 @@ function template(files, metalsmith, done) {
 	var keys = Object.keys(files);
 	var metadata = metalsmith.metadata();
 
+	console.log("template", metadata);
+
 	async.each(keys, run, done);
 
 	function run(file, done) {
 		var str = files[file].contents.toString();
 
-		if (!/{{([^{}]+)}}/g.test(str)) {
-			return next()
-		}
+		/*if (!/{{([^{}]+)}}/g.test(str)) {
+			return done()
+		}*/
 
 		render(str, metadata, function (err, res) {
 			if (err) return done(err);
