@@ -1,0 +1,52 @@
+{
+  "name": "{{project}}",
+  "version": "0.1.0",
+  "description": "{{description}}",
+  "main": "index.js",
+  "scripts": {
+    "demo": "node examples/index.js",
+    "demow": "nodemon examples/index.js",
+    "ci": "jest --watch",
+    "test": "jest --coverage",
+    "lint": "eslint --ext=.js src test",
+    "deps": "npm-check -u",
+    "coverall": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "keywords": [
+    "microservices",
+    "microservice"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/{{username}}/{{project}}.git"
+  },
+  "author": "{{name}}",
+  "license": "MIT",
+  "devDependencies": {
+    "benchmarkify": "2.1.0",
+    "coveralls": "2.13.1",
+    "eslint": "3.19.0",
+    "jest": "20.0.0",
+    "jest-cli": "20.0.0",
+    "lolex": "1.6.0",
+    "nodemon": "1.11.0",
+    "npm-check": "5.4.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "rootDir": "./src",
+    "roots": [
+      "../test"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/services/"
+    ]
+  },
+  "dependencies": {
+    "moleculer": "*"
+  },
+  "engines": {
+    "node": ">= 6.x.x"
+  }
+}
