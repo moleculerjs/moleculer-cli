@@ -17,6 +17,7 @@
     "ora": "1.2.0",
     "request": "2.81.0",
     "rimraf": "2.6.1",
+    "user-home": "2.0.0",
     "yargs": "8.0.1"
   },
   "devDependencies": {
