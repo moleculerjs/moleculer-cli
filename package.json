@@ -9,6 +9,7 @@
     "consolidate": "0.14.5",
     "download-git-repo": "1.0.0",
     "exeq": "3.0.0",
+    "handlebars": "4.0.8",
     "inquirer": "3.0.6",
     "lodash": "4.17.4",
     "metalsmith": "2.3.0",
