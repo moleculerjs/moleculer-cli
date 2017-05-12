@@ -22,7 +22,18 @@ The above command download the template from [ice-services/moleculer-template-mo
 #### Official templates
 
 * [`module`](https://github.com/ice-services/moleculer-template-module) - Generate a new Moleculer module project (e.g.: `moleculer-xyz`). *Use it if you want to create a module for Moleculer framework*
+	* empty service skeleton
+	* examples skeleton
+	* readme skeleton
+	* tests & coverage with [Jest](http://facebook.github.io/jest/)
+	* lint with [ESLint](http://eslint.org/)
+
+
 * [`project-simple`](https://github.com/ice-services/moleculer-template-project-simple) - Generate a simple Moleculer-based project. *Use it if you want to start a new project which is based on Moleculer framework*
+	* two example service (`math`, `test`)
+	* official [API Gateway](https://github.com/ice-services/moleculer-web) (optional)
+	* tests & coverage with [Jest](http://facebook.github.io/jest/)
+	* lint with [ESLint](http://eslint.org/)
 
 #### Custom templates
 
