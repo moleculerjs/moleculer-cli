@@ -21,7 +21,9 @@ module.exports = {
 	 * Actions
 	 */
 	actions: {
-		
+		test(ctx) {
+			return "Hello " + (ctx.params.name || "Anonymous");
+		}
 	},
 
 	/**

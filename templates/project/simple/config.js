@@ -1,3 +1,7 @@
-module.exports = {
-	
-}
+"use strict";
+
+module.exports = function() {
+	return {
+
+	};
+};

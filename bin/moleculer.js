@@ -7,15 +7,15 @@
  */
 
 console.log();
-process.on('exit', function () {
+process.on("exit", function () {
 	console.log();
 });
 
-require('yargs')
-	.usage('Usage: $0 <command> [options]')
-	.version(function() {
-		return require('../package.json').version;
+require("yargs")
+	.usage("Usage: $0 <command> [options]")
+	.version(function () {
+		return require("../package.json").version;
 	})
-	.command(require('./../src/init'))
+	.command(require("./../src/init"))
 	.help()
 	.argv;

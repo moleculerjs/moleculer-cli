@@ -8,11 +8,16 @@ let broker = new ServiceBroker({
 	logger: console
 });
 
-// Load other services
-//broker.loadService(path.join(__dirname, "..", "test.service"));
-
 // Load my service
 broker.createService(MyService);
 
 // Start server
-broker.start();
+broker.start().then(() => {
+
+	// Call action
+	broker
+		.call("{{serviceName}}.test", { name: "John Doe" })
+		.then(broker.logger.info)
+		.catch(broker.logger.error);
+
+});
