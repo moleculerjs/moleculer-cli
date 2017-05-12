@@ -21,8 +21,8 @@ The above command download the template from [ice-services/moleculer-template-mo
 
 #### Official templates
 
-* `module` - Generate a new Moleculer module project (e.g.: `moleculer-xyz`). *Use it if you want to create a module for Moleculer framework*
-* `project-simple` - Generate a new Moleculer-based project. *Use it if you want to start a new project which is based on Moleculer framework*
+* [`module`](https://github.com/ice-services/moleculer-template-module) - Generate a new Moleculer module project (e.g.: `moleculer-xyz`). *Use it if you want to create a module for Moleculer framework*
+* [`project-simple`](https://github.com/ice-services/moleculer-template-project-simple) - Generate a simple Moleculer-based project. *Use it if you want to start a new project which is based on Moleculer framework*
 
 #### Custom templates
 
