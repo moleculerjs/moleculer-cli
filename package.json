@@ -1,6 +1,6 @@
 {
   "name": "moleculer-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": ":herb: Command line tool for Moleculer",
   "main": "index.js",
   "dependencies": {
