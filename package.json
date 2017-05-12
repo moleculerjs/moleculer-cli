@@ -10,6 +10,7 @@
     "download-git-repo": "1.0.0",
     "exeq": "3.0.0",
     "inquirer": "3.0.6",
+    "lodash": "4.17.4",
     "metalsmith": "2.3.0",
     "mkdirp": "0.5.1",
     "moleculer": "0.7.1",

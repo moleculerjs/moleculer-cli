@@ -1,0 +1,20 @@
+{
+  "name": "moleculer-template-module",
+  "version": "1.0.0",
+  "description": "Simple module template for moleculer-cli",
+  "main": "meta.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ice-services/moleculer-template-module.git"
+  },
+  "keywords": [],
+  "author": "Ice Services",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ice-services/moleculer-template-module/issues"
+  },
+  "homepage": "https://github.com/ice-services/moleculer-template-module#readme"
+}

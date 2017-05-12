@@ -2,29 +2,35 @@
  * moleculer-cli
  * Copyright (c) 2017 Ice Services (https://github.com/ice-services/moleculer-cli)
  * MIT Licensed
+ * 
+ * Based on [vue-cli](https://github.com/vuejs/vue-cli) project
  */
 
 const fs = require("fs");
 const path = require("path");
+
+const _ = require("lodash");
 const chalk = require("chalk");
 const async = require("async");
 const mkdirp = require("mkdirp");
 const exeq = require("exeq");
 const ora = require("ora");
 const download = require("download-git-repo");
-
-const utils = require("../utils");
 const inquirer = require("inquirer");
 const render = require("consolidate").handlebars.render;
 const Metalsmith = require("metalsmith");
+const match = require("minimatch");
+
+const { getTempDir, fail, evaluate } = require("../utils");
+
 
 /**
- * 
+ * Yargs command
  */
 module.exports = {
 	command: "init <template-name> [project-name]",
 	describe: "Create a Moleculer project from template",
-	handler: init
+	handler: handler
 };
 
 /**
@@ -35,33 +41,21 @@ let values = {
 };
 
 /**
- * 
- * 
- * @param {any} msg 
- */
-function fail(msg) {
-	console.error(chalk.red.bold(msg));
-	if (msg instanceof Error)
-		console.error(msg);
-
-	process.exit(1);
-}
-
-/**
- * 
+ * Handler for yargs command
  * 
  * @param {any} opts 
  * @returns 
  */
-function init(opts) {
+function handler(opts) {
 	Object.assign(values, opts);
 
 	let templateMeta;
 	let metalsmith;
 
 	return Promise.resolve()
+
+		// Resolve project name & folder
 		.then(() => {
-			// Resolve project name & folder
 			values.inPlace = false;
 			if (!values.projectName || values.projectName === ".") {
 				values.inPlace = true;
@@ -84,40 +78,51 @@ function init(opts) {
 				mkdirp(values.projectPath);
 			}
 		})
+
+		// Resolve template URL from name
 		.then(() => {
-			// Resolve template URL from name
 			let { templateName, templateRepo } = values;
 
-			if (templateName.indexOf("/") === -1) {
-				templateRepo = `ice-services/moleculer-template-${templateName}`;
+			if (/^[./]|(^[a-zA-Z]:)/.test(templateName)) {
+				values.tmp = path.isAbsolute(templateName) ? templateName : path.normalize(path.join(process.cwd(), templateName));
+				
+				console.log("Local template:", values.tmp);
 			} else {
-				templateRepo = templateName;
+
+				if (templateName.indexOf("/") === -1) {
+					templateRepo = `ice-services/moleculer-template-${templateName}`;
+				} else {
+					templateRepo = templateName;
+				}
+
+				values.templateRepo = templateRepo;
+				values.tmp = getTempDir(templateName, true);
+
+				console.log("Template repo:", templateRepo);
 			}
-
-			values.templateRepo = templateRepo;
-			values.tmp = utils.getTempDir(templateName, true);
-
-			console.log("Template repo:", templateRepo);
-			//console.log("Temp:", values.tmp);
 		})
+
+		// Download template
 		.then(() => {
-			// Download template
-			return new Promise((resolve, reject) => {
-				let spinner = ora("Downloading template");
-				spinner.start();
-				download(values.templateRepo, values.tmp, {}, err => {
-					spinner.stop();
+			if (values.templateRepo) {
+				return new Promise((resolve, reject) => {
+					let spinner = ora("Downloading template");
+					spinner.start();
+					download(values.templateRepo, values.tmp, {}, err => {
+						spinner.stop();
 
-					if (err)
-						return reject(`Failed to download repo from '${values.templateRepo}'!`, err);
+						if (err)
+							return reject(`Failed to download repo from '${values.templateRepo}'!`, err);
 
-					resolve();
+						resolve();
+					});
+
 				});
-
-			});
+			}
 		})
+
+		// Prompt questions
 		.then(() => {
-			// Prompt questions
 			const { tmp } = values;
 			if (fs.existsSync(path.join(tmp, "meta.js"))) {
 				templateMeta = require(path.join(tmp, "meta.js"))(values);
@@ -126,27 +131,44 @@ function init(opts) {
 				}
 			}
 		})
+
+		// Build template
 		.then(() => {
-			// Build template
 			return new Promise((resolve, reject) => {
 				metalsmith = Metalsmith(values.tmp);
 				console.log(Object.assign(metalsmith.metadata(), values));
+
+				// metalsmith.before
+				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before))
+					templateMeta.metalsmith.before.call(templateMeta, metalsmith);
+
+				// metalsmith.after
+				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.after))
+					templateMeta.metalsmith.after.call(templateMeta, metalsmith);
+
+				// Build
 				metalsmith
+					.use(filterFiles(templateMeta.filters))
 					.use(renderTemplate)
-					.clean(true)
+					.clean(false)
 					.source("template")
 					.destination(values.projectPath)
 					.build(err => {
 						if (err)
 							return reject(err);
 
+						// metalsmith.complete
+						if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.complete))
+							templateMeta.metalsmith.complete.call(templateMeta, metalsmith);
+						
 						resolve();
 					});
 
 			});
 		})
+
+		// Run 'npm install'
 		.then(() => {
-			// Run 'npm install'
 			return inquirer.prompt([{
 				type: "confirm",
 				name: "install",
@@ -162,11 +184,9 @@ function init(opts) {
 				}
 			});
 		})
-		.then(() => {
 
-		})
+		// Show completeMessage
 		.then(() => {
-			// Show completeMessage
 			return new Promise((resolve, reject) => {
 				if (templateMeta.completeMessage)
 					render(templateMeta.completeMessage, metalsmith.metadata(), (err, res) => {
@@ -185,11 +205,37 @@ function init(opts) {
 
 			});
 		})
+
+		// Error handler
 		.catch(err => fail(err));
 }
 
+function filterFiles(filters) {
+	return function (files, metalsmith, done) {
+
+		if (!filters)
+			return done();
+
+		const data = metalsmith.metadata();
+
+		const fileNames = Object.keys(files);
+		Object.keys(filters).forEach(glob => {
+			fileNames.forEach(file => {
+				if (match(file, glob, { dot: true })) {
+					const condition = filters[glob];
+					if (!evaluate(condition, data)) {
+						delete files[file];
+					}
+				}
+			});
+		});
+		done();	
+	};
+}
+
+
 /**
- * 
+ * Render a template file with handlebars
  * 
  * @param {any} files 
  * @param {any} metalsmith 
@@ -199,19 +245,25 @@ function renderTemplate(files, metalsmith, done) {
 	const keys = Object.keys(files);
 	const metadata = metalsmith.metadata();
 
-	async.each(keys, run, done);
+	async.each(keys, (file, next) => {
 
-	function run(file, done) {
+		// skipping files with skipInterpolation option
+		/*if (skipInterpolation && multimatch([file], skipInterpolation, { dot: true }).length) {
+			return next()
+		}*/
+
 		const str = files[file].contents.toString();
 
 		if (!/{{([^{}]+)}}/g.test(str)) {
-			return done();
+			return next();
 		}
 
 		render(str, metadata, function (err, res) {
 			if (err) return done(err);
 			files[file].contents = new Buffer(res);
-			done();
+			next();
 		});
-	}
+	}, done);
+
+	
 }
