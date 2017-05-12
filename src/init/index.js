@@ -62,21 +62,6 @@ function handler(opts) {
 				values.projectName = path.relative("../", process.cwd());
 			}
 			values.projectPath = path.resolve(values.projectName);
-
-			if (fs.exists(values.projectPath)) {
-				return inquirer.prompt([{
-					type: "confirm",
-					name: "continue",
-					message: chalk.yellow.bold(`The '${values.projectName} directory is exists! Continue?`),
-					default: false
-				}]).then(answers => {
-					if (!answers.continue)
-						process.exit(0);
-				});
-			} else {
-				console.log(`Create '${values.projectName}' folder...`);
-				mkdirp(values.projectPath);
-			}
 		})
 
 		// Resolve template URL from name
@@ -129,14 +114,34 @@ function handler(opts) {
 				if (templateMeta.questions) {
 					return inquirer.prompt(templateMeta.questions).then(answers => Object.assign(values, answers));
 				}
+			} else {
+				templateMeta = {};
 			}
 		})
 
+		// Check target directory
+		.then(() => {
+			if (fs.exists(values.projectPath)) {
+				return inquirer.prompt([{
+					type: "confirm",
+					name: "continue",
+					message: chalk.yellow.bold(`The '${values.projectName} directory is exists! Continue?`),
+					default: false
+				}]).then(answers => {
+					if (!answers.continue)
+						process.exit(0);
+				});
+			} else {
+				console.log(`Create '${values.projectName}' folder...`);
+				mkdirp(values.projectPath);
+			}
+		})
+		
 		// Build template
 		.then(() => {
 			return new Promise((resolve, reject) => {
 				metalsmith = Metalsmith(values.tmp);
-				console.log(Object.assign(metalsmith.metadata(), values));
+				Object.assign(metalsmith.metadata(), values);
 
 				// metalsmith.before
 				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before))
@@ -210,6 +215,12 @@ function handler(opts) {
 		.catch(err => fail(err));
 }
 
+/**
+ * Filter files by conditions
+ * 
+ * @param {Object?} filters 
+ * @returns 
+ */
 function filterFiles(filters) {
 	return function (files, metalsmith, done) {
 
