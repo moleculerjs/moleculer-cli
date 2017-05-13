@@ -12,7 +12,7 @@ npm install -g moleculer-cli
 ## Usage
 
 ### Init a new project
-With this commant you can scaffold a new Moleculer project.
+With this command you can scaffold a new Moleculer project.
 
 ``` bash
 moleculer init module my-module
@@ -50,6 +50,13 @@ Instead of a GitHub repo, you can also use a template on your local file system:
 ``` bash
 moleculer init ./path/to-custom-template my-project
 ```
+
+### Create a new service
+With this command you can create a new empty service file.
+``` bash
+moleculer create service
+```
+
 
 ## Credits
 The `moleculer-cli` project `init` command is based on [vue-cli](https://github.com/vuejs/vue-cli) project. 

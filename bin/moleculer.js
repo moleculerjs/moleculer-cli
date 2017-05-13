@@ -18,5 +18,6 @@ require("yargs")
 	})
 	.command(require("./../src/init"))
 	.command(require("./../src/create"))
+	.command(require("./../src/connect"))
 	.help()
 	.argv;
