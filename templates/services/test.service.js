@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Service schema
+ * Schema for test service
  */
 module.exports = {
 

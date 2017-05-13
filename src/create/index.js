@@ -15,7 +15,7 @@ const { fail } = require("../utils");
  * Yargs command
  */
 module.exports = {
-	command: "add <module>",
+	command: "create <module>",
 	describe: "Create a Moleculer module (service, middleware)",
 	handler(opts) {
 		if (opts.module.toLowerCase() == "service")
@@ -60,6 +60,21 @@ function addService(opts) {
 				}
 			]).then(answers => {
 				Object.assign(values, answers);
+
+				const newServicePath = path.join(values.serviceFolder, values.serviceName + ".service.js");
+				values.newServicePath = newServicePath;
+
+				if (fs.existsSync(newServicePath)) {
+					return inquirer.prompt([{
+						type: "confirm",
+						name: "sure",
+						message: "The file is exists! Overwrite?",
+						default: false
+					}]).then(({ sure }) => {
+						if (!sure)
+							fail("Aborted");
+					});
+				}
 			});
 		})
 		.then(() => {
@@ -71,12 +86,9 @@ function addService(opts) {
 					if (err) 
 						return reject(err);
 
-					console.log(res);
-
-					
-					const newPath = path.join(values.serviceFolder, values.serviceName + ".service.js");
-					console.log(`Create new service file to '${newPath}'...`);
-					fs.writeFileSync(path.resolve(newPath), res, "utf8");
+					const { newServicePath } = values;					
+					console.log(`Create new service file to '${newServicePath}'...`);
+					fs.writeFileSync(path.resolve(newServicePath), res, "utf8");
 
 					resolve();
 				});
