@@ -2,7 +2,6 @@
   "name": "moleculer-cli",
   "version": "0.1.2",
   "description": ":herb: Command line tool for Moleculer",
-  "main": "index.js",
   "dependencies": {
     "async": "2.4.0",
     "chalk": "1.1.3",
@@ -26,9 +25,11 @@
     "eslint": "3.19.0",
     "jest": "20.0.1",
     "jest-cli": "20.0.1",
-    "npm-check": "5.4.0"
+    "npm-check": "5.4.4"
   },
-  "scripts": {},
+  "scripts": {
+    "moleculer": "node ./bin/moleculer"
+  },
   "bin": {
     "moleculer": "./bin/moleculer.js"
   },

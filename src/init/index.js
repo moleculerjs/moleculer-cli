@@ -147,14 +147,16 @@ function handler(opts) {
 				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before))
 					templateMeta.metalsmith.before.call(templateMeta, metalsmith);
 
+				metalsmith
+					.use(filterFiles(templateMeta.filters))
+					.use(renderTemplate);
+
 				// metalsmith.after
 				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.after))
 					templateMeta.metalsmith.after.call(templateMeta, metalsmith);
 
 				// Build
 				metalsmith
-					.use(filterFiles(templateMeta.filters))
-					.use(renderTemplate)
 					.clean(false)
 					.source("template")
 					.destination(values.projectPath)
