@@ -19,6 +19,7 @@ const download = require("download-git-repo");
 const inquirer = require("inquirer");
 const render = require("consolidate").handlebars.render;
 const Metalsmith = require("metalsmith");
+const Handlebars = require("handlebars");
 const match = require("minimatch");
 
 const { getTempDir, fail, evaluate } = require("../utils");
@@ -39,6 +40,12 @@ module.exports = {
 let values = {
 	year: new Date().getFullYear()
 };
+
+/**
+ * Register handlebars helpers
+ */
+Handlebars.registerHelper("if_eq", (a, b, opts) => a === b ? opts.fn(this) : opts.inverse(this));
+Handlebars.registerHelper("unless_eq", (a, b, opts) => a === b ? opts.inverse(this): opts.fn(this));
 
 /**
  * Handler for yargs command
