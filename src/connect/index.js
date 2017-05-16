@@ -28,6 +28,7 @@ const eventHandler = payload => {
 
 /**
  * Connect to transporter & start REPL mode
+ * 
  * @param {Object} opts
  * @returns 
  */
@@ -105,7 +106,7 @@ function startRepl(opts) {
 				done();
 			});		
 
-		// Unsubscribe to event
+		// Unsubscribe from event
 		vorpal
 			.command("unsubscribe <eventName>", "Unsubscribe from an event")
 			.action((args, done) => {

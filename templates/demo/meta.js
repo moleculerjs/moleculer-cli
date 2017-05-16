@@ -53,11 +53,13 @@ module.exports = function(values) {
 		},
 
 		completeMessage: `
-To get started:
 
-	cd {{projectName}}
-	npm run dev
+  √  Created project '{{projectName}}'!
 
-		`
+		cd {{projectName}}
+
+		npm run dev
+
+`
 	};
 };
