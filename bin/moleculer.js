@@ -17,6 +17,7 @@ require("yargs")
 		return require("../package.json").version;
 	})
 	.command(require("./../src/init"))
+	.command(require("./../src/start"))
 	.command(require("./../src/create"))
 	.command(require("./../src/connect"))
 	.help()
