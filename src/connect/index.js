@@ -6,6 +6,7 @@
 
 const chalk = require("chalk");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 const vorpal = require("vorpal")();
 const Moleculer = require("moleculer");
@@ -37,7 +38,7 @@ function startRepl(opts) {
 
 	const broker = new Moleculer.ServiceBroker({
 		transporter: Transporter ? new Transporter(opts.connectionString) : null,
-		nodeID: "repl-" + process.pid,
+		nodeID: `cli-${os.hostname()}-${process.pid}`,
 		logger: console,
 		logLevel: "info",
 		validation: true
