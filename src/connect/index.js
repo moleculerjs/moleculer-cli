@@ -19,7 +19,7 @@ module.exports = {
 
 		const broker = new Moleculer.ServiceBroker({
 			transporter: Transporter ? new Transporter(opts.connectionString) : null,
-			nodeID: `cli-${os.hostname()}-${process.pid}`,
+			nodeID: `cli-${os.hostname().toLowerCase()}-${process.pid}`,
 			logger: console,
 			logLevel: "info",
 			validation: true,
