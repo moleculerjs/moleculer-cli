@@ -9,7 +9,7 @@
 npm install -g moleculer-cli
 ```
 
-## Usage
+## Commands
 
 ### Init a new project
 With this command you can scaffold a new Moleculer project.
@@ -53,10 +53,25 @@ moleculer init ./path/to-custom-template my-project
 
 ### Create a new service
 With this command you can create a new empty service file.
-``` bash
+```bash
 moleculer create service
 ```
 
+### Start a broker locally
+This command start a new ServiceBroker locally and switch to REPL mode.
+```bash
+moleculer start
+```
+
+### Start a broker and connect to a transporter
+This command start a new ServiceBroker, connect to a transporter server and switch to REPL mode.
+```bash
+moleculer connect nats://localhost:4222
+
+moleculer connect redis://localhost
+
+moleculer connect mqtt://localhost
+```
 
 ## Credits
 The `moleculer-cli` project `init` command is based on [vue-cli](https://github.com/vuejs/vue-cli) project. 
