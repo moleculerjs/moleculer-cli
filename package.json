@@ -13,7 +13,8 @@
     "lodash": "4.17.4",
     "metalsmith": "2.3.0",
     "mkdirp": "0.5.1",
-    "moleculer": "0.7.3",
+    "moleculer": "0.7.9",
+    "moleculer-repl": "0.1.2",
     "ora": "1.2.0",
     "request": "2.81.0",
     "rimraf": "2.6.1",
@@ -25,7 +26,8 @@
     "eslint": "3.19.0",
     "jest": "20.0.3",
     "jest-cli": "20.0.3",
-    "npm-check": "5.4.4"
+    "npm-check": "5.4.4",
+    "update-notifier": "2.2.0"
   },
   "scripts": {
     "moleculer": "node ./bin/moleculer",

@@ -5,6 +5,11 @@
  * MIT Licensed
  */
 
+const updateNotifier = require("update-notifier");
+const pkg = require("../package.json");
+
+updateNotifier({pkg}).notify();
+
 console.log();
 process.on("exit", function () {
 	console.log();

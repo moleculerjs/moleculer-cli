@@ -10,7 +10,7 @@ const Moleculer = require("moleculer");
  * Yargs command
  */
 module.exports = {
-	command: "start",
+	command: ["start", "*"],
 	describe: "Start a Moleculer broker locally",
 	handler() {
 		const broker = new Moleculer.ServiceBroker({
