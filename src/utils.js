@@ -16,18 +16,13 @@ const home = require("user-home");
 module.exports = {
 	getTempDir(dir, clear) {
 		const tmp = path.join(home, ".moleculer-templates", dir.replace(/[^a-zA-Z0-9]/g, "-"));
-		if (fs.exists(tmp) && clear) {
+		if (fs.existsSync(tmp) && clear) {
 			rm(tmp);
 		}
 		mkdirp(tmp);
 		return tmp;
 	},
 
-	/**
-	 * 
-	 * 
-	 * @param {any} msg 
-	 */
 	fail(msg) {
 		console.error(chalk.red.bold(msg));
 		if (msg instanceof Error)

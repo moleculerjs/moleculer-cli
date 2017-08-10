@@ -11,8 +11,9 @@
 			"program": "${workspaceRoot}\\bin\\moleculer.js",
 			"cwd": "${workspaceRoot}",
 			"args": [
-				"connect",
-				"nats://localhost:4222"
+				"init",
+				"project-simple",
+				"asd"
 			]
 		}
 	]
