@@ -1,6 +1,6 @@
 {
   "name": "moleculer-cli",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": ":herb: Command line tool for Moleculer",
   "dependencies": {
     "async": "2.5.0",
