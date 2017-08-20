@@ -4,8 +4,7 @@
  * MIT Licensed
  */
 
-const Moleculer = require("moleculer");
-const { fail } = require("../utils");
+const { ServiceBroker } = require("moleculer");
 const os = require("os");
 
 /**
@@ -15,10 +14,8 @@ module.exports = {
 	command: "connect <connectionString>",
 	describe: "Connect to a remote Moleculer broker",
 	handler(opts) {
-		const Transporter = getTransporterClassByConnectionString(opts.connectionString);
-
-		const broker = new Moleculer.ServiceBroker({
-			transporter: Transporter ? new Transporter(opts.connectionString) : null,
+		const broker = new ServiceBroker({
+			transporter: opts.connectionString ? opts.connectionString : null,
 			nodeID: `cli-${os.hostname().toLowerCase()}-${process.pid}`,
 			logger: console,
 			logLevel: "info",
@@ -29,16 +26,3 @@ module.exports = {
 		broker.start().then(() => broker.repl());
 	}
 };
-
-function getTransporterClassByConnectionString(cs) {
-	if (cs == "local")
-		return null;
-	else if (cs.startsWith("nats://"))
-		return Moleculer.Transporters.NATS;
-	else if (cs.startsWith("mqtt://"))
-		return Moleculer.Transporters.MQTT;
-	else if (cs.startsWith("redis://"))
-		return Moleculer.Transporters.Redis;
-
-	fail("Invalid connection string: " + cs);
-}
