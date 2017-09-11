@@ -12,12 +12,50 @@ const Moleculer = require("moleculer");
 module.exports = {
 	command: ["start", "*"],
 	describe: "Start a Moleculer broker locally",
-	handler() {
+	builder(yargs) {
+		yargs.options({
+			"ns": {
+				default: "",
+				describe: "Namespace",
+				type: "string"
+			},
+			"id": {
+				default: null,
+				describe: "NodeID",
+				type: "string"
+			},
+			"metrics": {
+				alias: "m",
+				default: false,
+				describe: "Enable metrics",
+				type: "boolean"
+			},
+			"hot": {
+				alias: "h",
+				default: false,
+				describe: "Enable hot-reload",
+				type: "boolean"
+			},
+			"cb": {
+				default: false,
+				describe: "Enable circuit breaker",
+				type: "boolean"
+			}
+		});
+	},
+	handler(opts) {
 		const broker = new Moleculer.ServiceBroker({
+			namespace: opts.ns,
+			nodeID: opts.id || null,
 			logger: console,
 			logLevel: "info",
 			validation: true,
-			statistics: true
+			statistics: true,
+			metrics: opts.metrics,
+			hotReload: opts.hot,
+			circuitBreaker: {
+				enabled: opts.cb
+			}
 		});
 
 		broker.start().then(() => broker.repl());

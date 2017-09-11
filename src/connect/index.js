@@ -11,16 +11,59 @@ const os = require("os");
  * Yargs command
  */
 module.exports = {
-	command: "connect <connectionString>",
+	command: "connect [connectionString]",
 	describe: "Connect to a remote Moleculer broker",
+	builder(yargs) {
+		yargs.options({
+			"ns": {
+				default: "",
+				describe: "Namespace",
+				type: "string"
+			},
+			"id": {
+				default: null,
+				describe: "NodeID",
+				type: "string"
+			},
+			"metrics": {
+				alias: "m",
+				default: false,
+				describe: "Enable metrics",
+				type: "boolean"
+			},
+			"hot": {
+				alias: "h",
+				default: false,
+				describe: "Enable hot-reload",
+				type: "boolean"
+			},
+			"cb": {
+				default: false,
+				describe: "Enable circuit breaker",
+				type: "boolean"
+			},
+			"serializer": {
+				default: null,
+				describe: "Serializer",
+				type: "string"
+			}
+		});
+	},	
 	handler(opts) {
 		const broker = new ServiceBroker({
-			transporter: opts.connectionString ? opts.connectionString : null,
-			nodeID: `cli-${os.hostname().toLowerCase()}-${process.pid}`,
+			namespace: opts.ns,
+			transporter: opts.connectionString ? opts.connectionString : "NATS",
+			nodeID: opts.id || `cli-${os.hostname().toLowerCase()}-${process.pid}`,
+			serializer: opts.serializer,
 			logger: console,
 			logLevel: "info",
 			validation: true,
-			statistics: true
+			statistics: true,
+			metrics: opts.metrics,
+			hotReload: opts.hot,
+			circuitBreaker: {
+				enabled: opts.cb
+			}
 		});
 
 		broker.start().then(() => broker.repl());
