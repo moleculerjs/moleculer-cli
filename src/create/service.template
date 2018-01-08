@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Schema for {{serviceName}} service
+ * {{serviceName}} service
  */
 module.exports = {
 
@@ -11,6 +11,20 @@ module.exports = {
 	 * Service settings
 	 */
 	settings: {
+
+	},
+
+	/**
+	 * Service metadata
+	 */
+	metadata: {
+
+	},
+
+	/**
+	 * Service dependencies
+	 */
+	dependencies: {
 
 	},
 
