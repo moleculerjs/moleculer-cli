@@ -17,9 +17,7 @@ process.on("exit", function () {
 
 require("yargs")
 	.usage("Usage: $0 <command> [options]")
-	.version(function () {
-		return require("../package.json").version;
-	})
+	.version()
 	.command(require("./../src/init"))
 	.command(require("./../src/start"))
 	.command(require("./../src/create"))

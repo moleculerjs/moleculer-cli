@@ -52,7 +52,7 @@ module.exports = {
 	handler(opts) {
 		const broker = new ServiceBroker({
 			namespace: opts.ns,
-			transporter: opts.connectionString ? opts.connectionString : "NATS",
+			transporter: opts.connectionString ? opts.connectionString : "TCP",
 			nodeID: opts.id || `cli-${os.hostname().toLowerCase()}-${process.pid}`,
 			serializer: opts.serializer,
 			logger: console,

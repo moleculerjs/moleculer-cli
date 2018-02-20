@@ -36,10 +36,16 @@ moleculer start
 **Start a broker and connect to a transporter**
 These commands start a new ServiceBroker, connect to a transporter server and switch to REPL mode.
 ```bash
+# With TCP transporter
+moleculer connect 
+
+# With NATS transporter
 moleculer connect nats://localhost:4222
 
+# With Redis transporter
 moleculer connect redis://localhost
 
+# With MQTT transporter
 moleculer connect mqtt://localhost
 ```
 

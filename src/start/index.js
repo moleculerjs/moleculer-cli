@@ -47,6 +47,7 @@ module.exports = {
 		const broker = new Moleculer.ServiceBroker({
 			namespace: opts.ns,
 			nodeID: opts.id || null,
+			transporter: null,
 			logger: console,
 			logLevel: "info",
 			validation: true,
