@@ -6,7 +6,7 @@
 [![Code Climate](https://codeclimate.com/github/{{username}}/{{projectName}}/badges/gpa.svg)](https://codeclimate.com/github/{{username}}/{{projectName}})
 [![David](https://img.shields.io/david/{{username}}/{{projectName}}.svg)](https://david-dm.org/{{username}}/{{projectName}})
 [![Known Vulnerabilities](https://snyk.io/test/github/{{username}}/{{projectName}}/badge.svg)](https://snyk.io/test/github/{{username}}/{{projectName}})
-[![Join the chat at https://gitter.im/ice-services/moleculer](https://badges.gitter.im/ice-services/moleculer.svg)](https://gitter.im/ice-services/moleculer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/moleculerjs/moleculer](https://badges.gitter.im/moleculerjs/moleculer.svg)](https://gitter.im/moleculerjs/moleculer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # {{projectName}} [![NPM version](https://img.shields.io/npm/v/{{projectName}}.svg)](https://www.npmjs.com/package/{{projectName}})
 
@@ -42,4 +42,4 @@ The project is available under the [MIT license](https://tldrlegal.com/license/m
 # Contact
 Copyright (c) {{year}} {{fullName}}
 
-[![@icebob](https://img.shields.io/badge/github-ice--services-green.svg)](https://github.com/ice-services) [![@icebob](https://img.shields.io/badge/twitter-Icebobcsi-blue.svg)](https://twitter.com/Icebobcsi)
+[![@icebob](https://img.shields.io/badge/github-ice--services-green.svg)](https://github.com/moleculerjs) [![@icebob](https://img.shields.io/badge/twitter-Icebobcsi-blue.svg)](https://twitter.com/Icebobcsi)

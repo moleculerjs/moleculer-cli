@@ -1,6 +1,6 @@
 /*
  * moleculer-cli
- * Copyright (c) 2017 Ice Services (https://github.com/ice-services/moleculer-cli)
+ * Copyright (c) 2017 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  * 
  * Based on [vue-cli](https://github.com/vuejs/vue-cli) project
@@ -82,7 +82,7 @@ function handler(opts) {
 			} else {
 
 				if (templateName.indexOf("/") === -1) {
-					templateRepo = `ice-services/moleculer-template-${templateName}`;
+					templateRepo = `moleculerjs/moleculer-template-${templateName}`;
 				} else {
 					templateRepo = templateName;
 				}

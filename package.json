@@ -39,17 +39,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ice-services/moleculer-cli.git"
+    "url": "git+https://github.com/moleculerjs/moleculer-cli.git"
   },
   "keywords": [
     "cli",
     "moleculer",
     "microservices"
   ],
-  "author": "Ice Services",
+  "author": "MoleculerJS",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ice-services/moleculer-cli/issues"
+    "url": "https://github.com/moleculerjs/moleculer-cli/issues"
   },
-  "homepage": "https://github.com/ice-services/moleculer-cli#readme"
+  "homepage": "https://github.com/moleculerjs/moleculer-cli#readme"
 }

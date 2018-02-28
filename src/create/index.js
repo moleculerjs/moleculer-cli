@@ -1,6 +1,6 @@
 /*
  * moleculer-cli
- * Copyright (c) 2017 Ice Services (https://github.com/ice-services/moleculer-cli)
+ * Copyright (c) 2017 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
 

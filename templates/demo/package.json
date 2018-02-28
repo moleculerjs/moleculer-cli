@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ice-services/moleculer-template-module.git"
+    "url": "git+https://github.com/moleculerjs/moleculer-template-module.git"
   },
   "keywords": [],
-  "author": "Ice Services",
+  "author": "MoleculerJS",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ice-services/moleculer-template-module/issues"
+    "url": "https://github.com/moleculerjs/moleculer-template-module/issues"
   },
-  "homepage": "https://github.com/ice-services/moleculer-template-module#readme"
+  "homepage": "https://github.com/moleculerjs/moleculer-template-module#readme"
 }

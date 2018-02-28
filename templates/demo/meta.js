@@ -17,7 +17,7 @@ module.exports = function(values) {
 				type: "input",
 				name: "fullName",
 				message: "Your name:",
-				default: "Ice Services"
+				default: "MoleculerJS"
 			},		
 			{
 				type: "input",
