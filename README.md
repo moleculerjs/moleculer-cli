@@ -24,7 +24,7 @@ moleculer init module my-module
 **Init a new Moleculer project**
 
 ``` bash
-moleculer init project-simple my-first-project
+moleculer init project my-first-project
 ```
 
 **Start a broker locally**
