@@ -27,6 +27,8 @@ moleculer init module my-module
 moleculer init project my-first-project
 ```
 
+[Official templates](https://github.com/topics/moleculer-template)
+
 **Start a broker locally**
 This command start a new ServiceBroker locally and switch to REPL mode.
 ```bash
