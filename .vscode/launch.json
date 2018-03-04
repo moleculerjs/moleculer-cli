@@ -12,9 +12,10 @@
 			"cwd": "${workspaceRoot}",
 			"args": [
 				"init",
-				"project-simple",
-				"asd"
-			]
+				"..\\moleculer-template-project",
+				"test"
+			],
+			"console": "integratedTerminal"
 		}
 	]
 }

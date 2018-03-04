@@ -2,7 +2,7 @@
  * moleculer-cli
  * Copyright (c) 2018 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
- * 
+ *
  * Based on [vue-cli](https://github.com/vuejs/vue-cli) project
  */
 
@@ -17,10 +17,12 @@ const exeq = require("exeq");
 const ora = require("ora");
 const download = require("download-git-repo");
 const inquirer = require("inquirer");
+const multimatch = require('multimatch');
 const render = require("consolidate").handlebars.render;
 const Metalsmith = require("metalsmith");
 const Handlebars = require("handlebars");
 const match = require("minimatch");
+const pkg = require("../../package.json");
 
 const { getTempDir, fail, evaluate } = require("../utils");
 
@@ -38,7 +40,8 @@ module.exports = {
  * Default values
  */
 let values = {
-	year: new Date().getFullYear()
+	year: new Date().getFullYear(),
+	cliVersion: pkg.version,
 };
 
 /**
@@ -49,9 +52,9 @@ Handlebars.registerHelper("unless_eq", (a, b, opts) => a === b ? opts.inverse(th
 
 /**
  * Handler for yargs command
- * 
- * @param {any} opts 
- * @returns 
+ *
+ * @param {any} opts
+ * @returns
  */
 function handler(opts) {
 	Object.assign(values, opts);
@@ -77,7 +80,7 @@ function handler(opts) {
 
 			if (/^[./]|(^[a-zA-Z]:)/.test(templateName)) {
 				values.tmp = path.isAbsolute(templateName) ? templateName : path.normalize(path.join(process.cwd(), templateName));
-				
+
 				console.log("Local template:", values.tmp);
 			} else {
 
@@ -143,20 +146,24 @@ function handler(opts) {
 				mkdirp(values.projectPath);
 			}
 		})
-		
+
 		// Build template
 		.then(() => {
 			return new Promise((resolve, reject) => {
 				metalsmith = Metalsmith(values.tmp);
 				Object.assign(metalsmith.metadata(), values);
 
+				// Register custom template helpers
+				if (templateMeta.helpers)
+					Object.keys(templateMeta.helpers).map(key =>Handlebars.registerHelper(key, opts.helpers[key]));
+
 				// metalsmith.before
 				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before))
 					templateMeta.metalsmith.before.call(templateMeta, metalsmith);
 
 				metalsmith
-					.use(filterFiles(templateMeta.filters))
-					.use(renderTemplate);
+					.use(filterFiles(templateMeta.filters, templateMeta.skip))
+					.use(renderTemplate(templateMeta.skipInterpolation));
 
 				// metalsmith.after
 				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.after))
@@ -174,7 +181,7 @@ function handler(opts) {
 						// metalsmith.complete
 						if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.complete))
 							templateMeta.metalsmith.complete.call(templateMeta, metalsmith);
-						
+
 						resolve();
 					});
 
@@ -208,11 +215,11 @@ function handler(opts) {
 							return reject(err);
 
 						console.log(chalk.green.bold("\n" + res.split(/\r?\n/g).map(line => "   " + line).join("\n")));
-						
+
 
 						resolve();
 					});
-				else { 
+				else {
 					console.log(chalk.green.bold("\nDone!"));
 					resolve();
 				}
@@ -226,9 +233,9 @@ function handler(opts) {
 
 /**
  * Filter files by conditions
- * 
- * @param {Object?} filters 
- * @returns 
+ *
+ * @param {Object?} filters
+ * @returns
  */
 function filterFiles(filters) {
 	return function (files, metalsmith, done) {
@@ -249,41 +256,41 @@ function filterFiles(filters) {
 				}
 			});
 		});
-		done();	
+		done();
 	};
 }
 
 
 /**
  * Render a template file with handlebars
- * 
- * @param {any} files 
- * @param {any} metalsmith 
- * @param {any} done 
+ *
  */
-function renderTemplate(files, metalsmith, done) {
-	const keys = Object.keys(files);
-	const metadata = metalsmith.metadata();
+function renderTemplate(skipInterpolation) {
+	skipInterpolation = typeof skipInterpolation === 'string' ? [skipInterpolation] : skipInterpolation;
 
-	async.each(keys, (file, next) => {
+	return function(files, metalsmith, done) {
+		const keys = Object.keys(files);
+		const metadata = metalsmith.metadata();
 
-		// skipping files with skipInterpolation option
-		/*if (skipInterpolation && multimatch([file], skipInterpolation, { dot: true }).length) {
-			return next()
-		}*/
+		async.each(keys, (file, next) => {
 
-		const str = files[file].contents.toString();
+			// skipping files with skipInterpolation option
+			if (skipInterpolation && multimatch([file], skipInterpolation, { dot: true }).length) {
+				return next()
+			}
 
-		if (!/{{([^{}]+)}}/g.test(str)) {
-			return next();
-		}
+			const str = files[file].contents.toString();
 
-		render(str, metadata, function (err, res) {
-			if (err) return done(err);
-			files[file].contents = new Buffer(res);
-			next();
-		});
-	}, done);
+			if (!/{{([^{}]+)}}/g.test(str)) {
+				return next();
+			}
 
-	
+			render(str, metadata, function (err, res) {
+				if (err) return done(err);
+				files[file].contents = new Buffer(res);
+				next();
+			});
+		}, done);
+
+	}
 }
