@@ -49,6 +49,8 @@ let values = {
  */
 Handlebars.registerHelper("if_eq", (a, b, opts) => a === b ? opts.fn(this) : opts.inverse(this));
 Handlebars.registerHelper("unless_eq", (a, b, opts) => a === b ? opts.inverse(this): opts.fn(this));
+Handlebars.registerHelper("if_or", (v1, v2, options) => (v1 || v2) ? options.fn(this) : options.inverse(this));
+Handlebars.registerHelper("if_and", (v1, v2, options) => (v1 && v2) ? options.fn(this) : options.inverse(this));
 
 /**
  * Handler for yargs command
