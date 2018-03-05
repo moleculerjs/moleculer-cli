@@ -157,7 +157,7 @@ function handler(opts) {
 
 				// Register custom template helpers
 				if (templateMeta.helpers)
-					Object.keys(templateMeta.helpers).map(key =>Handlebars.registerHelper(key, opts.helpers[key]));
+					Object.keys(templateMeta.helpers).map(key =>Handlebars.registerHelper(key, templateMeta.helpers[key]));
 
 				// metalsmith.before
 				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before))
