@@ -1,4 +1,15 @@
 --------------------------------------------------
+<a name="0.5.5"></a>
+# 0.5.5 (2018-04-27)
+
+## Changes
+- fix existing target directory issue
+- add `commands` CLI option to load custom REPL commands
+    ```
+    $ moleculer connect --commands ./cmd/*.js
+    ```
+
+--------------------------------------------------
 <a name="0.5.4"></a>
 # 0.5.4 (2018-03-05)
 

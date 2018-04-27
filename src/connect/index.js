@@ -6,6 +6,9 @@
 
 const { ServiceBroker } = require("moleculer");
 const os = require("os");
+const fs = require("fs");
+const path = require("path");
+const glob = require("glob");
 
 /**
  * Yargs command
@@ -46,10 +49,38 @@ module.exports = {
 				default: null,
 				describe: "Serializer",
 				type: "string"
+			},
+			"commands": {
+				default: null,
+				describe: "Custom REPL command file mask (e.g.: ./commands/*.js)",
+				type: "string"
 			}
 		});
-	},	
+	},
 	handler(opts) {
+		let replCommands;
+		if (opts.commands) {
+			replCommands = [];
+
+			if (opts.commands.endsWith("/")) {
+				opts.commands += "**/*.js"
+			}
+
+			const files = glob.sync(opts.commands);
+			files.forEach(file => {
+				console.log(`Load custom REPL commands from '${file}'...`);
+				try {
+					let cmd = require(path.resolve(file));
+					if (!Array.isArray(cmd))
+						cmd = [cmd];
+
+					replCommands.push(...cmd);
+				} catch(err) {
+					console.error(err);
+				}
+			})
+		}
+
 		const broker = new ServiceBroker({
 			namespace: opts.ns,
 			transporter: opts.connectionString ? opts.connectionString : "TCP",
@@ -63,7 +94,8 @@ module.exports = {
 			hotReload: opts.hot,
 			circuitBreaker: {
 				enabled: opts.cb
-			}
+			},
+			replCommands
 		});
 
 		broker.start().then(() => broker.repl());
