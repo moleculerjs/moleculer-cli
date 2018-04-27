@@ -133,7 +133,7 @@ function handler(opts) {
 
 		// Check target directory
 		.then(() => {
-			if (fs.exists(values.projectPath)) {
+			if (fs.existsSync(values.projectPath)) {
 				return inquirer.prompt([{
 					type: "confirm",
 					name: "continue",
