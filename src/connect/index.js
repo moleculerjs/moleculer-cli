@@ -4,11 +4,7 @@
  * MIT Licensed
  */
 
-const { ServiceBroker } = require("moleculer");
-const os = require("os");
-const fs = require("fs");
-const path = require("path");
-const glob = require("glob");
+const handler = require("../connect-handler");
 
 /**
  * Yargs command
@@ -18,6 +14,12 @@ module.exports = {
 	describe: "Connect to a remote Moleculer broker",
 	builder(yargs) {
 		yargs.options({
+			"config": {
+				alias: "c",
+				default: "",
+				describe: "Load configuration from a file",
+				type: "string"
+			},
 			"ns": {
 				default: "",
 				describe: "Namespace",
@@ -57,47 +59,5 @@ module.exports = {
 			}
 		});
 	},
-	handler(opts) {
-		let replCommands;
-		if (opts.commands) {
-			replCommands = [];
-
-			if (opts.commands.endsWith("/")) {
-				opts.commands += "**/*.js"
-			}
-
-			const files = glob.sync(opts.commands);
-			files.forEach(file => {
-				console.log(`Load custom REPL commands from '${file}'...`);
-				try {
-					let cmd = require(path.resolve(file));
-					if (!Array.isArray(cmd))
-						cmd = [cmd];
-
-					replCommands.push(...cmd);
-				} catch(err) {
-					console.error(err);
-				}
-			})
-		}
-
-		const broker = new ServiceBroker({
-			namespace: opts.ns,
-			transporter: opts.connectionString ? opts.connectionString : "TCP",
-			nodeID: opts.id || `cli-${os.hostname().toLowerCase()}-${process.pid}`,
-			serializer: opts.serializer,
-			logger: console,
-			logLevel: "info",
-			validation: true,
-			statistics: true,
-			metrics: opts.metrics,
-			hotReload: opts.hot,
-			circuitBreaker: {
-				enabled: opts.cb
-			},
-			replCommands
-		});
-
-		broker.start().then(() => broker.repl());
-	}
+	handler
 };

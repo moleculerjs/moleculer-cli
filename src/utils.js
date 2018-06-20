@@ -9,7 +9,7 @@
 const fs = require("fs");
 const rm = require("rimraf").sync;
 const path = require("path");
-const mkdirp = require("mkdirp");
+const mkdirp = require("mkdirp").sync;
 const chalk = require("chalk");
 const home = require("user-home");
 
@@ -39,5 +39,5 @@ module.exports = {
 		} catch (e) {
 			console.error(chalk.red("Error when evaluating filter condition: " + exp));
 		}
-	}	
+	}
 };

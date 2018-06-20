@@ -46,13 +46,13 @@ The following commands start a new ServiceBroker, connect to a transporter serve
 # With TCP transporter
 moleculer connect 
 
-# With NATS transporter
+# With NATS transporter (you need to install NATS lib globally with `npm i nats -g` command)
 moleculer connect nats://localhost:4222
 
-# With Redis transporter
+# With Redis transporter (you need to install NATS lib globally with `npm i ioredis -g` command)
 moleculer connect redis://localhost
 
-# With MQTT transporter
+# With MQTT transporter (you need to install NATS lib globally with `npm i mqtt -g` command)
 moleculer connect mqtt://localhost
 ```
 
