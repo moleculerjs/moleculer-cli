@@ -3,7 +3,7 @@
 # Command line tool for Moleculer framework [![NPM version](https://img.shields.io/npm/v/moleculer-cli.svg)](https://www.npmjs.com/package/moleculer-cli)
 
 ## Features
-- init new projects from templates
+- initialize new projects from templates
 - connect to a system
 - start a local broker with REPL
 
@@ -14,6 +14,8 @@ npm install -g moleculer-cli
 ```
 
 ## Usage
+
+### Initialize new project
 
 **Init a new project for a module**
 
@@ -27,16 +29,19 @@ moleculer init module my-module
 moleculer init project my-first-project
 ```
 
-[Official templates](https://github.com/topics/moleculer-template)
+[**Official templates**](https://github.com/topics/moleculer-template)
+
+### Start a broker
 
 **Start a broker locally**
-This command start a new ServiceBroker locally and switch to REPL mode.
+This command starts a new ServiceBroker locally and switches to REPL mode.
 ```bash
 moleculer start
 ```
 
 **Start a broker and connect to a transporter**
-These commands start a new ServiceBroker, connect to a transporter server and switch to REPL mode.
+The following commands start a new ServiceBroker, connect to a transporter server and switch to REPL mode.
+
 ```bash
 # With TCP transporter
 moleculer connect 
@@ -53,7 +58,6 @@ moleculer connect mqtt://localhost
 
 ## Documentation
 Please read our [documentation on Moleculer site](http://moleculer.services/docs/moleculer-cli.html)
-
 
 ## Credits
 The `moleculer-cli` project `init` command is based on [vue-cli](https://github.com/vuejs/vue-cli) project. 
