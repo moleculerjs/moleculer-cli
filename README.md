@@ -49,10 +49,10 @@ moleculer connect
 # With NATS transporter (you need to install NATS lib globally with `npm i nats -g` command)
 moleculer connect nats://localhost:4222
 
-# With Redis transporter (you need to install NATS lib globally with `npm i ioredis -g` command)
+# With Redis transporter (you need to install Redis lib globally with `npm i ioredis -g` command)
 moleculer connect redis://localhost
 
-# With MQTT transporter (you need to install NATS lib globally with `npm i mqtt -g` command)
+# With MQTT transporter (you need to install MQTT lib globally with `npm i mqtt -g` command)
 moleculer connect mqtt://localhost
 ```
 
