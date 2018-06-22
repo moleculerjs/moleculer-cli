@@ -1,4 +1,14 @@
 --------------------------------------------------
+<a name="0.5.7"></a>
+# 0.5.7 (2018-06-22)
+
+## Changes
+- add `--config` CLI option to load config file with broker options
+    ```
+    $ moleculer connect --config ./moleculer.config.js
+    ```
+
+--------------------------------------------------
 <a name="0.5.6"></a>
 # 0.5.6 (2018-04-30)
 
