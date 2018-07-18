@@ -8,6 +8,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const os = require('os');
 
 const _ = require("lodash");
 const chalk = require("chalk");
@@ -42,13 +43,14 @@ module.exports = {
 let values = {
 	year: new Date().getFullYear(),
 	cliVersion: pkg.version,
+	aliasedTemplates: {},
 };
 
 /**
  * Register handlebars helpers
  */
 Handlebars.registerHelper("if_eq", (a, b, opts) => a === b ? opts.fn(this) : opts.inverse(this));
-Handlebars.registerHelper("unless_eq", (a, b, opts) => a === b ? opts.inverse(this): opts.fn(this));
+Handlebars.registerHelper("unless_eq", (a, b, opts) => a === b ? opts.inverse(this) : opts.fn(this));
 Handlebars.registerHelper("if_or", (v1, v2, options) => (v1 || v2) ? options.fn(this) : options.inverse(this));
 Handlebars.registerHelper("if_and", (v1, v2, options) => (v1 && v2) ? options.fn(this) : options.inverse(this));
 
@@ -75,10 +77,31 @@ function handler(opts) {
 			}
 			values.projectPath = path.resolve(values.projectName);
 		})
-
+		// check for template mapping
+		.then(() => {
+			return new Promise((resolve, reject) => {
+				const configPath = path.join(os.homedir(), ".moleculer-templates.json");
+				fs.exists(configPath, configExists => {
+					if (configExists) {
+						fs.readFile(configPath, (err, config) => {
+							if (err) {
+								reject(`Error reading config file from ${configPath}`);
+							}
+							values.aliasedTemplates = JSON.parse(config);
+							resolve();
+						});
+					} else {
+						resolve();
+					}
+				});
+			});
+		})
 		// Resolve template URL from name
 		.then(() => {
-			let { templateName, templateRepo } = values;
+			let { templateName, templateRepo, aliasedTemplates } = values;
+			if (aliasedTemplates[templateName]) {
+				templateName = aliasedTemplates[templateName];
+			}
 
 			if (/^[./]|(^[a-zA-Z]:)/.test(templateName)) {
 				values.tmp = path.isAbsolute(templateName) ? templateName : path.normalize(path.join(process.cwd(), templateName));
@@ -157,7 +180,7 @@ function handler(opts) {
 
 				// Register custom template helpers
 				if (templateMeta.helpers)
-					Object.keys(templateMeta.helpers).map(key =>Handlebars.registerHelper(key, templateMeta.helpers[key]));
+					Object.keys(templateMeta.helpers).map(key => Handlebars.registerHelper(key, templateMeta.helpers[key]));
 
 				// metalsmith.before
 				if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before))
@@ -270,7 +293,7 @@ function filterFiles(filters) {
 function renderTemplate(skipInterpolation) {
 	skipInterpolation = typeof skipInterpolation === 'string' ? [skipInterpolation] : skipInterpolation;
 
-	return function(files, metalsmith, done) {
+	return function (files, metalsmith, done) {
 		const keys = Object.keys(files);
 		const metadata = metalsmith.metadata();
 

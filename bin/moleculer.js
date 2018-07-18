@@ -8,7 +8,7 @@
 const updateNotifier = require("update-notifier");
 const pkg = require("../package.json");
 
-updateNotifier({pkg}).notify();
+updateNotifier({ pkg }).notify();
 
 console.log();
 process.on("exit", function () {
@@ -22,5 +22,6 @@ require("yargs")
 	.command(require("./../src/start"))
 	.command(require("./../src/create"))
 	.command(require("./../src/connect"))
+	.command(require("./../src/alias-template"))
 	.help()
 	.argv;
