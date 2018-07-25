@@ -1,4 +1,11 @@
 --------------------------------------------------
+<a name="0.6.1"></a>
+# 0.6.1 (2018-07-25)
+
+## Changes
+- add `alias-template <template-name> <template-url>` command by [@faeron](https://github.com/faeron)
+
+--------------------------------------------------
 <a name="0.6.0"></a>
 # 0.6.0 (2018-07-08)
 
