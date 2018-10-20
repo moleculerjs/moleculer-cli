@@ -17,7 +17,7 @@ module.exports = {
 
 let values = {
 	aliasedTemplates: {}
-}
+};
 
 /**
  * Handler for yards command
@@ -27,7 +27,7 @@ let values = {
 function handler(opts) {
 	Object.assign(values, opts);
 
-	const configPath = path.join(os.homedir(), '.moleculer-templates.json');
+	const configPath = path.join(os.homedir(), ".moleculer-templates.json");
 	return (
 		Promise.resolve()
 			//check for existing template alias config file
@@ -67,7 +67,7 @@ function handler(opts) {
 			// write template name and repo url
 			.then(() => {
 				const { templateName, templateUrl, aliasedTemplates } = values;
-				const newAliases = JSON.stringify(Object.assign(aliasedTemplates, { [templateName]: templateUrl }))
+				const newAliases = JSON.stringify(Object.assign(aliasedTemplates, { [templateName]: templateUrl }));
 				fs.writeFileSync(configPath, newAliases);
 			})
 			.catch(err => fail(err))

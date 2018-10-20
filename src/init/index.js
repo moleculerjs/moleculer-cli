@@ -8,7 +8,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const os = require('os');
+const os = require("os");
 
 const _ = require("lodash");
 const chalk = require("chalk");
@@ -18,7 +18,7 @@ const exeq = require("exeq");
 const ora = require("ora");
 const download = require("download-git-repo");
 const inquirer = require("inquirer");
-const multimatch = require('multimatch');
+const multimatch = require("multimatch");
 const render = require("consolidate").handlebars.render;
 const Metalsmith = require("metalsmith");
 const Handlebars = require("handlebars");
@@ -291,7 +291,7 @@ function filterFiles(filters) {
  *
  */
 function renderTemplate(skipInterpolation) {
-	skipInterpolation = typeof skipInterpolation === 'string' ? [skipInterpolation] : skipInterpolation;
+	skipInterpolation = typeof skipInterpolation === "string" ? [skipInterpolation] : skipInterpolation;
 
 	return function (files, metalsmith, done) {
 		const keys = Object.keys(files);
@@ -301,7 +301,7 @@ function renderTemplate(skipInterpolation) {
 
 			// skipping files with skipInterpolation option
 			if (skipInterpolation && multimatch([file], skipInterpolation, { dot: true }).length) {
-				return next()
+				return next();
 			}
 
 			const str = files[file].contents.toString();
@@ -316,6 +316,5 @@ function renderTemplate(skipInterpolation) {
 				next();
 			});
 		}, done);
-
-	}
+	};
 }

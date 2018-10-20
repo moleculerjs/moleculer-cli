@@ -30,9 +30,9 @@ module.exports = {
 
 /**
  * Service generator
- * 
- * @param {any} opts 
- * @returns 
+ *
+ * @param {any} opts
+ * @returns
  */
 function addService(opts) {
 	let values = Object.assign({}, opts);
@@ -48,7 +48,7 @@ function addService(opts) {
 					validate(input) {
 						if (!fs.existsSync(path.resolve(input)))
 							return `The '${input}' directory is not exists! Full path: ${path.resolve(input)}`;
-						
+
 						return true;
 					}
 				},
@@ -83,10 +83,10 @@ function addService(opts) {
 
 			return new Promise((resolve, reject) => {
 				render(template, values, function (err, res) {
-					if (err) 
+					if (err)
 						return reject(err);
 
-					const { newServicePath } = values;					
+					const { newServicePath } = values;
 					console.log(`Create new service file to '${newServicePath}'...`);
 					fs.writeFileSync(path.resolve(newServicePath), res, "utf8");
 
@@ -96,5 +96,5 @@ function addService(opts) {
 		})
 
 		// Error handler
-		.catch(err => fail(err));		
+		.catch(err => fail(err));
 }

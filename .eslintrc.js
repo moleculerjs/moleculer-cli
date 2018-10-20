@@ -13,9 +13,7 @@ module.exports = {
 	],
 	"parserOptions": {
 		"sourceType": "module",
-		"ecmaFeatures": {
-			"experimentalObjectRestSpread": true
-		}
+		"ecmaVersion": 2018
 	},
 	"plugins": [
 		"node",
@@ -39,9 +37,10 @@ module.exports = {
 		"no-var": [
 			"error"
 		],
-		"no-console": [
-			"error"
-		],
+		"no-console": 0,
+		// "no-console": [
+		// 	"error"
+		// ],
 		"no-unused-vars": [
 			"warn"
 		],

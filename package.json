@@ -29,13 +29,17 @@
   "devDependencies": {
     "coveralls": "3.0.2",
     "eslint": "5.0.1",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-security": "^1.4.0",
     "jest": "23.3.0",
     "jest-cli": "23.3.0",
     "npm-check": "5.7.1"
   },
   "scripts": {
     "moleculer": "node ./bin/moleculer",
-    "deps": "npm-check -u"
+    "deps": "npm-check -u",
+    "lint": "eslint src/**/*.js -c .eslintrc.js"
   },
   "bin": {
     "moleculer": "./bin/moleculer.js"
