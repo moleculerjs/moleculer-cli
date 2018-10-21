@@ -312,7 +312,7 @@ function renderTemplate(skipInterpolation) {
 
 			render(str, metadata, function (err, res) {
 				if (err) return done(err);
-				files[file].contents = new Buffer(res);
+				files[file].contents = Buffer.from(res);
 				next();
 			});
 		}, done);
