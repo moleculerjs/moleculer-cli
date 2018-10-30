@@ -292,6 +292,7 @@ function filterFiles(filters) {
  */
 function renderTemplate(skipInterpolation) {
 	skipInterpolation = typeof skipInterpolation === "string" ? [skipInterpolation] : skipInterpolation;
+	const handlebarsMatcher = /{{([^{}]+)}}/;
 
 	return function (files, metalsmith, done) {
 		const keys = Object.keys(files);
@@ -304,15 +305,45 @@ function renderTemplate(skipInterpolation) {
 				return next();
 			}
 
-			const str = files[file].contents.toString();
+			async.series([
 
-			if (!/{{([^{}]+)}}/g.test(str)) {
-				return next();
-			}
+				// interpolate the file contents
+				function (callback) {
+					const str = files[file].contents.toString();
+					if (!handlebarsMatcher.test(str)) {
+						return callback();
+					}
 
-			render(str, metadata, function (err, res) {
+					render(str, metadata, function (err, res) {
+						if (err) return callback(err);
+						files[file].contents = Buffer.from(res);
+						callback();
+					});
+				},
+
+				// interpolate the file name
+				function (callback) {
+					if (!handlebarsMatcher.test(file)) {
+						return callback();
+					}
+
+					render(file, metadata, function (err, res) {
+						if (err) return callback(err);
+						// safety check to prevent file deletion in case filename doesn't change
+						if (file === res) return callback();
+						// safety check to prevent overwriting another file
+						if (files[res]) return callback(`Cannot rename file ${file} to ${res}. A file with that name already exists.`);
+
+						// add entry for interpolated file name
+						files[res] = files[file];
+						// delete entry for template file name
+						delete files[file];
+						callback();
+					});
+				}
+
+			], function (err) {
 				if (err) return done(err);
-				files[file].contents = Buffer.from(res);
 				next();
 			});
 		}, done);
