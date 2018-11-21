@@ -8,20 +8,23 @@ const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
 const render = require("consolidate").handlebars.render;
+const glob = require("glob").sync;
 
 const { fail } = require("../utils");
+
+const templates = glob(path.join(__dirname, "*.template")).map(f => path.parse(f).name);
 
 /**
  * Yargs command
  */
 module.exports = {
 	command: "create <module>",
-	describe: "Create a Moleculer module (service, middleware)",
+	describe: `Create a Moleculer module (${templates.join(",")})`,
 	handler(opts) {
 		if (opts.module.toLowerCase() == "service")
 			return addService(opts);
 		else {
-			fail("Invalid module type. Available modules: service");
+			fail("Invalid module type. Available modules: " + templates.join(", "));
 		}
 	}
 };
