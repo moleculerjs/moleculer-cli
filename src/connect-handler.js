@@ -12,7 +12,7 @@ module.exports = function handler(opts) {
 		replCommands = [];
 
 		if (opts.commands.endsWith("/")) {
-			opts.commands += "**/*.js"
+			opts.commands += "**/*.js";
 		}
 
 		const files = glob.sync(opts.commands);
@@ -27,7 +27,7 @@ module.exports = function handler(opts) {
 			} catch(err) {
 				console.error(err);
 			}
-		})
+		});
 	}
 
 	const config = (opts.config ? loadConfigFile(opts.config) : null) || { logger: true };
