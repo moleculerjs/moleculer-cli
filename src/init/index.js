@@ -44,6 +44,7 @@ let values = {
 	year: new Date().getFullYear(),
 	cliVersion: pkg.version,
 	aliasedTemplates: {},
+	templateDir: "template"
 };
 
 /**
@@ -197,7 +198,7 @@ function handler(opts) {
 				// Build
 				metalsmith
 					.clean(false)
-					.source("template")
+					.source(values.templateDir)
 					.destination(values.projectPath)
 					.build(err => {
 						if (err)
