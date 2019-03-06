@@ -1,4 +1,12 @@
 --------------------------------------------------
+<a name="0.6.5"></a>
+# 0.6.5 (2019-03-06)
+
+## Changes
+- update dependencies
+- support multiple template directories by [@ccampanale](https://github.com/ccampanale) [#22](https://github.com/moleculerjs/moleculer-cli/pull/22)
+
+--------------------------------------------------
 <a name="0.6.4"></a>
 # 0.6.4 (2019-02-20)
 
