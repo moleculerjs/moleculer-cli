@@ -158,6 +158,7 @@ function handler(opts) {
 		// Check target directory
 		.then(() => {
 			if (fs.existsSync(values.projectPath)) {
+                if (templateMeta.promptForProjectOverwrite === false) return;
 				return inquirer.prompt([{
 					type: "confirm",
 					name: "continue",
