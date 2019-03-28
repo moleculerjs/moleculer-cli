@@ -1,4 +1,12 @@
 --------------------------------------------------
+<a name="0.6.6"></a>
+# 0.6.6 (2019-03-28)
+
+## Changes
+- update dependencies
+- add `promptForProjectOverwrite ` to template meta properties to skip confirmation when the target directory exists.
+
+--------------------------------------------------
 <a name="0.6.5"></a>
 # 0.6.5 (2019-03-06)
 
