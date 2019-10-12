@@ -30,21 +30,10 @@ module.exports = {
 				describe: "NodeID",
 				type: "string"
 			},
-			"metrics": {
-				alias: "m",
-				default: false,
-				describe: "Enable metrics",
-				type: "boolean"
-			},
 			"hot": {
 				alias: "h",
 				default: false,
 				describe: "Enable hot-reload",
-				type: "boolean"
-			},
-			"cb": {
-				default: false,
-				describe: "Enable circuit breaker",
 				type: "boolean"
 			},
 			"serializer": {

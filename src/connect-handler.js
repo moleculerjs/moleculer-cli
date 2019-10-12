@@ -51,17 +51,11 @@ module.exports = function handler(opts) {
 	if (opts.serializer)
 		config.serializer = opts.serializer;
 
-	if (opts.metrics)
-		config.metrics = opts.metrics;
-
 	if (opts.hot)
 		config.hotReload = opts.hot;
 
-	if (opts.cb)
-		config.circuitBreaker = { enabled: opts.cb };
-
-	if (opts.replCommands)
-		config.replCommands = opts.replCommands;
+	if (replCommands)
+		config.replCommands = replCommands;
 
 	const broker = new Moleculer.ServiceBroker(config);
 

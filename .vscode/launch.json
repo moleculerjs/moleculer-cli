@@ -12,8 +12,8 @@
 			"cwd": "${workspaceRoot}",
 			"args": [
 				"init",
-				"..\\moleculer-template-project",
-				"test"
+				"project",
+				"test-project"
 			],
 			"console": "integratedTerminal"
 		}

@@ -30,7 +30,6 @@ module.exports = {
 };
 
 
-
 /**
  * Service generator
  *

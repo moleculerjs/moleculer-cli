@@ -10,16 +10,12 @@ module.exports = {
 	/**
 	 * Service settings
 	 */
-	settings: {
-
-	},
+	settings: {},
 
 	/**
 	 * Service metadata
 	 */
-	metadata: {
-
-	},
+	metadata: {},
 
 	/**
 	 * Service dependencies
@@ -33,8 +29,8 @@ module.exports = {
 		/**
 		* Test action
 		*/
-		test(ctx) {
-			return this.Promise.resolve("Hello Moleculer");
+		async test(ctx) {
+			return "Hello Moleculer";
 		}
 	},
 
@@ -42,8 +38,8 @@ module.exports = {
 	 * Events
 	 */
 	events: {
-		"some.thing"(payload) {
-			this.logger.info("Something happened", payload);
+		async "some.thing"(ctx) {
+			this.logger.info("Something happened", ctx.params);
 		}
 	},
 

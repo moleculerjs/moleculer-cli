@@ -15,7 +15,6 @@ const chalk = require("chalk");
 const async = require("async");
 const mkdirp = require("mkdirp");
 const exeq = require("exeq");
-const ora = require("ora");
 const download = require("download-git-repo");
 const inquirer = require("inquirer");
 const multimatch = require("multimatch");
@@ -34,7 +33,7 @@ const { getTempDir, fail, evaluate } = require("../utils");
 module.exports = {
 	command: "init <template-name> [project-name]",
 	describe: "Create a Moleculer project from template",
-	handler: handler
+	handler
 };
 
 /**
@@ -86,7 +85,7 @@ function handler(opts) {
 					if (configExists) {
 						fs.readFile(configPath, (err, config) => {
 							if (err) {
-								reject(`Error reading config file from ${configPath}`);
+								return reject(`Error reading config file from ${configPath}`);
 							}
 							values.aliasedTemplates = JSON.parse(config);
 							resolve();
@@ -127,11 +126,8 @@ function handler(opts) {
 		.then(() => {
 			if (values.templateRepo) {
 				return new Promise((resolve, reject) => {
-					let spinner = ora("Downloading template");
-					spinner.start();
+					console.log("Downloading template...");
 					download(values.templateRepo, values.tmp, {}, err => {
-						spinner.stop();
-
 						if (err)
 							return reject(`Failed to download repo from '${values.templateRepo}'!`, err);
 
@@ -158,7 +154,7 @@ function handler(opts) {
 		// Check target directory
 		.then(() => {
 			if (fs.existsSync(values.projectPath)) {
-                if (templateMeta.promptForProjectOverwrite === false) return;
+				if (templateMeta.promptForProjectOverwrite === false) return;
 				return inquirer.prompt([{
 					type: "confirm",
 					name: "continue",
