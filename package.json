@@ -19,13 +19,13 @@
   "license": "MIT",
   "dependencies": {
     "async": "^3.1.0",
-    "chalk": "^2.4.2",
     "consolidate": "^0.15.1",
     "download-git-repo": "^3.0.1",
     "exeq": "^3.0.0",
     "glob": "^7.1.4",
     "handlebars": "^4.4.3",
     "inquirer": "^6.2.2",
+    "kleur": "^3.0.3",
     "lodash": "^4.17.15",
     "metalsmith": "^2.3.0",
     "minimatch": "^3.0.4",
@@ -37,7 +37,6 @@
     "request": "^2.88.0",
     "rimraf": "^3.0.0",
     "update-notifier": "^3.0.1",
-    "user-home": "^2.0.0",
     "yargs": "^14.2.0"
   },
   "devDependencies": {

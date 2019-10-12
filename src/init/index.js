@@ -11,7 +11,7 @@ const path = require("path");
 const os = require("os");
 
 const _ = require("lodash");
-const chalk = require("chalk");
+const kleur = require("kleur");
 const async = require("async");
 const mkdirp = require("mkdirp");
 const exeq = require("exeq");
@@ -158,7 +158,7 @@ function handler(opts) {
 				return inquirer.prompt([{
 					type: "confirm",
 					name: "continue",
-					message: chalk.yellow.bold(`The '${values.projectName} directory is exists! Continue?`),
+					message: kleur.yellow().bold(`The '${values.projectName} directory is exists! Continue?`),
 					default: false
 				}]).then(answers => {
 					if (!answers.continue)
@@ -237,13 +237,13 @@ function handler(opts) {
 						if (err)
 							return reject(err);
 
-						console.log(chalk.green.bold("\n" + res.split(/\r?\n/g).map(line => "   " + line).join("\n")));
+						console.log(kleur.green().bold("\n" + res.split(/\r?\n/g).map(line => "   " + line).join("\n")));
 
 
 						resolve();
 					});
 				else {
-					console.log(chalk.green.bold("\nDone!"));
+					console.log(kleur.green().bold("\nDone!"));
 					resolve();
 				}
 

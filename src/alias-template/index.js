@@ -3,7 +3,7 @@ const path = require("path");
 const os = require("os");
 
 const inquirer = require("inquirer");
-const chalk = require("chalk");
+const kleur = require("kleur");
 const { fail } = require("../utils");
 
 /**
@@ -56,7 +56,7 @@ function handler(opts) {
 					return inquirer.prompt([{
 						type: "confirm",
 						name: "continue",
-						message: chalk.yellow.bold(`The alias '${templateName}' already exists with value '${aliasedTemplates[templateName]}'! Overwrite?`),
+						message: kleur.yellow().bold(`The alias '${templateName}' already exists with value '${aliasedTemplates[templateName]}'! Overwrite?`),
 						default: false
 					}]).then(answers => {
 						if (!answers.continue)

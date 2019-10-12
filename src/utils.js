@@ -10,12 +10,12 @@ const fs = require("fs");
 const rm = require("rimraf").sync;
 const path = require("path");
 const mkdirp = require("mkdirp").sync;
-const chalk = require("chalk");
-const home = require("user-home");
+const kleur = require("kleur");
+const os = require("os");
 
 module.exports = {
 	getTempDir(dir, clear) {
-		const tmp = path.join(home, ".moleculer-templates", dir.replace(/[^a-zA-Z0-9]/g, "-"));
+		const tmp = path.join(os.homedir(), ".moleculer-templates", dir.replace(/[^a-zA-Z0-9]/g, "-"));
 		if (fs.existsSync(tmp) && clear) {
 			rm(tmp);
 		}
@@ -24,7 +24,7 @@ module.exports = {
 	},
 
 	fail(msg) {
-		console.error(chalk.red.bold(msg));
+		console.error(kleur.red().bold(msg));
 		if (msg instanceof Error)
 			console.error(msg);
 
@@ -37,7 +37,7 @@ module.exports = {
 		try {
 			return fn(data);
 		} catch (e) {
-			console.error(chalk.red("Error when evaluating filter condition: " + exp));
+			console.error(kleur.red("Error when evaluating filter condition: " + exp));
 		}
 	}
 };
