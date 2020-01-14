@@ -5,6 +5,8 @@
 ## Changes
 - update dependencies
 - remove `--cb`, `--metrics` options
+- `init` command: add `--answers <answer-json-filename>` to load answer from file instead of stdin.
+- `init` command: add `--install` & `--no-install` option to enable/disable `npm install` after the files generated.
 --------------------------------------------------
 <a name="0.6.6"></a>
 # 0.6.6 (2019-03-28)

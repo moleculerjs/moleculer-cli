@@ -4,6 +4,6 @@
 	"transporter": "TCP",
 	"needCacher": false,
 	"docker": false,
-	"eslint": true,
+	"lint": true,
 	"jest": true
 }

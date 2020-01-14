@@ -37,13 +37,13 @@ module.exports = {
 		yargs.options({
 			"answers": {
 				alias: "a",
-				default: "",
+				default: null,
 				describe: "Load anwers from a JSON file",
 				type: "string"
 			},
 			"install": {
 				alias: "i",
-				default: "",
+				default: null,
 				describe: "Execute `npm install`",
 				type: "boolean"
 			},
@@ -79,6 +79,8 @@ Handlebars.registerHelper("if_and", (v1, v2, options) => (v1 && v2) ? options.fn
 function handler(opts) {
 	Object.assign(values, opts);
 
+	console.log("Values:", values);
+
 	let templateMeta;
 	let metalsmith;
 	let loadedAnswers;
@@ -87,8 +89,10 @@ function handler(opts) {
 
 		// Load answers
 		.then(() => {
-			loadedAnswers = opts.answers ? require(opts.answers) : null;
-			console.log("Loaded answers:", loadedAnswers);
+			if (opts.answers) {
+				loadedAnswers = require(path.resolve(opts.answers));
+				console.log("Loaded answers:", loadedAnswers);
+			}
 		})
 		// Resolve project name & folder
 		.then(() => {
