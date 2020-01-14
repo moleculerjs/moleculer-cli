@@ -1,0 +1,9 @@
+{
+	"apiGW": true,
+	"needTransporter": true,
+	"transporter": "TCP",
+	"needCacher": false,
+	"docker": false,
+	"eslint": true,
+	"jest": true
+}

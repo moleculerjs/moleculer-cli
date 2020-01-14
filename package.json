@@ -5,7 +5,8 @@
   "scripts": {
     "moleculer": "node ./bin/moleculer",
     "deps": "npm-check -u",
-    "lint": "eslint src/**/*.js -c .eslintrc.js"
+    "lint": "eslint src/**/*.js -c .eslintrc.js",
+    "dev:init": "node ./bin/moleculer init project tmp"
   },
   "bin": {
     "moleculer": "./bin/moleculer.js"

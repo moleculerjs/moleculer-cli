@@ -33,6 +33,22 @@ const { getTempDir, fail, evaluate } = require("../utils");
 module.exports = {
 	command: "init <template-name> [project-name]",
 	describe: "Create a Moleculer project from template",
+	builder(yargs) {
+		yargs.options({
+			"answers": {
+				alias: "a",
+				default: "",
+				describe: "Load anwers from a JSON file",
+				type: "string"
+			},
+			"install": {
+				alias: "i",
+				default: "",
+				describe: "Execute `npm install`",
+				type: "boolean"
+			},
+		});
+	},
 	handler
 };
 
@@ -65,9 +81,15 @@ function handler(opts) {
 
 	let templateMeta;
 	let metalsmith;
+	let loadedAnswers;
 
 	return Promise.resolve()
 
+		// Load answers
+		.then(() => {
+			loadedAnswers = opts.answers ? require(opts.answers) : null;
+			console.log("Loaded answers:", loadedAnswers);
+		})
 		// Resolve project name & folder
 		.then(() => {
 			values.inPlace = false;
@@ -143,11 +165,16 @@ function handler(opts) {
 			const { tmp } = values;
 			if (fs.existsSync(path.join(tmp, "meta.js"))) {
 				templateMeta = require(path.join(tmp, "meta.js"))(values);
-				if (templateMeta.questions) {
+				if (loadedAnswers) {
+					Object.assign(values, loadedAnswers);
+				} else if (templateMeta.questions) {
 					return inquirer.prompt(templateMeta.questions).then(answers => Object.assign(values, answers));
 				}
 			} else {
 				templateMeta = {};
+				if (loadedAnswers) {
+					Object.assign(values, loadedAnswers);
+				}
 			}
 		})
 
@@ -213,20 +240,27 @@ function handler(opts) {
 
 		// Run 'npm install'
 		.then(() => {
-			return inquirer.prompt([{
-				type: "confirm",
-				name: "install",
-				message: "Would you like to run 'npm install'?",
-				default: true
-			}]).then(({ install }) => {
-				if (install) {
-					console.log("\nRunning 'npm install'...");
-					return exeq([
-						"cd " + values.projectPath,
-						"npm install"
-					]);
-				}
-			});
+			return Promise.resolve()
+				.then(() => {
+					if (opts.install != null) {
+						return opts;
+					}
+
+					return inquirer.prompt([{
+						type: "confirm",
+						name: "install",
+						message: "Would you like to run 'npm install'?",
+						default: true
+					}]);
+				}).then(({ install }) => {
+					if (install) {
+						console.log("\nRunning 'npm install'...");
+						return exeq([
+							"cd " + values.projectPath,
+							"npm install"
+						]);
+					}
+				});
 		})
 
 		// Show completeMessage
