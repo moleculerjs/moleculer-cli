@@ -79,7 +79,7 @@ Handlebars.registerHelper("if_and", (v1, v2, options) => (v1 && v2) ? options.fn
 function handler(opts) {
 	Object.assign(values, opts);
 
-	console.log("Values:", values);
+	//console.log("Values:", values);
 
 	let templateMeta;
 	let metalsmith;
