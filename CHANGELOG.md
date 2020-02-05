@@ -3,13 +3,68 @@
 # 0.7.0 (2020-xx-xx)
 
 ## Moleculer updated to latest 0.14
-It means, you can connect to 0.14 Moleculer nodes with this version only.
+With this version, you can connect to only v0.14 Moleculer nodes.
+
+## New `call` command
+There is a `call` command to connect a Moleculer project & call an action with parameters. The result will be printed to the console what you can process with another tool.
+
+The calling parameters should be started with `@` prefix. The meta parameters should be started with `#` prefix.
+
+**Example with params**
+```bash
+moleculer call math.add --transporter NATS --@a 5 --@b 3
+```
+
+**Example with params & meta**
+```bash
+moleculer call math.add --transporter NATS --@a 5 --@b 3 --#meta-key MyMetaValue
+```
+
+>The transporter can be defined via `TRANSPORTER` environment variable, as well.
+
+**Example with transporter env var**
+```bash
+TRANSPORTER=nats://localhost:42222 moleculer call math.add --@a 5 --@b 3
+```
+
+## New `emit` command
+There is a `emit` command to connect a Moleculer project & emit an event with payload.
+The calling parameters should be started with `@` prefix. The meta parameters should be started with `#` prefix.
+
+**Example with params**
+```bash
+moleculer emit user.created --transporter NATS --@id 3 --@name John
+```
+
+**Example with params & meta**
+```bash
+moleculer emit math.add --transporter NATS --@id 3 --@name John --#meta-key MyMetaValue
+```
+
+**Example with broadcast & groups**
+```bash
+moleculer emit math.add --transporter NATS --broadcast --@id 3 --@name John --group accounts
+```
+
+**Example with multi groups**
+```bash
+moleculer emit math.add --transporter NATS --broadcast --@id 3 --@name John --group accounts --group mail
+```
+
+>The transporter can be defined via `TRANSPORTER` environment variable, as well.
+
+**Example with transporter env var**
+```bash
+TRANSPORTER=nats://localhost:42222 moleculer call math.add --@a 5 --@b 3
+```
+
 
 ## Changes
 - update dependencies
 - remove `--cb`, `--metrics` options
 - `init` command: add `--answers <answer-json-filename>` to load answer from file instead of stdin.
 - `init` command: add `--install` & `--no-install` option to enable/disable `npm install` after the files generated.
+- `level` parameter for the `start`, `connect`, `call`, `emit` command to set the logging level.
 --------------------------------------------------
 <a name="0.6.6"></a>
 # 0.6.6 (2019-03-28)

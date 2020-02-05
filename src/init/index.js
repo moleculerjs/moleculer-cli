@@ -1,6 +1,6 @@
 /*
  * moleculer-cli
- * Copyright (c) 2019 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  *
  * Based on [vue-cli](https://github.com/vuejs/vue-cli) project

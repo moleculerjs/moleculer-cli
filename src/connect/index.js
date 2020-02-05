@@ -1,10 +1,10 @@
 /*
  * moleculer-cli
- * Copyright (c) 2019 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
 
-const handler = require("../connect-handler");
+const connectHandler = require("../connect-handler");
 
 /**
  * Yargs command
@@ -23,6 +23,11 @@ module.exports = {
 			"ns": {
 				default: "",
 				describe: "Namespace",
+				type: "string"
+			},
+			"level": {
+				default: "info",
+				describe: "Logging level",
 				type: "string"
 			},
 			"id": {
@@ -48,5 +53,9 @@ module.exports = {
 			}
 		});
 	},
-	handler
+
+	async handler(opts) {
+		const broker = await connectHandler(opts);
+		broker.repl();
+	}
 };

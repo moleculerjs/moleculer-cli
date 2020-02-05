@@ -29,8 +29,10 @@ module.exports = {
 		/**
 		* Test action
 		*/
-		async test(ctx) {
-			return "Hello Moleculer";
+		test: {
+			async handler(ctx) {
+				return "Hello Moleculer";
+			}
 		}
 	},
 
@@ -60,14 +62,14 @@ module.exports = {
 	/**
 	 * Service started lifecycle event handler
 	 */
-	started() {
+	asnyc started() {
 
 	},
 
 	/**
 	 * Service stopped lifecycle event handler
 	 */
-	stopped() {
+	async stopped() {
 
 	}
 };

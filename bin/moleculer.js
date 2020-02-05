@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /* moleculer-cli
- * Copyright (c) 2019 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
 
@@ -10,9 +10,9 @@ const pkg = require("../package.json");
 
 updateNotifier({ pkg }).notify();
 
-console.log();
+//console.log();
 process.on("exit", function () {
-	console.log();
+	//console.log();
 });
 
 require("yargs")
@@ -22,6 +22,8 @@ require("yargs")
 	.command(require("./../src/start"))
 	.command(require("./../src/create"))
 	.command(require("./../src/connect"))
+	.command(require("./../src/call"))
+	.command(require("./../src/emit"))
 	.command(require("./../src/alias-template"))
 	.help()
 	.argv;

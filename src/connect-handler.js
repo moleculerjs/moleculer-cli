@@ -6,7 +6,7 @@ const fs 			= require("fs");
 const path 			= require("path");
 const glob 			= require("glob");
 
-module.exports = function handler(opts) {
+module.exports = async function handler(opts) {
 	let replCommands;
 	if (opts.commands) {
 		replCommands = [];
@@ -30,18 +30,29 @@ module.exports = function handler(opts) {
 		});
 	}
 
-	const config = (opts.config ? loadConfigFile(opts.config) : null) || { logger: true };
+	const config = (opts.config ? loadConfigFile(opts.config) : null) || {};
 
 	if (config.logger === undefined)
 		config.logger = true;
 
+	if (opts.level) {
+		if (opts.level == "silent")
+			config.logger = false;
+		else
+			config.logLevel = opts.level;
+	}
+
 	if (opts.ns)
 		config.namespace = opts.ns;
 
-	if (opts.connectionString)
+	if (opts.transporter)
+		config.transporter = opts.transporter;
+	else if (opts.connectionString)
 		config.transporter = opts.connectionString;
+	else if (process.env.TRANSPORTER)
+		config.transporter = process.env.TRANSPORTER;
 	else if (config.nodeID === undefined && opts._[0] == "connect")
-		config.transporter = "TCP";
+		config.transporter = "TCP"; // TCP the default if no connection string
 
 	if (opts.id)
 		config.nodeID = opts.id;
@@ -59,7 +70,9 @@ module.exports = function handler(opts) {
 
 	const broker = new Moleculer.ServiceBroker(config);
 
-	broker.start().then(() => broker.repl());
+	await broker.start();
+
+	return broker;
 };
 
 /**
@@ -75,6 +88,7 @@ function loadConfigFile(configFile) {
 		const ext = path.extname(filePath);
 		switch (ext) {
 			case ".json":
+			case ".ts":
 			case ".js": {
 				console.log(`Load broker configuration from '${filePath}'...`);
 				return require(filePath);

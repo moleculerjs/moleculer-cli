@@ -3,7 +3,7 @@
   "version": "0.6.6",
   "description": ":herb: Command line tool for Moleculer",
   "scripts": {
-    "moleculer": "node ./bin/moleculer",
+    "dev": "node ./bin/moleculer",
     "deps": "npm-check -u",
     "lint": "eslint src/**/*.js -c .eslintrc.js",
     "dev:init": "node ./bin/moleculer init project tmp"
