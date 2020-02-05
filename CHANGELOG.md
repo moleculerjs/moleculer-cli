@@ -6,7 +6,7 @@
 With this version, you can connect to only v0.14 Moleculer nodes.
 
 ## New `call` command
-There is a `call` command to connect a Moleculer project & call an action with parameters. The result will be printed to the console what you can process with another tool.
+There is a `call` command to connect a Moleculer project & call an action with parameters. The result (stringified JSON) will be printed to the console what you can process with another tool.
 
 The calling parameters should be started with `@` prefix. The meta parameters should be started with `#` prefix.
 
