@@ -20,6 +20,11 @@ moleculer call math.add --transporter NATS --@a 5 --@b 3
 moleculer call math.add --transporter NATS --@a 5 --@b 3 --#meta-key MyMetaValue
 ```
 
+**Example with post processing the result with [jq](https://stedolan.github.io/jq/)**
+```bash
+moleculer call "\\$node.health" | jq '.mem.free'
+```
+
 >The transporter can be defined via `TRANSPORTER` environment variable, as well.
 
 **Example with transporter env var**
