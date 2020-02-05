@@ -1,6 +1,9 @@
 --------------------------------------------------
 <a name="0.7.0"></a>
-# 0.7.0 (2019-xx-xx)
+# 0.7.0 (2020-xx-xx)
+
+## Moleculer updated to latest 0.14
+It means, you can connect to 0.14 Moleculer nodes with this version only.
 
 ## Changes
 - update dependencies
