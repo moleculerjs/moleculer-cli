@@ -1,6 +1,6 @@
 --------------------------------------------------
 <a name="0.7.0"></a>
-# 0.7.0 (2020-xx-xx)
+# 0.7.0 (2020-02-12)
 
 ## Moleculer updated to latest 0.14
 With this version, you can connect to only v0.14 Moleculer nodes.
