@@ -17,6 +17,16 @@ There is a `call` command to connect a Moleculer project & call an action with p
 
 The calling parameters should be started with `@` prefix. The meta parameters should be started with `#` prefix.
 
+**Example Create Service**
+```bash
+moleculer create service
+```
+
+**Example Create Service Typescript**
+```bash
+moleculer create service --typescript
+```
+
 **Example with params**
 ```bash
 moleculer call math.add --transporter NATS --@a 5 --@b 3

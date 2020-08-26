@@ -38,6 +38,7 @@ module.exports = {
  */
 function addService(opts) {
 	let values = Object.assign({}, opts);
+	const _typescript = values.typescript ? true : false
 
 	return Promise.resolve()
 		.then(() => {
@@ -61,9 +62,10 @@ function addService(opts) {
 					default: "test"
 				}
 			]).then(answers => {
-				Object.assign(values, answers);
 
-				const newServicePath = path.join(values.serviceFolder, values.serviceName + ".service.js");
+				Object.assign(values, answers);
+				const _type = _typescript ? ".service.ts" :".service.js";
+				const newServicePath =  path.join(values.serviceFolder, values.serviceName + _type);
 				values.newServicePath = newServicePath;
 
 				if (fs.existsSync(newServicePath)) {
@@ -80,7 +82,7 @@ function addService(opts) {
 			});
 		})
 		.then(() => {
-			const templatePath = path.join(__dirname, "service.template");
+			const templatePath = _typescript ? path.join(__dirname, "typescript.service.template"):path.join(__dirname, "service.template");
 			const template = fs.readFileSync(templatePath, "utf8");
 
 			return new Promise((resolve, reject) => {
