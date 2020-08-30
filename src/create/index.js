@@ -38,7 +38,7 @@ module.exports = {
  */
 function addService(opts) {
 	let values = Object.assign({}, opts);
-	const _typescript = values.typescript ? true : false
+	const _typescript = values.typescript ? true : false;
 
 	return Promise.resolve()
 		.then(() => {
