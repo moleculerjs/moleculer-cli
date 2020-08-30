@@ -64,10 +64,7 @@ function addService(opts) {
 			]).then(answers => {
 
 				Object.assign(values, answers);
-				const _type = _typescript ? ".service.ts" :".service.js";
-				const newServicePath =  path.join(values.serviceFolder, values.serviceName + _type);
-				values.newServicePath = newServicePath;
-
+				const newServicePath =  path.join(values.serviceFolder, values.serviceName + ".service" + _typescript ? ".ts" : ".js");
 				if (fs.existsSync(newServicePath)) {
 					return inquirer.prompt([{
 						type: "confirm",

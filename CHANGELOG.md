@@ -22,11 +22,6 @@ The calling parameters should be started with `@` prefix. The meta parameters sh
 moleculer create service
 ```
 
-**Example Create Service Typescript**
-```bash
-moleculer create service --typescript
-```
-
 **Example with params**
 ```bash
 moleculer call math.add --transporter NATS --@a 5 --@b 3
