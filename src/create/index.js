@@ -3,6 +3,7 @@
  * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
+const {  writeFile } = require("fs/promises");
 
 const fs = require("fs");
 const path = require("path");
@@ -64,7 +65,10 @@ function addService(opts) {
 			]).then(answers => {
 
 				Object.assign(values, answers);
-				const newServicePath =  path.join(values.serviceFolder, values.serviceName + ".service" + _typescript ? ".ts" : ".js");
+
+				const { serviceFolder , serviceName  } = values;
+				const newServicePath =  path.join(serviceFolder, `${serviceName}.service${_typescript ?".ts" :".js"}`);
+
 				if (fs.existsSync(newServicePath)) {
 					return inquirer.prompt([{
 						type: "confirm",
@@ -82,14 +86,18 @@ function addService(opts) {
 			const templatePath = _typescript ? path.join(__dirname, "typescript.service.template"):path.join(__dirname, "service.template");
 			const template = fs.readFileSync(templatePath, "utf8");
 
-			return new Promise((resolve, reject) => {
-				render(template, values, function (err, res) {
+			return new Promise( (resolve, reject) => {
+				render(template, values, async function (err, res) {
 					if (err)
 						return reject(err);
 
-					const { newServicePath } = values;
+					const { serviceFolder , serviceName  } = values;
+					const newServicePath =  path.join(serviceFolder, `${serviceName}.service${_typescript ?".ts" :".js"}`);
+
+
+					console.log("newServicePath", newServicePath);
 					console.log(`Create new service file to '${newServicePath}'...`);
-					fs.writeFileSync(path.resolve(newServicePath), res, "utf8");
+					await writeFile(path.resolve(`${newServicePath}`), res, "utf8");
 
 					resolve();
 				});
