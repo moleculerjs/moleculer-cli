@@ -3,7 +3,6 @@
  * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
-const {  writeFile } = require("fs/promises");
 
 const fs = require("fs");
 const path = require("path");
@@ -94,10 +93,8 @@ function addService(opts) {
 					const { serviceFolder , serviceName  } = values;
 					const newServicePath =  path.join(serviceFolder, `${serviceName}.service${_typescript ?".ts" :".js"}`);
 
-
-					console.log("newServicePath", newServicePath);
 					console.log(`Create new service file to '${newServicePath}'...`);
-					await writeFile(path.resolve(`${newServicePath}`), res, "utf8");
+					fs.writeFileSync(path.resolve(`${newServicePath}`), res, "utf8");
 
 					resolve();
 				});
