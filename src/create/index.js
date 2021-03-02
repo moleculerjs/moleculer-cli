@@ -20,6 +20,14 @@ const templates = glob(path.join(__dirname, "*.template")).map(f => path.parse(f
 module.exports = {
 	command: "create <module>",
 	describe: `Create a Moleculer module (${templates.join(",")})`,
+	builder(yargs) {
+		yargs.options({
+			"typescript": {
+				describe: "create service for typescript",
+				type: "boolean"
+			}
+		});
+	},
 	handler(opts) {
 		if (opts.module.toLowerCase() == "service")
 			return addService(opts);
@@ -82,7 +90,7 @@ function addService(opts) {
 			});
 		})
 		.then(() => {
-			const templatePath = _typescript ? path.join(__dirname, "typescript.service.template"):path.join(__dirname, "service.template");
+			const templatePath = _typescript ? path.join(__dirname, "typescript.service"):path.join(__dirname, "service.template");
 			const template = fs.readFileSync(templatePath, "utf8");
 
 			return new Promise( (resolve, reject) => {
