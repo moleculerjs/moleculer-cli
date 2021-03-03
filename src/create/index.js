@@ -18,22 +18,18 @@ const templates = glob(path.join(__dirname, "*.template")).map(f => path.parse(f
  * Yargs command
  */
 module.exports = {
-	command: "create <module>",
-	describe: `Create a Moleculer module (${templates.join(",")})`,
+	command: "create service <name>",
+	describe: `Create a Moleculer service (${templates.join(",")})`,
 	builder(yargs) {
 		yargs.options({
 			"typescript": {
-				describe: "create service for typescript",
+				describe: "Create service for typescript",
 				type: "boolean"
 			}
 		});
 	},
 	handler(opts) {
-		if (opts.module.toLowerCase() == "service")
-			return addService(opts);
-		else {
-			fail("Invalid module type. Available modules: " + templates.join(", "));
-		}
+		return addService(opts);
 	}
 };
 
@@ -71,16 +67,17 @@ function addService(opts) {
 				}
 			]).then(answers => {
 
-				Object.assign(values, answers);
+				answers.serviceName = capitalizeFirstLetter(answers.serviceName);
 
+				Object.assign(values, answers);
 				const { serviceFolder , serviceName  } = values;
-				const newServicePath =  path.join(serviceFolder, `${serviceName}.service${_typescript ?".ts" :".js"}`);
+				const newServicePath =  path.join(serviceFolder, `${serviceName.toLowerCase()}.service${_typescript ?".ts" :".js"}`);
 
 				if (fs.existsSync(newServicePath)) {
 					return inquirer.prompt([{
 						type: "confirm",
 						name: "sure",
-						message: "The file is exists! Overwrite?",
+						message: `The file ${newServicePath} is exists! Overwrite?`,
 						default: false
 					}]).then(({ sure }) => {
 						if (!sure)
@@ -92,14 +89,13 @@ function addService(opts) {
 		.then(() => {
 			const templatePath = _typescript ? path.join(__dirname, "typescript.service"):path.join(__dirname, "service.template");
 			const template = fs.readFileSync(templatePath, "utf8");
-
 			return new Promise( (resolve, reject) => {
 				render(template, values, async function (err, res) {
 					if (err)
 						return reject(err);
 
 					const { serviceFolder , serviceName  } = values;
-					const newServicePath =  path.join(serviceFolder, `${serviceName}.service${_typescript ?".ts" :".js"}`);
+					const newServicePath =  path.join(serviceFolder, `${serviceName.toLowerCase()}.service${_typescript ?".ts" :".js"}`);
 
 					console.log(`Create new service file to '${newServicePath}'...`);
 					fs.writeFileSync(path.resolve(`${newServicePath}`), res, "utf8");
@@ -111,4 +107,8 @@ function addService(opts) {
 
 		// Error handler
 		.catch(err => fail(err));
+}
+
+function capitalizeFirstLetter(string) {
+	return string[0].toUpperCase() + string.slice(1);
 }
