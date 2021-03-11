@@ -18,13 +18,14 @@ const templates = glob(path.join(__dirname, "*.template")).map(f => path.parse(f
  * Yargs command
  */
 module.exports = {
-	command: "create service <name>",
+	command: ["create service", "create service <name>"],
 	describe: `Create a Moleculer service (${templates.join(",")})`,
 	builder(yargs) {
 		yargs.options({
 			"typescript": {
 				describe: "Create service for typescript",
-				type: "boolean"
+				type: "boolean",
+				default: false
 			}
 		});
 	},
@@ -43,41 +44,52 @@ module.exports = {
 function addService(opts) {
 	let values = Object.assign({}, opts);
 	const _typescript = values.typescript ? true : false;
+	const [action, name] = values._;
 
 	return Promise.resolve()
 		.then(() => {
-			return inquirer.prompt([
-				{
-					type: "input",
-					name: "serviceFolder",
-					message: "Service directory",
-					default: "./services",
-					validate(input) {
-						if (!fs.existsSync(path.resolve(input)))
-							return `The '${input}' directory is not exists! Full path: ${path.resolve(input)}`;
+			const answers_options = [		{
+				type: "input",
+				name: "serviceFolder",
+				message: "Service directory",
+				default: "./services",
+				validate(input) {
+					if (!fs.existsSync(path.resolve(input)))
+						return `The '${input}' directory is not exists! Full path: ${path.resolve(input)}`;
 
-						return true;
-					}
-				},
-				{
+					return true;
+				}
+			}];
+
+
+			if(!name)
+				answers_options.push({
 					type: "input",
 					name: "serviceName",
 					message: "Service name",
-					default: "test"
-				}
-			]).then(answers => {
+					default: "test",
+					validate(input) {
+						if (!fs.existsSync(path.resolve(input)))
+							return `The file ${input} already exists! Full path: ${path.resolve(input)}`;
+						return true;
+					}
+				});
 
-				answers.serviceName = capitalizeFirstLetter(answers.serviceName);
+			return inquirer.prompt(answers_options).then(answers => {
+
+				answers.serviceName = capitalizeFirstLetter(answers.serviceName || name );
 
 				Object.assign(values, answers);
 				const { serviceFolder , serviceName  } = values;
+				const file_name = `${serviceName.toLowerCase()}.service${_typescript ?".ts" :".js"}`;
 				const newServicePath =  path.join(serviceFolder, `${serviceName.toLowerCase()}.service${_typescript ?".ts" :".js"}`);
 
 				if (fs.existsSync(newServicePath)) {
+					console.log("file_name",file_name);
 					return inquirer.prompt([{
 						type: "confirm",
 						name: "sure",
-						message: `The file ${newServicePath} is exists! Overwrite?`,
+						message: `The file ${file_name} already exists! Do you wanna overwrite it?`,
 						default: false
 					}]).then(({ sure }) => {
 						if (!sure)
