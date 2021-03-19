@@ -74,8 +74,9 @@ function addService(opts) {
 				});
 
 			return inquirer.prompt(answers_options).then(answers => {
-
+				answers.name = answers.serviceName
 				answers.serviceName = capitalizeFirstLetter(answers.serviceName || name );
+
 
 				Object.assign(values, answers);
 				const { serviceFolder , serviceName  } = values;
