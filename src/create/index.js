@@ -9,6 +9,7 @@ const path = require("path");
 const inquirer = require("inquirer");
 const render = require("consolidate").handlebars.render;
 const glob = require("glob").sync;
+var ui = new inquirer.ui.BottomBar();
 
 const { fail } = require("../utils");
 
@@ -53,12 +54,14 @@ function addService(opts) {
 				name: "serviceFolder",
 				message: "Service directory",
 				default: "./services",
-				validate(input) {
-					if (!fs.existsSync(path.resolve(input)))
-						return `The '${input}' directory is not exists! Full path: ${path.resolve(input)}`;
-
-					return true;
+				async validate(input) {
+					if (!fs.existsSync(path.resolve(input))){
+							ui.log.write(`The  ${input} doesn't exists! Do you want be create it?`)
+							fail("Aborted");
+					}
+					return true
 				}
+
 			}];
 
 
@@ -67,12 +70,7 @@ function addService(opts) {
 					type: "input",
 					name: "serviceName",
 					message: "Service name",
-					default: "test",
-					validate(input) {
-						if (!fs.existsSync(path.resolve(input)))
-							return `The file ${input} already exists! Full path: ${path.resolve(input)}`;
-						return true;
-					}
+					default: "test"
 				});
 
 			return inquirer.prompt(answers_options).then(answers => {
@@ -85,11 +83,10 @@ function addService(opts) {
 				const newServicePath =  path.join(serviceFolder, `${serviceName.toLowerCase()}.service${_typescript ?".ts" :".js"}`);
 
 				if (fs.existsSync(newServicePath)) {
-					console.log("file_name",file_name);
 					return inquirer.prompt([{
 						type: "confirm",
 						name: "sure",
-						message: `The file ${file_name} already exists! Do you wanna overwrite it?`,
+						message: `The file ${file_name} already exists! Do you want be overwrite it?`,
 						default: false
 					}]).then(({ sure }) => {
 						if (!sure)
