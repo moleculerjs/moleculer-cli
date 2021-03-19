@@ -56,7 +56,7 @@ function addService(opts) {
 				default: "./services",
 				async validate(input) {
 					if (!fs.existsSync(path.resolve(input))){
-							ui.log.write(`The  ${input} doesn't exists! Do you want be create it?`)
+							ui.log.write(`The  ${input} doesn't exists!`)
 							fail("Aborted");
 					}
 					return true
@@ -86,7 +86,7 @@ function addService(opts) {
 					return inquirer.prompt([{
 						type: "confirm",
 						name: "sure",
-						message: `The file ${file_name} already exists! Do you want be overwrite it?`,
+						message: `The file ${file_name} already exists! Do you want to overwrite it?`,
 						default: false
 					}]).then(({ sure }) => {
 						if (!sure)
