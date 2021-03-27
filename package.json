@@ -48,7 +48,8 @@
     "eslint-plugin-security": "^1.4.0",
     "jest": "^25.3.0",
     "jest-cli": "^25.3.0",
-    "npm-check": "^5.9.2"
+    "npm-check": "^5.9.2",
+    "yargs-promise": "^1.1.0"
   },
   "repository": {
     "type": "git",
