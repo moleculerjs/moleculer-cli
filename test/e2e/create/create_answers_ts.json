@@ -1,0 +1,5 @@
+{
+	"serviceFolder": "./test",
+	"serviceName": "ola",
+	"typescript": true
+}
