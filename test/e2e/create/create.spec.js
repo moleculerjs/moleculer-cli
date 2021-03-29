@@ -9,7 +9,7 @@ const answers_ts = require("./create_answers_ts.json");
 
 describe("test create",()=>{
 
-	it("should equal test",async  (done) => {
+	it("create js service",async  (done) => {
 
 		const file = fs.realpathSync(path.join(__dirname,"..","..",".."));
 		const _path = `${file}/${answers.serviceFolder}/${answers.serviceName}.service.js`;
