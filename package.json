@@ -27,7 +27,7 @@
     "handlebars": "^4.7.6",
     "inquirer": "^7.1.0",
     "kleur": "^3.0.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "metalsmith": "^2.3.0",
     "minimatch": "^3.0.4",
     "mkdirp": "^1.0.4",
