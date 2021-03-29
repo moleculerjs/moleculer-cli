@@ -1,6 +1,6 @@
 /*
  * moleculer-cli
- * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2021 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
 
@@ -9,7 +9,7 @@ const path = require("path");
 const inquirer = require("inquirer");
 const render = require("consolidate").handlebars.render;
 const glob = require("glob").sync;
-var ui = new inquirer.ui.BottomBar();
+const ui = new inquirer.ui.BottomBar();
 
 const { fail } = require("../utils");
 
@@ -45,21 +45,21 @@ module.exports = {
 function addService(opts) {
 	let values = Object.assign({}, opts);
 	const _typescript = values.typescript ? true : false;
-	const [action, name] = values._;
+	const [name] = values._;
 
 	return Promise.resolve()
 		.then(() => {
-			const answers_options = [		{
+			const answers_options = [{
 				type: "input",
 				name: "serviceFolder",
 				message: "Service directory",
 				default: "./services",
 				async validate(input) {
 					if (!fs.existsSync(path.resolve(input))){
-							ui.log.write(`The  ${input} doesn't exists!`)
-							fail("Aborted");
+						ui.log.write(`The  ${input} doesn't exists!`);
+						fail("Aborted");
 					}
-					return true
+					return true;
 				}
 
 			}];
@@ -74,9 +74,13 @@ function addService(opts) {
 				});
 
 			return inquirer.prompt(answers_options).then(answers => {
-				answers.name = answers.serviceName
-				answers.serviceName = capitalizeFirstLetter(answers.serviceName || name );
+				answers.name = answers.serviceName;
+				answers.serviceName = answers.serviceName || name ;
+				answers.serviceName = answers.serviceName.replace(/[^\w\s]/gi, "-");
 
+				answers.className = answers.serviceName.replace(/(\w)(\w*)/g,
+					function(g0,g1,g2){ return g1.toUpperCase() + g2.toLowerCase();})
+					.replace(/[^\w\s]/gi, "");
 
 				Object.assign(values, answers);
 				const { serviceFolder , serviceName  } = values;
@@ -97,6 +101,7 @@ function addService(opts) {
 			});
 		})
 		.then(() => {
+
 			const templatePath = _typescript ? path.join(__dirname, "typescript.service"):path.join(__dirname, "service.template");
 			const template = fs.readFileSync(templatePath, "utf8");
 			return new Promise( (resolve, reject) => {
@@ -117,8 +122,4 @@ function addService(opts) {
 
 		// Error handler
 		.catch(err => fail(err));
-}
-
-function capitalizeFirstLetter(string) {
-	return string[0].toUpperCase() + string.slice(1);
 }

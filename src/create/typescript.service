@@ -2,7 +2,7 @@
 
 import { Service, ServiceBroker, Context } from "moleculer";
 
-export default class {{serviceName}}Service extends Service {
+export default class {{className}}Service extends Service {
 
 	public constructor(public broker: ServiceBroker) {
 		super(broker);
@@ -48,4 +48,3 @@ export default class {{serviceName}}Service extends Service {
 	}
 
 }
-

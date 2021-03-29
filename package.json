@@ -27,7 +27,7 @@
     "handlebars": "^4.7.6",
     "inquirer": "^7.1.0",
     "kleur": "^3.0.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "metalsmith": "^2.3.0",
     "minimatch": "^3.0.4",
     "mkdirp": "^1.0.4",
@@ -48,8 +48,7 @@
     "eslint-plugin-security": "^1.4.0",
     "jest": "^25.3.0",
     "jest-cli": "^25.3.0",
-    "npm-check": "^5.9.2",
-    "yargs-promise": "^1.1.0"
+    "npm-check": "^5.9.2"
   },
   "repository": {
     "type": "git",
