@@ -9,11 +9,14 @@ const answers_ts = require("./create_answers_ts.json");
 const file_mock = fs.realpathSync(path.join(__dirname));
 describe("test create",()=>{
 
-	it("create js service",async  (done) => {
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+	it("create js service",  (done) => {
 
 		const file = fs.realpathSync(path.join(__dirname,"..","..",".."));
 		const _path = `${file}/${answers.serviceFolder}/${answers.serviceName}.service.js`;
-		const _mock_file = `${file_mock}/${answers.serviceName}.service.js`
+		const _mock_file = `${file_mock}/${answers.serviceName}.service.js`;
 
 		jest.mock("inquirer");
 		inquirer.prompt = jest.fn().mockResolvedValue(answers);
@@ -24,22 +27,27 @@ describe("test create",()=>{
 			.help()
 			.argv;
 		const parser = new YargsPromise(yargs);
-		await parser.parse(`create ${answers.serviceName}`);
+		return  parser.parse(`create ${answers.serviceName}`)
+			.then(({data, argv}) => {
+				if(!fs.existsSync(_path))
+					done.fail("file not exist");
+				expect(fs.existsSync(_path)).toBeTruthy();
+				expect(fs.readFileSync(_path)).toEqual(fs.readFileSync(_mock_file));
+				fs.unlinkSync(_path);
+				done();
+			})
+			.catch(({error, argv}) => {
+				done.fail(error);
+			});
 
-		expect(fs.readFileSync(_path)).toEqual(fs.readFileSync(_mock_file))
-
-		expect(fs.existsSync(_path)).toBeTruthy();
-		fs.unlinkSync(_path);
-		jest.clearAllMocks();
-		done();
 	});
 
 
-	it("create ts service",async  (done) => {
+	it("create ts service",  (done) => {
 
 		const file = fs.realpathSync(path.join(__dirname,"..","..",".."));
 		const _path = `${file}/${answers_ts.serviceFolder}/${answers_ts.serviceName}.service.ts`;
-		const _mock_file = `${file_mock}/${answers.serviceName}.service.ts`
+		const _mock_file = `${file_mock}/${answers.serviceName}.service.ts`;
 
 		jest.mock("inquirer");
 
@@ -47,18 +55,24 @@ describe("test create",()=>{
 		yargs
 			.usage("Usage: $0 <command> [options]")
 			.version()
-			.command(create).default('--typescript',true)
+			.command(create).default("--typescript",true)
 			.help()
 			.argv;
 
 		const parser = new YargsPromise(yargs);
-		await parser.parse(`create service ${answers_ts.serviceName} --typescript `);
-		expect(fs.readFileSync(_path)).toEqual(fs.readFileSync(_mock_file))
+		return  parser.parse(`create service ${answers_ts.serviceName} --typescript `)
+			.then(({data, argv}) => {
+				if(!fs.existsSync(_path))
+					done.fail("file not exist");
+				expect(fs.existsSync(_path)).toBeTruthy();
+				expect(fs.readFileSync(_path)).toEqual(fs.readFileSync(_mock_file));
+				fs.unlinkSync(_path);
+				done();
+			})
+			.catch(({error, argv}) => {
+				done.fail(error);
+			});
 
-		expect(fs.existsSync(_path)).toBeTruthy();
-		fs.unlinkSync(_path);
-
-		done();
 	});
 
 });
