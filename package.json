@@ -7,7 +7,7 @@
     "deps": "npm-check -u",
     "lint": "eslint src/**/*.js -c .eslintrc.js",
     "dev:init": "node ./bin/moleculer init project tmp",
-    "test": "jest test/**/*.spec.js --detectOpenHandles --forceExit"
+    "test": "jest --config jest.config.js --detectOpenHandles --forceExit"
   },
   "bin": {
     "moleculer": "./bin/moleculer.js"
