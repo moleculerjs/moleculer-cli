@@ -3,14 +3,13 @@
 # Command line tool for Moleculer framework [![NPM version](https://img.shields.io/npm/v/moleculer-cli.svg)](https://www.npmjs.com/package/moleculer-cli)
 
 ## Features
-
--   initialize new projects from templates
--   connect to a system
--   start a local broker with REPL
+- initialize new projects from templates
+- connect to a system
+- start a local broker with REPL
 
 ## Install
 
-```bash
+``` bash
 npm install -g moleculer-cli
 ```
 
@@ -20,13 +19,13 @@ npm install -g moleculer-cli
 
 **Init a new project for a module**
 
-```bash
+``` bash
 moleculer init module my-module
 ```
 
 **Init a new Moleculer project**
 
-```bash
+``` bash
 moleculer init project my-first-project
 ```
 
@@ -36,7 +35,6 @@ moleculer init project my-first-project
 
 **Start a broker locally**
 This command starts a new ServiceBroker locally and switches to REPL mode.
-
 ```bash
 moleculer start
 ```
@@ -46,7 +44,7 @@ The following commands start a new ServiceBroker, connect to a transporter serve
 
 ```bash
 # With TCP transporter
-moleculer connect
+moleculer connect 
 
 # With NATS transporter (you need to install NATS lib globally with `npm i nats -g` command)
 moleculer connect nats://localhost:4222
@@ -59,23 +57,18 @@ moleculer connect mqtt://localhost
 ```
 
 ## Documentation
-
 Please read our [documentation on Moleculer site](http://moleculer.services/docs/moleculer-cli.html)
 
 ## Credits
-
-The `moleculer-cli` project `init` command is based on [vue-cli](https://github.com/vuejs/vue-cli) project.
+The `moleculer-cli` project `init` command is based on [vue-cli](https://github.com/vuejs/vue-cli) project. 
 
 ## Contribution
-
 Please send pull requests improving the usage and fixing bugs, improving documentation and providing better examples, or providing some testing, because these things are important.
 
 ## License
-
 Moleculer-cli is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 
 ## Contact
-
 Copyright (c) 2020 MoleculerJS
 
 [![@moleculerjs](https://img.shields.io/badge/github-moleculerjs-green.svg)](https://github.com/moleculerjs) [![@MoleculerJS](https://img.shields.io/badge/twitter-MoleculerJS-blue.svg)](https://twitter.com/MoleculerJS)

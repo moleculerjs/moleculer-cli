@@ -12,9 +12,6 @@ const glob = require("glob").sync;
 const ui = new inquirer.ui.BottomBar();
 const { fail } = require("../../utils");
 
-const templates = glob(path.join(__dirname, "*.template")).map(
-	(f) => path.parse(f).name
-);
 
 module.exports = async (opts) => {
 	const values = Object.assign({}, opts);
@@ -107,9 +104,6 @@ module.exports = async (opts) => {
 							}`
 						);
 
-						console.log(
-							`Create new service file to '${newServicePath}'...`
-						);
 						fs.writeFileSync(
 							path.resolve(`${newServicePath}`),
 							res,

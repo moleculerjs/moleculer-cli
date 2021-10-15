@@ -15,11 +15,7 @@ const os = require("os");
 
 module.exports = {
 	getTempDir(dir, clear) {
-		const tmp = path.join(
-			os.homedir(),
-			".moleculer-templates",
-			dir.replace(/[^a-zA-Z0-9]/g, "-")
-		);
+		const tmp = path.join(os.homedir(), ".moleculer-templates", dir.replace(/[^a-zA-Z0-9]/g, "-"));
 		if (fs.existsSync(tmp) && clear) {
 			rm(tmp);
 		}
@@ -29,7 +25,8 @@ module.exports = {
 
 	fail(msg) {
 		console.error(kleur.red().bold(msg));
-		if (msg instanceof Error) console.error(msg);
+		if (msg instanceof Error)
+			console.error(msg);
 
 		process.exit(1);
 	},
@@ -40,9 +37,7 @@ module.exports = {
 		try {
 			return fn(data);
 		} catch (e) {
-			console.error(
-				kleur.red("Error when evaluating filter condition: " + exp)
-			);
+			console.error(kleur.red("Error when evaluating filter condition: " + exp));
 		}
-	},
+	}
 };

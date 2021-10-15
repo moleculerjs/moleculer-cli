@@ -25,4 +25,5 @@ require("yargs")
 	.command(require("./../src/call"))
 	.command(require("./../src/emit"))
 	.command(require("./../src/alias-template"))
-	.help().argv;
+	.help()
+	.argv;

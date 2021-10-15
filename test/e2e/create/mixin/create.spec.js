@@ -6,12 +6,23 @@ const fs = require("fs");
 const create = require("../../../../src/create");
 const answers = require("./create_answers.json");
 const answers_ts = require("./create_answers_ts.json");
+const tmp =  path.resolve(__dirname, "../../../../tmp");
 
 describe("test create", () => {
+	beforeAll(() => {
+		if (!fs.existsSync(tmp)) {
+			fs.mkdirSync(tmp,{mode: 0o777});
+		}
+	});
 	afterEach(() => {
 		jest.clearAllMocks();
 	});
-	it("create js mixin", (done) => {
+
+	afterAll(() => {
+		fs.rmdirSync(tmp, {recursive: true});
+	});
+
+	it("create js mixin", () => {
 		const _path = `../../../../${answers.mixinFolder}/${answers.mixinName}.mixin.js`;
 		const pathAbsoluteFile = path.resolve(__dirname, _path);
 		const mockFileAbsolute = path.resolve(
@@ -31,7 +42,7 @@ describe("test create", () => {
 			.parse(`create mixin ${answers.mixinName}`)
 			.then(({ data, argv }) => {
 				if (!fs.existsSync(pathAbsoluteFile)) {
-					done.fail("file not exist");
+					throw new Error("file not exist");
 				}
 
 				expect(fs.existsSync(pathAbsoluteFile)).toBeTruthy();
@@ -40,14 +51,13 @@ describe("test create", () => {
 				);
 
 				fs.unlinkSync(pathAbsoluteFile);
-				done();
 			})
 			.catch(({ error, argv }) => {
-				done.fail(error);
+				throw new Error(error);
 			});
 	});
 
-	it("create ts mixin", (done) => {
+	it("create ts mixin", () => {
 		const _path = `../../../../${answers.mixinFolder}/${answers.mixinName}.mixin.ts`;
 		const pathAbsoluteFile = path.resolve(__dirname, _path);
 		const mockFileAbsolute = path.resolve(
@@ -69,7 +79,7 @@ describe("test create", () => {
 			.then(({ data, argv }) => {
 				if (!fs.existsSync(pathAbsoluteFile)) {
 					fs.unlinkSync(pathAbsoluteFile);
-					done.fail("file not exist");
+					throw new Error("file not exist");
 				}
 
 				expect(fs.existsSync(pathAbsoluteFile)).toBeTruthy();
@@ -77,12 +87,12 @@ describe("test create", () => {
 					fs.readFileSync(mockFileAbsolute)
 				);
 				fs.unlinkSync(pathAbsoluteFile);
-				done();
+			
 			})
 			.catch(({ error, argv }) => {
 				fs.unlinkSync(pathAbsoluteFile);
 
-				done.fail(error);
+				throw new Error(error);
 			});
 	});
 });

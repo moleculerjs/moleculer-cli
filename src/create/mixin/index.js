@@ -106,9 +106,6 @@ module.exports = async (opts) => {
 							}`
 						);
 
-						console.log(
-							`Create new mixin file to '${newMixinPath}'...`
-						);
 						fs.writeFileSync(
 							path.resolve(`${newMixinPath}`),
 							res,

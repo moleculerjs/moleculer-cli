@@ -4,5 +4,5 @@ module.exports = {
 	action(broker, args, helpers) {
 		console.log("Hi!");
 		return Promise.resolve();
-	},
+	}
 };

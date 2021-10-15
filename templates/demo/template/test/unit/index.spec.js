@@ -12,16 +12,16 @@ describe("Test MyService", () => {
 	});
 
 	it("should return with 'Hello Anonymous'", () => {
-		return broker.call("{{serviceName}}.test").then((res) => {
+		return broker.call("{{serviceName}}.test").then(res => {
 			expect(res).toBe("Hello Anonymous");
 		});
 	});
 
 	it("should return with 'Hello John'", () => {
-		return broker
-			.call("{{serviceName}}.test", { name: "John" })
-			.then((res) => {
-				expect(res).toBe("Hello John");
-			});
+		return broker.call("{{serviceName}}.test", { name: "John" }).then(res => {
+			expect(res).toBe("Hello John");
+		});
 	});
+
 });
+

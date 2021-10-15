@@ -6,12 +6,23 @@ const fs = require("fs");
 const create = require("../../../../src/create");
 const answers = require("./create_answers.json");
 const answers_ts = require("./create_answers_ts.json");
+const tmp =  path.resolve(__dirname, "../../../../tmp");
 
 describe("test create", () => {
+	beforeAll(() => {
+		if (!fs.existsSync(tmp)) {
+			fs.mkdirSync(tmp,{mode: 0o777});
+		}
+	});
 	afterEach(() => {
 		jest.clearAllMocks();
 	});
-	it("create js service", (done) => {
+
+	afterAll(() => {
+		fs.rmdirSync(tmp, {recursive: true});
+	});
+
+	it("create js service", () => {
 		const _path = `../../../../${answers.serviceFolder}/${answers.serviceName}.service.js`;
 		const pathAbsoluteFile = path.resolve(__dirname, _path);
 		const mockFileAbsolute = path.resolve(
@@ -29,9 +40,9 @@ describe("test create", () => {
 		const parser = new YargsPromise(yargs);
 		return parser
 			.parse(`create service ${answers.serviceName}`)
-			.then(({ data, argv }) => {
+			.then(() => {
 				if (!fs.existsSync(pathAbsoluteFile)) {
-					done.fail("file not exist");
+					throw new Error("file not exist");
 				}
 
 				expect(fs.existsSync(pathAbsoluteFile)).toBeTruthy();
@@ -39,14 +50,13 @@ describe("test create", () => {
 					fs.readFileSync(mockFileAbsolute)
 				);
 				fs.unlinkSync(pathAbsoluteFile);
-				done();
 			})
-			.catch(({ error, argv }) => {
-				done.fail(error);
+			.catch(({ error }) => {
+				throw new Error(error);
 			});
 	});
 
-	it("create ts service", (done) => {
+	it("create ts service", () => {
 		const _path = `../../../../${answers.serviceFolder}/${answers.serviceName}.service.ts`;
 		const pathAbsoluteFile = path.resolve(__dirname, _path);
 		const mockFileAbsolute = path.resolve(
@@ -67,7 +77,7 @@ describe("test create", () => {
 			.parse(`create service ${answers_ts.serviceName}`)
 			.then(({ data, argv }) => {
 				if (!fs.existsSync(pathAbsoluteFile)) {
-					done.fail("file not exist");
+					throw new Error("file not exist");
 				}
 
 				expect(fs.existsSync(pathAbsoluteFile)).toBeTruthy();
@@ -75,10 +85,9 @@ describe("test create", () => {
 					fs.readFileSync(mockFileAbsolute)
 				);
 				fs.unlinkSync(pathAbsoluteFile);
-				done();
 			})
 			.catch(({ error, argv }) => {
-				done.fail(error);
+				throw new Error(error);
 			});
 	});
 });

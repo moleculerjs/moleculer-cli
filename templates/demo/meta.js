@@ -2,7 +2,7 @@
 
 const exec = require("child_process").execSync;
 
-module.exports = function (values) {
+module.exports = function(values) {
 	return {
 		questions: [
 			{
@@ -11,18 +11,18 @@ module.exports = function (values) {
 				message: "Github username:",
 				default() {
 					return exec("git config --get user.name").toString().trim();
-				},
-			},
+				}
+			},		
 			{
 				type: "input",
 				name: "fullName",
 				message: "Your name:",
-				default: "MoleculerJS",
-			},
+				default: "MoleculerJS"
+			},		
 			{
 				type: "input",
 				name: "projectDescription",
-				message: "Project description:",
+				message: "Project description:"
 			},
 			{
 				type: "input",
@@ -30,12 +30,12 @@ module.exports = function (values) {
 				message: "Service name:",
 				default() {
 					return values.projectName.replace("moleculer-", "");
-				},
-			},
+				}
+			}
 		],
 
 		filters: {
-			".eslintrc.js": "eslint",
+			".eslintrc.js": "eslint"
 		},
 
 		metalsmith: {
@@ -49,7 +49,7 @@ module.exports = function (values) {
 
 			complete(metalsmith) {
 				console.log("Complete");
-			},
+			}
 		},
 
 		completeMessage: `
@@ -60,6 +60,6 @@ module.exports = function (values) {
 
 		npm run dev
 
-`,
+`
 	};
 };

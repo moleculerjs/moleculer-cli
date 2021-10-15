@@ -4,8 +4,6 @@
  * MIT Licensed
  */
 
-const path = require("path");
-const glob = require("glob").sync;
 const addMixin = require("./mixin");
 const addService = require("./service");
 
