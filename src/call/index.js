@@ -14,38 +14,39 @@ module.exports = {
 	describe: "Connect & call a service",
 	builder(yargs) {
 		yargs.options({
-			"config": {
+			config: {
 				alias: "c",
 				default: "",
 				describe: "Load configuration from a file",
-				type: "string"
+				type: "string",
 			},
-			"transporter": {
+			transporter: {
 				alias: "t",
 				default: null,
-				describe: "Transporter connection string (NATS, nats://127.0.0.1:4222, ...etc)",
-				type: "string"
+				describe:
+					"Transporter connection string (NATS, nats://127.0.0.1:4222, ...etc)",
+				type: "string",
 			},
-			"ns": {
+			ns: {
 				default: "",
 				describe: "Namespace",
-				type: "string"
+				type: "string",
 			},
-			"level": {
+			level: {
 				default: "silent",
 				describe: "Logging level",
-				type: "string"
+				type: "string",
 			},
-			"id": {
+			id: {
 				default: null,
 				describe: "NodeID",
-				type: "string"
+				type: "string",
 			},
-			"serializer": {
+			serializer: {
 				default: null,
 				describe: "Serializer",
-				type: "string"
-			}
+				type: "string",
+			},
 		});
 	},
 
@@ -57,11 +58,9 @@ module.exports = {
 			const params = {};
 			const meta = {};
 
-			Object.keys(opts).map(key => {
-				if (key.startsWith("@"))
-					params[key.slice(1)] = opts[key];
-				if (key.startsWith("#"))
-					meta[key.slice(1)] = opts[key];
+			Object.keys(opts).map((key) => {
+				if (key.startsWith("@")) params[key.slice(1)] = opts[key];
+				if (key.startsWith("#")) meta[key.slice(1)] = opts[key];
 			});
 
 			if (opts.level != "silent") {
@@ -73,9 +72,9 @@ module.exports = {
 			console.log(JSON.stringify(res, null, 4));
 
 			await broker.stop();
-		} catch(err) {
+		} catch (err) {
 			console.error("ERROR", err);
 			process.exit(1);
 		}
-	}
+	},
 };

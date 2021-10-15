@@ -10,11 +10,7 @@
 			"name": "Launch Program",
 			"program": "${workspaceRoot}\\bin\\moleculer.js",
 			"cwd": "${workspaceRoot}",
-			"args": [
-				"init",
-				"project",
-				"test-project"
-			],
+			"args": ["init", "project", "test-project"],
 			"console": "integratedTerminal"
 		}
 	]

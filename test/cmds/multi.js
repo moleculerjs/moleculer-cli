@@ -5,7 +5,7 @@ module.exports = [
 		action(broker, args, helpers) {
 			console.log("Hello!");
 			return Promise.resolve();
-		}
+		},
 	},
 	{
 		command: "bye",
@@ -13,6 +13,6 @@ module.exports = [
 		action(broker, args, helpers) {
 			console.log("Bye!");
 			return Promise.resolve();
-		}
-	}
+		},
+	},
 ];

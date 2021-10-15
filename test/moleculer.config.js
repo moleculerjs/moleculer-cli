@@ -5,8 +5,5 @@ module.exports = {
 	//serializer: "ProtoBuf",
 	transporter: "NATS",
 
-	replCommands: [
-		...require("./cmds/multi"),
-		require("./cmds/single"),
-	]
-}
+	replCommands: [...require("./cmds/multi"), require("./cmds/single")],
+};

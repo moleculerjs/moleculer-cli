@@ -7,15 +7,12 @@
 "use strict";
 
 module.exports = {
-
 	name: "{{serviceName}}",
 
 	/**
 	 * Default settings
 	 */
-	settings: {
-
-	},
+	settings: {},
 
 	/**
 	 * Actions
@@ -23,34 +20,26 @@ module.exports = {
 	actions: {
 		test(ctx) {
 			return "Hello " + (ctx.params.name || "Anonymous");
-		}
+		},
 	},
 
 	/**
 	 * Methods
 	 */
-	methods: {
-
-	},
+	methods: {},
 
 	/**
 	 * Service created lifecycle event handler
 	 */
-	created() {
-
-	},
+	created() {},
 
 	/**
 	 * Service started lifecycle event handler
 	 */
-	started() {
-
-	},
+	started() {},
 
 	/**
 	 * Service stopped lifecycle event handler
 	 */
-	stopped() {
-
-	}
+	stopped() {},
 };
