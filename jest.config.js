@@ -1,6 +1,6 @@
 module.exports = {
 	roots: [
-		'<rootDir>/test/',
+		"<rootDir>/test/",
 	],
-	testMatch: ['**/?(*.)+(spec).js']
+	testMatch: ["**/?(*.)+(spec).js"]
 };
