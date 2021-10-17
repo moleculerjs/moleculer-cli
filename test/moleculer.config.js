@@ -9,4 +9,4 @@ module.exports = {
 		...require("./cmds/multi"),
 		require("./cmds/single"),
 	]
-}
+};

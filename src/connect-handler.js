@@ -30,7 +30,8 @@ module.exports = async function handler(opts) {
 		});
 	}
 
-	const config = (opts.config ? loadConfigFile(opts.config) : null) || {};
+	const configFile = process.env.MOLECULER_CONFIG || opts.config;
+	const config = (configFile ? loadConfigFile(configFile) : null) || {};
 
 	if (config.logger === undefined)
 		config.logger = true;
