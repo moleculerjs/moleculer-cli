@@ -9,7 +9,6 @@ const path = require("path");
 const inquirer = require("inquirer");
 const render = require("consolidate").handlebars.render;
 const glob = require("glob").sync;
-const ui = new inquirer.ui.BottomBar();
 
 const { fail } = require("../utils");
 
@@ -56,7 +55,7 @@ function addService(opts) {
 				default: "./services",
 				async validate(input) {
 					if (!fs.existsSync(path.resolve(input))){
-						ui.log.write(`The  ${input} doesn't exists!`);
+						console.error(`Directory '${input}'' does not exist.`);
 						fail("Aborted");
 					}
 					return true;
