@@ -6,8 +6,7 @@
     "dev": "node ./bin/moleculer",
     "deps": "npm-check -u",
     "lint": "eslint src/**/*.js -c .eslintrc.js",
-    "dev:init": "node ./bin/moleculer init project tmp",
-    "test": "jest --config jest.config.js --detectOpenHandles --forceExit"
+    "dev:init": "node ./bin/moleculer init project tmp"
   },
   "bin": {
     "moleculer": "./bin/moleculer.js"
@@ -26,7 +25,7 @@
     "exeq": "^3.0.0",
     "glob": "^7.2.0",
     "handlebars": "^4.7.7",
-    "inquirer": "^7.1.0",
+    "inquirer": "^7.3.3",
     "kleur": "^4.1.4",
     "lodash": "^4.17.21",
     "metalsmith": "^2.3.0",
@@ -39,7 +38,7 @@
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
     "update-notifier": "^5.1.0",
-    "yargs": "^15.3.1"
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
     "coveralls": "^3.1.1",
@@ -47,10 +46,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-security": "^1.4.0",
-    "jest": "^27.2.5",
-    "jest-cli": "^27.2.5",
-    "npm-check": "^5.9.2",
-    "yargs-promise": "^1.1.0"
+    "jest": "^27.3.0",
+    "jest-cli": "^27.3.0",
+    "npm-check": "^5.9.2"
   },
   "repository": {
     "type": "git",
