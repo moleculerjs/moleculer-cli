@@ -11,7 +11,7 @@ const glob 			= require("glob");
  * 
  * @param {Object} opts Contains commands defined in the CLI
  * @param {string} opts.transporter Transporter configuration
- * @param {string} opts.connectionString String to connect
+ * @param {string} opts.connectionString Connection string
  * @param {boolean} opts.version Show version number
  * @param {boolean} opts.help Show help
  * @param {string} opts.config Location of the configuration file
@@ -70,8 +70,12 @@ module.exports = async function handler(opts) {
 		config.transporter = opts.connectionString;
 	else if (process.env.TRANSPORTER)
 		config.transporter = process.env.TRANSPORTER;
-	else if (config.nodeID === undefined && opts._[0] == "connect")
-		config.transporter = "TCP"; // TCP the default if no connection string
+	else if (config.nodeID === undefined && opts._[0] == "connect"){
+		if (!config.transporter) {
+			config.transporter = "TCP"; // TCP the default if no connection string
+		}
+	}
+		
 
 	if (opts.id)
 		config.nodeID = opts.id;
