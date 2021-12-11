@@ -6,6 +6,23 @@ const fs 			= require("fs");
 const path 			= require("path");
 const glob 			= require("glob");
 
+/**
+ * Creates an instance of ServiceBroker
+ * 
+ * @param {Object} opts Contains commands defined in the CLI
+ * @param {string} opts.transporter Transporter configuration
+ * @param {string} opts.connectionString String to connect
+ * @param {boolean} opts.version Show version number
+ * @param {boolean} opts.help Show help
+ * @param {string} opts.config Location of the configuration file
+ * @param {string} opts.ns Namespace
+ * @param {string} opts.level Logging level
+ * @param {string} opts.id Node ID
+ * @param {boolean} opts.hot enable hot reload
+ * @param {string} opts.serializer serializer
+ * @param {string} opts.commands Custom REPL command file mask (e.g.: ./commands/*.js)
+ * @returns {import('moleculer').ServiceBroker}
+ */
 module.exports = async function handler(opts) {
 	let replCommands;
 	if (opts.commands) {
@@ -31,6 +48,7 @@ module.exports = async function handler(opts) {
 	}
 
 	const configFile = process.env.MOLECULER_CONFIG || opts.config;
+	/** @type {import("moleculer").BrokerOptions} Service Broker config file*/
 	const config = (configFile ? loadConfigFile(configFile) : null) || {};
 
 	if (config.logger === undefined)
