@@ -1,3 +1,16 @@
+<a name="0.8.0"></a>
+# 0.8.0 (2021-01-08)
+
+## Breaking changes
+Updated `moleculer-repl` to 0.7.0. [Changelog](https://github.com/moleculerjs/moleculer-repl/releases/tag/v0.7.0)
+
+## Changes
+- update deps & audit fix
+- added typescript service file generator. [#36](https://github.com/moleculerjs/moleculer-cli/pull/36)
+- added test cases. [#42](https://github.com/moleculerjs/moleculer-cli/pull/42)
+- config filename configurable via `MOLECULER_CONFIG` environment variable.
+- fixed transporter issue in `connect` command. [#53](https://github.com/moleculerjs/moleculer-cli/pull/53)
+
 --------------------------------------------------
 <a name="0.7.1"></a>
 # 0.7.1 (2020-04-09)
