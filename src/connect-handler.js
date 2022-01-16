@@ -8,7 +8,7 @@ const glob 			= require("glob");
 
 /**
  * Creates an instance of ServiceBroker
- * 
+ *
  * @param {Object} opts Contains commands defined in the CLI
  * @param {string} opts.transporter Transporter configuration
  * @param {string} opts.connectionString Connection string
@@ -37,6 +37,8 @@ module.exports = async function handler(opts) {
 			console.log(`Load custom REPL commands from '${file}'...`);
 			try {
 				let cmd = require(path.resolve(file));
+				cmd = cmd.default != null && cmd.__esModule ? cmd.default : cmd;
+
 				if (!Array.isArray(cmd))
 					cmd = [cmd];
 
@@ -75,7 +77,7 @@ module.exports = async function handler(opts) {
 			config.transporter = "TCP"; // TCP the default if no connection string
 		}
 	}
-		
+
 
 	if (opts.id)
 		config.nodeID = opts.id;
@@ -114,7 +116,9 @@ function loadConfigFile(configFile) {
 			case ".ts":
 			case ".js": {
 				console.log(`Load broker configuration from '${filePath}'...`);
-				return require(filePath);
+				const content = require(filePath);
+				if (typeof content === "function") return content.call(this);
+				else return content.default != null && content.__esModule ? content.default : content;
 			}
 			default: throw new Error(`Not supported file extension: ${ext}`);
 		}
