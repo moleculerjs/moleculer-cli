@@ -36,7 +36,6 @@
     "moleculer-repl": "^0.7.0",
     "multimatch": "^4.0.0",
     "nats": "^2.4.0",
-    "request": "^2.88.2",
     "rimraf": "^3.0.2",
     "update-notifier": "^5.1.0",
     "yargs": "^15.4.1"
