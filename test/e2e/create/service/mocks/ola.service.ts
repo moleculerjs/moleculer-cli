@@ -3,11 +3,10 @@
 import { Service, ServiceBroker, Context } from "moleculer";
 
 export default class OlaService extends Service {
-
 	public constructor(public broker: ServiceBroker) {
 		super(broker);
 		this.parseServiceSchema({
-			name:"ola",
+			name: "ola",
 
 			/**
 			 * Service settings
@@ -28,23 +27,22 @@ export default class OlaService extends Service {
 			 * Actions
 			 */
 
-			actions:{
+			actions: {
 				/**
 				 * Test action
 				 */
 				test: {
-					async handler(ctx: Context<{name: string}>): Promise<string> {
+					async handler(
+						ctx: Context<{ name: string }>
+					): Promise<string> {
 						return this.ActionWelcome(ctx.params.name);
-					}
-				}
+					},
+				},
 			},
 		});
-
 	}
-
 
 	public ActionWelcome(name: string): string {
 		return `Welcome, ${name}`;
 	}
-
 }
