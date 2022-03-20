@@ -4,7 +4,6 @@
  * {{serviceName}} service
  */
 module.exports = {
-
 	name: "{{serviceName}}",
 
 	/**
@@ -27,13 +26,13 @@ module.exports = {
 	 */
 	actions: {
 		/**
-		* Test action
-		*/
+		 * Test action
+		 */
 		test: {
 			async handler(ctx) {
 				return "Hello Moleculer";
-			}
-		}
+			},
+		},
 	},
 
 	/**
@@ -42,34 +41,26 @@ module.exports = {
 	events: {
 		async "some.thing"(ctx) {
 			this.logger.info("Something happened", ctx.params);
-		}
+		},
 	},
 
 	/**
 	 * Methods
 	 */
-	methods: {
-
-	},
+	methods: {},
 
 	/**
 	 * Service created lifecycle event handler
 	 */
-	created() {
-
-	},
+	created() {},
 
 	/**
 	 * Service started lifecycle event handler
 	 */
-	async started() {
-
-	},
+	async started() {},
 
 	/**
 	 * Service stopped lifecycle event handler
 	 */
-	async stopped() {
-
-	}
+	async stopped() {},
 };

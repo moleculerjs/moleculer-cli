@@ -89,8 +89,8 @@ module.exports = async (opts) => {
 			})
 			.then(() => {
 				const templatePath = _typescript
-					? path.join(__dirname, "typescript.service")
-					: path.join(__dirname, "service.template");
+					? path.join(__dirname, "typescript.template")
+					: path.join(__dirname, "javascript.template");
 				const template = fs.readFileSync(templatePath, "utf8");
 				return new Promise((resolve, reject) => {
 					render(template, values, async function (err, res) {
