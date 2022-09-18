@@ -33,7 +33,7 @@
     "minimatch": "^3.0.4",
     "mkdirp": "^1.0.4",
     "moleculer": "^0.14.19",
-    "moleculer-repl": "^0.7.0",
+    "moleculer-repl": "^0.7.2",
     "multimatch": "^4.0.0",
     "nats": "^2.4.0",
     "rimraf": "^3.0.2",
