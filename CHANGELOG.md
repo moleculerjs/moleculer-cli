@@ -1,5 +1,16 @@
+<a name="0.8.1"></a>
+# 0.8.1 (2022-12-17)
+
+## What's Changed
+* Support export default syntax in typescript for loaded files by @bbmarkus in https://github.com/moleculerjs/moleculer-cli/pull/55
+* Remove a redundant `request` package #54 by @Leestex in https://github.com/moleculerjs/moleculer-cli/pull/57
+* feat: update struct for add others types on create method by @devalexandre in https://github.com/moleculerjs/moleculer-cli/pull/60
+* add raw-helper handlebars helper to init by @Karnith in https://github.com/moleculerjs/moleculer-cli/pull/64
+* update moleculer-repl ^0.7.0 -> ^0.7.2 by @disce-omnes in https://github.com/moleculerjs/moleculer-cli/pull/66
+
+--------------------------------------------------
 <a name="0.8.0"></a>
-# 0.8.0 (2021-01-08)
+# 0.8.0 (2022-01-08)
 
 ## Breaking changes
 Updated `moleculer-repl` to 0.7.0. [Changelog](https://github.com/moleculerjs/moleculer-repl/releases/tag/v0.7.0)
