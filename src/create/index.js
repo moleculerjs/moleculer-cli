@@ -6,17 +6,19 @@
 
 
 const addService = require("./service");
+const addMixin = require("./mixin");
 
 /**
  * Yargs command
  */
 module.exports = {
 	command: ["create", "<fileType>", "<name>"],
-	describe: `Create a Moleculer service `,
+	describe: `Create a Moleculer service or mixin `,
+	
 	builder(yargs) {
 		yargs.options({
 			typescript: {
-				describe: "Create service for typescript",
+				describe: "Create typescript file",
 				type: "boolean",
 				default: false,
 			},
@@ -27,6 +29,9 @@ module.exports = {
 		switch (fileType) {
 			case "service":
 				return addService(opts);
+		  
+			case "mixin":
+				return addMixin(opts);
 		}
 	},
 };
