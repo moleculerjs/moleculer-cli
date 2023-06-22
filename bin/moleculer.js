@@ -5,25 +5,30 @@
  * MIT Licensed
  */
 
-const updateNotifier = require("update-notifier");
 const pkg = require("../package.json");
+const yargs = require("yargs");
 
-updateNotifier({ pkg }).notify();
+async function init() {
+	const updateNotifier = (await import("update-notifier")).default;
 
-//console.log();
-process.on("exit", function () {
+	updateNotifier({ pkg }).notify();
+
 	//console.log();
-});
+	process.on("exit", function () {
+	//console.log();
+	});
 
-require("yargs")
-	.usage("Usage: $0 <command> [options]")
-	.version()
-	.command(require("./../src/init"))
-	.command(require("./../src/start"))
-	.command(require("./../src/create"))
-	.command(require("./../src/connect"))
-	.command(require("./../src/call"))
-	.command(require("./../src/emit"))
-	.command(require("./../src/alias-template"))
-	.help()
-	.argv;
+	yargs.usage("Usage: $0 <command> [options]")
+		.version()
+		.command(require("./../src/init"))
+		.command(require("./../src/start"))
+		.command(require("./../src/create"))
+		.command(require("./../src/connect"))
+		.command(require("./../src/call"))
+		.command(require("./../src/emit"))
+		.command(require("./../src/alias-template"))
+		.help()
+		.argv;
+}
+
+init();

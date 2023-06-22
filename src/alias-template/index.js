@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 
-const inquirer = require("inquirer");
+const inquirerModule = (async () => (await import("inquirer")).default)();
 const kleur = require("kleur");
 const { fail } = require("../utils");
 
@@ -24,7 +24,8 @@ let values = {
  *
  * @param {any} opts
  */
-function handler(opts) {
+async function handler(opts) {
+	const inquirer = await inquirerModule;
 	Object.assign(values, opts);
 
 	const configPath = path.join(os.homedir(), ".moleculer-templates.json");

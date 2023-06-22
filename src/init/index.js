@@ -16,8 +16,7 @@ const async = require("async");
 const mkdirp = require("mkdirp");
 const exeq = require("exeq");
 const download = require("download-git-repo");
-const inquirer = require("inquirer");
-const multimatch = require("multimatch");
+const inquirerModule = (async () => (await import("inquirer")).default)();
 const render = require("consolidate").handlebars.render;
 const Metalsmith = require("metalsmith");
 const Handlebars = require("handlebars");
@@ -77,7 +76,8 @@ Handlebars.registerHelper("raw-helper", (options) => options.fn());
  * @param {any} opts
  * @returns
  */
-function handler(opts) {
+async function handler(opts) {
+	const inquirer = await inquirerModule;
 	Object.assign(values, opts);
 
 	//console.log("Values:", values);
@@ -327,7 +327,8 @@ function filterFiles(filters) {
  * Render a template file with handlebars
  *
  */
-function renderTemplate(skipInterpolation) {
+async function renderTemplate(skipInterpolation) {
+	const multimatch = await import("multimatch");
 	skipInterpolation = typeof skipInterpolation === "string" ? [skipInterpolation] : skipInterpolation;
 	const handlebarsMatcher = /{{([^{}]+)}}/;
 
