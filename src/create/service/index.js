@@ -6,14 +6,13 @@
 
 const fs = require("fs");
 const path = require("path");
-const inquirer = require("inquirer");
+const inquirerModule = (async () => (await import("inquirer")).default)();
 const render = require("consolidate").handlebars.render;
-const glob = require("glob").sync;
-const ui = new inquirer.ui.BottomBar();
 const { fail } = require("../../utils");
 
-
 module.exports = async (opts) => {
+	const inquirer = await inquirerModule;
+	const ui = new inquirer.ui.BottomBar();
 	const values = Object.assign({}, opts);
 	const _typescript = values.typescript ? true : false;
 	const name = opts._[2];

@@ -16,7 +16,7 @@ const async = require("async");
 const mkdirp = require("mkdirp");
 const exeq = require("exeq");
 const download = require("download-git-repo");
-const inquirer = require("inquirer");
+const inquirerModule = (async () => (await import("inquirer")).default)();
 const multimatch = require("multimatch");
 const render = require("consolidate").handlebars.render;
 const Metalsmith = require("metalsmith");
@@ -77,7 +77,8 @@ Handlebars.registerHelper("raw-helper", (options) => options.fn());
  * @param {any} opts
  * @returns
  */
-function handler(opts) {
+async function handler(opts) {
+	const inquirer = await inquirerModule;
 	Object.assign(values, opts);
 
 	//console.log("Values:", values);
