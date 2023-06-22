@@ -17,7 +17,6 @@ const mkdirp = require("mkdirp");
 const exeq = require("exeq");
 const download = require("download-git-repo");
 const inquirerModule = (async () => (await import("inquirer")).default)();
-const multimatch = require("multimatch");
 const render = require("consolidate").handlebars.render;
 const Metalsmith = require("metalsmith");
 const Handlebars = require("handlebars");
@@ -328,7 +327,8 @@ function filterFiles(filters) {
  * Render a template file with handlebars
  *
  */
-function renderTemplate(skipInterpolation) {
+async function renderTemplate(skipInterpolation) {
+	const multimatch = await import("multimatch");
 	skipInterpolation = typeof skipInterpolation === "string" ? [skipInterpolation] : skipInterpolation;
 	const handlebarsMatcher = /{{([^{}]+)}}/;
 
