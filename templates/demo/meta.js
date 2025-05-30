@@ -12,13 +12,13 @@ module.exports = function(values) {
 				default() {
 					return exec("git config --get user.name").toString().trim();
 				}
-			},		
+			},
 			{
 				type: "input",
 				name: "fullName",
 				message: "Your name:",
 				default: "MoleculerJS"
-			},		
+			},
 			{
 				type: "input",
 				name: "projectDescription",

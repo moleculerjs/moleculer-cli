@@ -90,6 +90,7 @@ module.exports = {
 			console.log("OK");
 
 			await broker.stop();
+			process.exit(0);
 		} catch(err) {
 			console.error("ERROR", err);
 			process.exit(1);

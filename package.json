@@ -35,7 +35,6 @@
     "moleculer": "^0.14.19",
     "moleculer-repl": "^0.7.2",
     "multimatch": "^4.0.0",
-    "nats": "^2.4.0",
     "rimraf": "^3.0.2",
     "update-notifier": "^5.1.0",
     "yargs": "^15.4.1"
@@ -48,6 +47,7 @@
     "eslint-plugin-security": "^1.4.0",
     "jest": "^27.4.7",
     "jest-cli": "^27.4.7",
+    "nats": "^2.7.1",
     "yargs-promise": "^1.1.0"
   },
   "repository": {

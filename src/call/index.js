@@ -73,6 +73,7 @@ module.exports = {
 			console.log(JSON.stringify(res, null, 4));
 
 			await broker.stop();
+			return process.exit(0);
 		} catch(err) {
 			console.error("ERROR", err);
 			process.exit(1);
