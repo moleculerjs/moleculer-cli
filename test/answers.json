@@ -1,9 +1,16 @@
 {
-	"apiGW": true,
-	"needTransporter": true,
-	"transporter": "TCP",
-	"needCacher": false,
-	"docker": false,
-	"lint": true,
-	"jest": true
+    "apiGW": true,
+    "apiGQL": false,
+    "apiIO": false,
+    "needTransporter": true,
+    "transporter": "NATS",
+    "needCacher": true,
+    "cacher": "Memory",
+    "dbService": false,
+    "needChannels": false,
+    "channels": "Redis",
+    "metrics": true,
+    "tracing": true,
+    "docker": true,
+    "lint": true
 }

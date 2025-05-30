@@ -17,12 +17,15 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceRoot}\\bin\\moleculer.js",
+			"program": "${workspaceRoot}/bin/moleculer.js",
 			"cwd": "${workspaceRoot}",
 			"args": [
 				"init",
+				"--answers",
+				"test/answers.json",
+				"--no-install",
 				"project",
-				"test-project"
+				"tmp"
 			],
 			"console": "integratedTerminal"
 		}
