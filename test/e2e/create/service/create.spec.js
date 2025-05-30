@@ -1,6 +1,7 @@
 const YargsPromise = require("yargs-promise");
 const yargs = require("yargs");
 const inquirer = require("inquirer");
+const rm = require("rimraf").sync;
 const path = require("path");
 const fs = require("fs");
 const create = require("../../../../src/create");
@@ -19,7 +20,7 @@ describe("test create", () => {
 	});
 
 	afterAll(() => {
-		fs.rmdirSync(tmp, {recursive: true});
+		rm(tmp);
 	});
 
 	it("create js service", () => {
