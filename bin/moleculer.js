@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /* moleculer-cli
- * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2025 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
 

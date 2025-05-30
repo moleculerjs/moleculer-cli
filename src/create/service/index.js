@@ -1,6 +1,6 @@
 /*
  * moleculer-cli
- * Copyright (c) 2021 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2025 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
 
@@ -9,7 +9,6 @@ const path = require("path");
 const inquirer = require("inquirer");
 const render = require("consolidate").handlebars.render;
 const glob = require("glob").sync;
-const ui = new inquirer.ui.BottomBar();
 const { fail } = require("../../utils");
 
 
@@ -29,7 +28,7 @@ module.exports = async (opts) => {
 						default: "./services",
 						async validate(input) {
 							if (!fs.existsSync(path.resolve(input))) {
-								ui.log.write(`The  ${input} doesn't exists!`);
+								console.log(`The  ${input} doesn't exists!`);
 								fail("Aborted");
 							}
 							return true;
