@@ -1,6 +1,6 @@
 /*
  * moleculer-cli
- * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2025 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
 
@@ -14,34 +14,34 @@ module.exports = {
 	describe: "Connect & call a service",
 	builder(yargs) {
 		yargs.options({
-			"config": {
+			config: {
 				alias: "c",
 				default: "",
 				describe: "Load configuration from a file",
 				type: "string"
 			},
-			"transporter": {
+			transporter: {
 				alias: "t",
 				default: null,
 				describe: "Transporter connection string (NATS, nats://127.0.0.1:4222, ...etc)",
 				type: "string"
 			},
-			"ns": {
+			ns: {
 				default: "",
 				describe: "Namespace",
 				type: "string"
 			},
-			"level": {
+			level: {
 				default: "silent",
 				describe: "Logging level",
 				type: "string"
 			},
-			"id": {
+			id: {
 				default: null,
 				describe: "NodeID",
 				type: "string"
 			},
-			"serializer": {
+			serializer: {
 				default: null,
 				describe: "Serializer",
 				type: "string"
@@ -56,25 +56,26 @@ module.exports = {
 
 			const params = {};
 			const meta = {};
+			const headers = {};
 
 			Object.keys(opts).map(key => {
-				if (key.startsWith("@"))
-					params[key.slice(1)] = opts[key];
-				if (key.startsWith("#"))
-					meta[key.slice(1)] = opts[key];
+				if (key.startsWith("$")) params[key.slice(1)] = opts[key];
+				if (key.startsWith("#")) meta[key.slice(1)] = opts[key];
+				if (key.startsWith("@")) headers[key.slice(1)] = opts[key];
 			});
 
 			if (opts.level != "silent") {
 				console.log("Params:", params);
 				console.log("Meta:", meta);
+				console.log("Headers:", headers);
 			}
 
-			const res = await broker.call(opts.actionName, params, { meta });
+			const res = await broker.call(opts.actionName, params, { meta, headers });
 			console.log(JSON.stringify(res, null, 4));
 
 			await broker.stop();
 			return process.exit(0);
-		} catch(err) {
+		} catch (err) {
 			console.error("ERROR", err);
 			process.exit(1);
 		}

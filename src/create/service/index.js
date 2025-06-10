@@ -7,7 +7,7 @@
 const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
-const render = require("consolidate").handlebars.render;
+const render = require("@ladjs/consolidate").handlebars.render;
 const glob = require("glob").sync;
 const { fail } = require("../../utils");
 

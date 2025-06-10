@@ -1,6 +1,6 @@
 /*
  * moleculer-cli
- * Copyright (c) 2020 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2025 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  *
  * Based on [vue-cli](https://github.com/vuejs/vue-cli) project
@@ -18,7 +18,7 @@ const exeq = require("exeq");
 const download = require("download-git-repo");
 const inquirer = require("inquirer");
 const multimatch = require("multimatch");
-const render = require("consolidate").handlebars.render;
+const render = require("@ladjs/consolidate").handlebars.render;
 const Metalsmith = require("metalsmith");
 const Handlebars = require("handlebars");
 const match = require("minimatch");
