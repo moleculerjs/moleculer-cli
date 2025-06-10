@@ -12,16 +12,13 @@ const os = require("os");
 
 const _ = require("lodash");
 const kleur = require("kleur");
-const async = require("async");
-const mkdirp = require("mkdirp");
+const { mkdirp } = require("mkdirp");
 const exeq = require("exeq");
 const download = require("download-git-repo");
-const inquirer = require("inquirer");
-const multimatch = require("multimatch");
-const render = require("@ladjs/consolidate").handlebars.render;
+const Consolidate = require("@ladjs/consolidate");
 const Metalsmith = require("metalsmith");
 const Handlebars = require("handlebars");
-const match = require("minimatch");
+const { minimatch } = require("minimatch");
 const pkg = require("../../package.json");
 
 const { getTempDir, fail, evaluate } = require("../utils");
@@ -30,7 +27,7 @@ const { getTempDir, fail, evaluate } = require("../utils");
  * Yargs command
  */
 module.exports = {
-	command: "init <template-name> [project-name]",
+	command: "init <template-name> [project-name] [project-path]",
 	describe: "Create a Moleculer project from template",
 	builder(yargs) {
 		yargs.options({
@@ -82,242 +79,221 @@ Handlebars.registerHelper("raw-helper", options => options.fn());
  * @param {any} opts
  * @returns
  */
-function handler(opts) {
+async function handler(opts) {
 	Object.assign(values, opts);
-
-	//console.log("Values:", values);
 
 	let templateMeta;
 	let metalsmith;
 	let loadedAnswers;
+	let rendererLib = "handlebars";
 
-	return (
-		Promise.resolve()
+	const inquirer = (await import("inquirer")).default;
 
-			// Load answers
-			.then(() => {
-				if (opts.answers) {
-					loadedAnswers = require(path.resolve(opts.answers));
-					console.log("Loaded answers:", loadedAnswers);
-				}
-			})
-			// Resolve project name & folder
-			.then(() => {
-				values.inPlace = false;
-				if (!values.projectName || values.projectName === ".") {
-					values.inPlace = true;
-					values.projectName = path.relative("../", process.cwd());
-				}
-				values.projectPath = path.resolve(values.projectName);
-			})
-			// check for template mapping
-			.then(() => {
-				return new Promise((resolve, reject) => {
-					const configPath = path.join(os.homedir(), ".moleculer-templates.json");
-					fs.exists(configPath, configExists => {
-						if (configExists) {
-							fs.readFile(configPath, (err, config) => {
-								if (err) {
-									return reject(`Error reading config file from ${configPath}`);
-								}
-								values.aliasedTemplates = JSON.parse(config);
-								resolve();
-							});
-						} else {
-							resolve();
-						}
-					});
-				});
-			})
-			// Resolve template URL from name
-			.then(() => {
-				let { templateName, templateRepo, aliasedTemplates } = values;
-				if (aliasedTemplates[templateName]) {
-					templateName = aliasedTemplates[templateName];
-				}
+	const helpers = {
+		exec: exeq,
+		inquirer,
+		Handlebars
+	};
 
-				if (/^[./]|(^[a-zA-Z]:)/.test(templateName)) {
-					values.tmp = path.isAbsolute(templateName)
-						? templateName
-						: path.normalize(path.join(process.cwd(), templateName));
+	try {
+		// Load answers
+		if (opts.answers) {
+			loadedAnswers = require(path.resolve(opts.answers));
+			console.log("Loaded answers:", loadedAnswers);
+		}
 
-					console.log("Local template:", values.tmp);
-				} else {
-					if (templateName.indexOf("/") === -1) {
-						templateRepo = `moleculerjs/moleculer-template-${templateName}`;
+		// Resolve project name & folder
+		values.inPlace = false;
+		if (!values.projectName || values.projectName === ".") {
+			values.inPlace = true;
+			values.projectName = path.relative("../", process.cwd());
+		}
+		values.projectPath = values.projectPath ?? path.resolve(values.projectName);
+
+		// check for template mapping
+		const configPath = path.join(os.homedir(), ".moleculer-templates.json");
+		if (fs.existsSync(configPath)) {
+			try {
+				const config = await fs.promises.readFile(configPath);
+				values.aliasedTemplates = JSON.parse(config);
+			} catch {
+				throw new Error(`Error reading config file from ${configPath}`);
+			}
+		}
+
+		// Resolve template URL from name
+		let { templateName, templateRepo, aliasedTemplates } = values;
+		if (aliasedTemplates[templateName]) {
+			templateName = aliasedTemplates[templateName];
+		}
+
+		if (/^[./]|(^[a-zA-Z]:)/.test(templateName)) {
+			values.tmp = path.isAbsolute(templateName)
+				? templateName
+				: path.normalize(path.join(process.cwd(), templateName));
+
+			console.log("Local template:", values.tmp);
+		} else {
+			if (templateName.indexOf("/") === -1) {
+				templateRepo = `moleculerjs/moleculer-template-${templateName}`;
+			} else {
+				templateRepo = templateName;
+			}
+
+			values.templateRepo = templateRepo;
+			values.tmp = getTempDir(templateName, true);
+
+			console.log("Template repo:", templateRepo);
+		}
+
+		// Download template
+		if (values.templateRepo) {
+			await new Promise((resolve, reject) => {
+				console.log("Downloading template...");
+				download(values.templateRepo, values.tmp, {}, err => {
+					if (err) {
+						reject(`Failed to download repo from '${values.templateRepo}'!`);
 					} else {
-						templateRepo = templateName;
-					}
-
-					values.templateRepo = templateRepo;
-					values.tmp = getTempDir(templateName, true);
-
-					console.log("Template repo:", templateRepo);
-				}
-			})
-
-			// Download template
-			.then(() => {
-				if (values.templateRepo) {
-					return new Promise((resolve, reject) => {
-						console.log("Downloading template...");
-						download(values.templateRepo, values.tmp, {}, err => {
-							if (err)
-								return reject(
-									`Failed to download repo from '${values.templateRepo}'!`,
-									err
-								);
-
-							resolve();
-						});
-					});
-				}
-			})
-
-			// Prompt questions
-			.then(() => {
-				const { tmp } = values;
-				if (fs.existsSync(path.join(tmp, "meta.js"))) {
-					templateMeta = require(path.join(tmp, "meta.js"))(values);
-					if (loadedAnswers) {
-						Object.assign(values, loadedAnswers);
-					} else if (templateMeta.questions) {
-						return inquirer
-							.prompt(templateMeta.questions)
-							.then(answers => Object.assign(values, answers));
-					}
-				} else {
-					templateMeta = {};
-					if (loadedAnswers) {
-						Object.assign(values, loadedAnswers);
-					}
-				}
-			})
-
-			// Check target directory
-			.then(() => {
-				if (fs.existsSync(values.projectPath)) {
-					if (templateMeta.promptForProjectOverwrite === false) return;
-					return inquirer
-						.prompt([
-							{
-								type: "confirm",
-								name: "continue",
-								message: kleur
-									.yellow()
-									.bold(
-										`The '${values.projectName} directory is exists! Continue?`
-									),
-								default: false
-							}
-						])
-						.then(answers => {
-							if (!answers.continue) process.exit(0);
-						});
-				} else {
-					console.log(`Create '${values.projectName}' folder...`);
-					mkdirp(values.projectPath);
-				}
-			})
-
-			// Build template
-			.then(() => {
-				return new Promise((resolve, reject) => {
-					metalsmith = Metalsmith(values.tmp);
-					Object.assign(metalsmith.metadata(), values);
-
-					// Register custom template helpers
-					if (templateMeta.helpers)
-						Object.keys(templateMeta.helpers).map(key =>
-							Handlebars.registerHelper(key, templateMeta.helpers[key])
-						);
-
-					// metalsmith.before
-					if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before))
-						templateMeta.metalsmith.before.call(templateMeta, metalsmith);
-
-					metalsmith
-						.use(filterFiles(templateMeta.filters, templateMeta.skip))
-						.use(renderTemplate(templateMeta.skipInterpolation));
-
-					// metalsmith.after
-					if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.after))
-						templateMeta.metalsmith.after.call(templateMeta, metalsmith);
-
-					// Build
-					metalsmith
-						.clean(false)
-						.source(values.templateDir)
-						.destination(values.projectPath)
-						.build(err => {
-							if (err) return reject(err);
-
-							// metalsmith.complete
-							if (
-								templateMeta.metalsmith &&
-								_.isFunction(templateMeta.metalsmith.complete)
-							)
-								templateMeta.metalsmith.complete.call(templateMeta, metalsmith);
-
-							resolve();
-						});
-				});
-			})
-
-			// Run 'npm install'
-			.then(() => {
-				return Promise.resolve()
-					.then(() => {
-						if (opts.install != null) {
-							return opts;
-						}
-
-						return inquirer.prompt([
-							{
-								type: "confirm",
-								name: "install",
-								message: "Would you like to run 'npm install'?",
-								default: true
-							}
-						]);
-					})
-					.then(({ install }) => {
-						if (install) {
-							console.log("\nRunning 'npm install'...");
-							return exeq(["cd " + values.projectPath, "npm install"]);
-						}
-					});
-			})
-
-			// Show completeMessage
-			.then(() => {
-				return new Promise((resolve, reject) => {
-					if (templateMeta.completeMessage)
-						render(templateMeta.completeMessage, metalsmith.metadata(), (err, res) => {
-							if (err) return reject(err);
-
-							console.log(
-								kleur.green().bold(
-									"\n" +
-										res
-											.split(/\r?\n/g)
-											.map(line => "   " + line)
-											.join("\n")
-								)
-							);
-
-							resolve();
-						});
-					else {
-						console.log(kleur.green().bold("\nDone!"));
 						resolve();
 					}
 				});
-			})
+			});
+		}
 
-			// Error handler
-			.catch(err => fail(err))
-	);
+		// Prompt questions
+		const { tmp } = values;
+		if (fs.existsSync(path.join(tmp, "meta.js"))) {
+			templateMeta = require(path.join(tmp, "meta.js"))(values);
+			rendererLib = templateMeta.renderer || "handlebars";
+			if (loadedAnswers) {
+				Object.assign(values, loadedAnswers);
+			} else if (templateMeta.questions) {
+				const answers = await inquirer.prompt(templateMeta.questions);
+				Object.assign(values, answers);
+			}
+		} else {
+			templateMeta = {};
+			if (loadedAnswers) {
+				Object.assign(values, loadedAnswers);
+			}
+		}
+
+		// Check target directory
+		if (fs.existsSync(values.projectPath)) {
+			if (templateMeta.promptForProjectOverwrite === false) return;
+			const answers = await inquirer.prompt([
+				{
+					type: "confirm",
+					name: "continue",
+					message: kleur
+						.yellow()
+						.bold(`The '${values.projectName} directory is exists! Continue?`),
+					default: false
+				}
+			]);
+			if (!answers.continue) process.exit(0);
+		} else {
+			console.log(`Create '${values.projectName}' folder...`);
+			await mkdirp(values.projectPath);
+		}
+
+		const render = Consolidate[rendererLib]?.render;
+		if (!render) {
+			throw new Error(
+				`Renderer library '${rendererLib}' is not supported! Supported libraries: handlebars, nunjuck, ejs`
+			);
+		}
+		helpers.render = render;
+
+		// Build template
+		metalsmith = Metalsmith(values.tmp);
+		Object.assign(metalsmith.metadata(), values);
+
+		// Register custom template helpers
+		if (templateMeta.helpers) {
+			Object.keys(templateMeta.helpers).map(key =>
+				Handlebars.registerHelper(key, templateMeta.helpers[key])
+			);
+		}
+
+		// metalsmith.before
+		if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before)) {
+			await templateMeta.metalsmith.before.call(templateMeta, metalsmith, helpers);
+		}
+
+		await new Promise((resolve, reject) => {
+			metalsmith
+				.use(filterFiles(templateMeta.filters, templateMeta.skip))
+				.use(renderTemplate(render, templateMeta.skipInterpolation));
+
+			// Build
+			metalsmith
+				.clean(false)
+				.source(values.templateDir)
+				.destination(values.projectPath)
+				.build(err => {
+					if (err) return reject(err);
+
+					resolve();
+				});
+		});
+
+		// metalsmith.after
+		if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.after)) {
+			await templateMeta.metalsmith.after.call(templateMeta, metalsmith, helpers);
+		}
+
+		// Run 'npm install'
+		let install;
+		if (opts.install != null) {
+			install = opts.install;
+		} else {
+			const answer = await inquirer.prompt([
+				{
+					type: "confirm",
+					name: "install",
+					message: "Would you like to run 'npm install'?",
+					default: true
+				}
+			]);
+			install = answer.install;
+		}
+		if (install) {
+			console.log("\nRunning 'npm install'...");
+			await exeq(["cd " + values.projectPath, "npm install"]);
+			values.wasNpmInstall = true;
+		}
+
+		// metalsmith.complete
+		if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.complete)) {
+			await templateMeta.metalsmith.complete.call(templateMeta, metalsmith, helpers);
+		}
+
+		// Show completeMessage
+		if (templateMeta.completeMessage) {
+			await new Promise((resolve, reject) => {
+				render(templateMeta.completeMessage, metalsmith.metadata(), (err, res) => {
+					if (err) return reject(err);
+
+					console.log(
+						kleur.green().bold(
+							"\n" +
+								res
+									.split(/\r?\n/g)
+									.map(line => "   " + line)
+									.join("\n")
+						)
+					);
+
+					resolve();
+				});
+			});
+		} else {
+			console.log(kleur.green().bold("\nDone!"));
+		}
+	} catch (err) {
+		fail(err);
+	}
 }
 
 /**
@@ -335,7 +311,7 @@ function filterFiles(filters) {
 		const fileNames = Object.keys(files);
 		Object.keys(filters).forEach(glob => {
 			fileNames.forEach(file => {
-				if (match(file, glob, { dot: true })) {
+				if (minimatch(file, glob, { dot: true })) {
 					const condition = filters[glob];
 					if (!evaluate(condition, data)) {
 						delete files[file];
@@ -348,76 +324,64 @@ function filterFiles(filters) {
 }
 
 /**
- * Render a template file with handlebars
- *
+ * Render a template file
  */
-function renderTemplate(skipInterpolation) {
+function renderTemplate(render, skipInterpolation) {
 	skipInterpolation =
 		typeof skipInterpolation === "string" ? [skipInterpolation] : skipInterpolation;
 	const handlebarsMatcher = /{{([^{}]+)}}/;
 
-	return function (files, metalsmith, done) {
+	return async function (files, metalsmith, done) {
+		const multimatch = (await import("multimatch")).default;
+
 		const keys = Object.keys(files);
 		const metadata = metalsmith.metadata();
 
-		async.each(
-			keys,
-			(file, next) => {
+		try {
+			for (const file of keys) {
 				// skipping files with skipInterpolation option
 				if (
 					skipInterpolation &&
 					multimatch([file], skipInterpolation, { dot: true }).length
 				) {
-					return next();
+					continue;
 				}
 
-				async.series(
-					[
-						// interpolate the file contents
-						function (callback) {
-							const str = files[file].contents.toString();
-							if (!handlebarsMatcher.test(str)) {
-								return callback();
+				// interpolate the file contents
+				const str = files[file].contents.toString();
+				await new Promise((resolve, reject) => {
+					render(str, metadata, function (err, res) {
+						if (err) return reject(err);
+						files[file].contents = Buffer.from(res);
+						resolve();
+					});
+				});
+
+				// interpolate the file name
+				if (handlebarsMatcher.test(file)) {
+					await new Promise((resolve, reject) => {
+						render(file, metadata, function (err, res) {
+							if (err) return reject(err);
+							// safety check to prevent file deletion in case filename doesn't change
+							if (file === res) return resolve();
+							// safety check to prevent overwriting another file
+							if (files[res]) {
+								return reject(
+									`Cannot rename file ${file} to ${res}. A file with that name already exists.`
+								);
 							}
-
-							render(str, metadata, function (err, res) {
-								if (err) return callback(err);
-								files[file].contents = Buffer.from(res);
-								callback();
-							});
-						},
-
-						// interpolate the file name
-						function (callback) {
-							if (!handlebarsMatcher.test(file)) {
-								return callback();
-							}
-
-							render(file, metadata, function (err, res) {
-								if (err) return callback(err);
-								// safety check to prevent file deletion in case filename doesn't change
-								if (file === res) return callback();
-								// safety check to prevent overwriting another file
-								if (files[res])
-									return callback(
-										`Cannot rename file ${file} to ${res}. A file with that name already exists.`
-									);
-
-								// add entry for interpolated file name
-								files[res] = files[file];
-								// delete entry for template file name
-								delete files[file];
-								callback();
-							});
-						}
-					],
-					function (err) {
-						if (err) return done(err);
-						next();
-					}
-				);
-			},
-			done
-		);
+							// add entry for interpolated file name
+							files[res] = files[file];
+							// delete entry for template file name
+							delete files[file];
+							resolve();
+						});
+					});
+				}
+			}
+			done();
+		} catch (err) {
+			done(err);
+		}
 	};
 }

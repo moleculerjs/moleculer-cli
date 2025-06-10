@@ -7,7 +7,7 @@
     "deps": "ncu -i && npm audit fix",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "dev:init": "rimraf tmp && node ./bin/moleculer init project tmp",
+    "dev:init": "rimraf c:/tmp/cli-demo && node ./bin/moleculer init ./templates/demo c:/tmp/cli-demo",
     "dev:init:answer": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",
     "test:init": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",
     "test:create": "jest --config jest.config.js --detectOpenHandles --forceExit",

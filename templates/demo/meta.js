@@ -39,15 +39,15 @@ module.exports = function (values) {
 		},
 
 		metalsmith: {
-			before(metalsmith) {
+			async before(metalsmith, helpers) {
 				console.log("Before");
 			},
 
-			after(metalsmith) {
+			async after(metalsmith, helpers) {
 				console.log("After");
 			},
 
-			complete(metalsmith) {
+			async complete(metalsmith, helpers) {
 				console.log("Complete");
 			}
 		},

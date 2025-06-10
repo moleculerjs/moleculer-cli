@@ -24,11 +24,7 @@ module.exports = defineConfig([
 				...Object.fromEntries(Object.entries(globals.jquery).map(([key]) => [key, "off"])),
 				...globals.jest,
 				...globals.jasmine
-			},
-
-			sourceType: "module",
-			ecmaVersion: 2018,
-			parserOptions: {}
+			}
 		},
 
 		extends: compat.extends(
