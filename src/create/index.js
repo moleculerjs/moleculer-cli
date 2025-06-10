@@ -4,7 +4,6 @@
  * MIT Licensed
  */
 
-
 const addService = require("./service");
 
 /**
@@ -12,14 +11,14 @@ const addService = require("./service");
  */
 module.exports = {
 	command: ["create", "<fileType>", "<name>"],
-	describe: `Create a Moleculer service `,
+	describe: "Create a Moleculer service ",
 	builder(yargs) {
 		yargs.options({
 			typescript: {
 				describe: "Create service for typescript",
 				type: "boolean",
-				default: false,
-			},
+				default: false
+			}
 		});
 	},
 	handler(opts) {
@@ -28,5 +27,5 @@ module.exports = {
 			case "service":
 				return addService(opts);
 		}
-	},
+	}
 };

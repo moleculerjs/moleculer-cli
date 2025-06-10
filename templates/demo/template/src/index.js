@@ -7,15 +7,12 @@
 "use strict";
 
 module.exports = {
-
 	name: "{{serviceName}}",
 
 	/**
 	 * Default settings
 	 */
-	settings: {
-
-	},
+	settings: {},
 
 	/**
 	 * Actions
@@ -29,28 +26,20 @@ module.exports = {
 	/**
 	 * Methods
 	 */
-	methods: {
-
-	},
+	methods: {},
 
 	/**
 	 * Service created lifecycle event handler
 	 */
-	created() {
-
-	},
+	created() {},
 
 	/**
 	 * Service started lifecycle event handler
 	 */
-	started() {
-
-	},
+	started() {},
 
 	/**
 	 * Service stopped lifecycle event handler
 	 */
-	stopped() {
-
-	}
+	stopped() {}
 };

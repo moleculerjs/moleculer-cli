@@ -22,6 +22,4 @@ describe("Test MyService", () => {
 			expect(res).toBe("Hello John");
 		});
 	});
-
 });
-

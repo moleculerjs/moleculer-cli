@@ -14,34 +14,34 @@ module.exports = {
 	describe: "Start a Moleculer broker locally",
 	builder(yargs) {
 		yargs.options({
-			"config": {
+			config: {
 				alias: "c",
 				default: "",
 				describe: "Load configuration from a file",
 				type: "string"
 			},
-			"ns": {
+			ns: {
 				default: "",
 				describe: "Namespace",
 				type: "string"
 			},
-			"level": {
+			level: {
 				default: "info",
 				describe: "Logging level",
 				type: "string"
 			},
-			"id": {
+			id: {
 				default: null,
 				describe: "NodeID",
 				type: "string"
 			},
-			"hot": {
+			hot: {
 				alias: "h",
 				default: false,
 				describe: "Enable hot-reload",
 				type: "boolean"
 			},
-			"commands": {
+			commands: {
 				default: null,
 				describe: "Custom REPL command file mask (e.g.: ./commands/*.js)",
 				type: "string"
@@ -54,5 +54,3 @@ module.exports = {
 		broker.repl();
 	}
 };
-
-

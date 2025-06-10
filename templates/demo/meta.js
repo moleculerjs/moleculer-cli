@@ -2,7 +2,7 @@
 
 const exec = require("child_process").execSync;
 
-module.exports = function(values) {
+module.exports = function (values) {
 	return {
 		questions: [
 			{

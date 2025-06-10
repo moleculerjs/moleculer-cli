@@ -11,8 +11,7 @@ const render = require("@ladjs/consolidate").handlebars.render;
 const glob = require("glob").sync;
 const { fail } = require("../../utils");
 
-
-module.exports = async (opts) => {
+module.exports = async opts => {
 	const values = Object.assign({}, opts);
 	const _typescript = values.typescript ? true : false;
 	const name = opts._[2];
@@ -32,8 +31,8 @@ module.exports = async (opts) => {
 								fail("Aborted");
 							}
 							return true;
-						},
-					},
+						}
+					}
 				];
 
 				if (!name)
@@ -41,16 +40,13 @@ module.exports = async (opts) => {
 						type: "input",
 						name: "serviceName",
 						message: "Service name",
-						default: "test",
+						default: "test"
 					});
 
-				return inquirer.prompt(answers_options).then((answers) => {
+				return inquirer.prompt(answers_options).then(answers => {
 					answers.name = answers.serviceName;
 					answers.serviceName = answers.serviceName || name;
-					answers.serviceName = answers.serviceName.replace(
-						/[^\w\s]/gi,
-						"-"
-					);
+					answers.serviceName = answers.serviceName.replace(/[^\w\s]/gi, "-");
 
 					answers.className = answers.serviceName
 						.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
@@ -65,9 +61,7 @@ module.exports = async (opts) => {
 					}`;
 					const newServicePath = path.join(
 						serviceFolder,
-						`${serviceName.toLowerCase()}.service${
-							_typescript ? ".ts" : ".js"
-						}`
+						`${serviceName.toLowerCase()}.service${_typescript ? ".ts" : ".js"}`
 					);
 
 					if (fs.existsSync(newServicePath)) {
@@ -77,8 +71,8 @@ module.exports = async (opts) => {
 									type: "confirm",
 									name: "sure",
 									message: `The file ${file_name} already exists! Do you want to overwrite it?`,
-									default: false,
-								},
+									default: false
+								}
 							])
 							.then(({ sure }) => {
 								if (!sure) fail("Aborted");
@@ -98,16 +92,10 @@ module.exports = async (opts) => {
 						const { serviceFolder, serviceName } = values;
 						const newServicePath = path.join(
 							serviceFolder,
-							`${serviceName.toLowerCase()}.service${
-								_typescript ? ".ts" : ".js"
-							}`
+							`${serviceName.toLowerCase()}.service${_typescript ? ".ts" : ".js"}`
 						);
 
-						fs.writeFileSync(
-							path.resolve(`${newServicePath}`),
-							res,
-							"utf8"
-						);
+						fs.writeFileSync(path.resolve(`${newServicePath}`), res, "utf8");
 
 						resolve();
 					});
@@ -115,6 +103,6 @@ module.exports = async (opts) => {
 			})
 
 			// Error handler
-			.catch((err) => fail(err))
+			.catch(err => fail(err))
 	);
 };

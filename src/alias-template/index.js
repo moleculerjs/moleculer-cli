@@ -53,21 +53,30 @@ function handler(opts) {
 				const { templateName, aliasedTemplates } = values;
 				if (aliasedTemplates[templateName]) {
 					// if exists ask for overwrite
-					return inquirer.prompt([{
-						type: "confirm",
-						name: "continue",
-						message: kleur.yellow().bold(`The alias '${templateName}' already exists with value '${aliasedTemplates[templateName]}'! Overwrite?`),
-						default: false
-					}]).then(answers => {
-						if (!answers.continue)
-							process.exit(0);
-					});
+					return inquirer
+						.prompt([
+							{
+								type: "confirm",
+								name: "continue",
+								message: kleur
+									.yellow()
+									.bold(
+										`The alias '${templateName}' already exists with value '${aliasedTemplates[templateName]}'! Overwrite?`
+									),
+								default: false
+							}
+						])
+						.then(answers => {
+							if (!answers.continue) process.exit(0);
+						});
 				}
 			})
 			// write template name and repo url
 			.then(() => {
 				const { templateName, templateUrl, aliasedTemplates } = values;
-				const newAliases = JSON.stringify(Object.assign(aliasedTemplates, { [templateName]: templateUrl }));
+				const newAliases = JSON.stringify(
+					Object.assign(aliasedTemplates, { [templateName]: templateUrl })
+				);
 				fs.writeFileSync(configPath, newAliases);
 			})
 			.catch(err => fail(err))

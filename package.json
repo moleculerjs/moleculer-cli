@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "node ./bin/moleculer",
     "deps": "ncu -i && npm audit fix",
-    "lint": "eslint src/**/*.js -c .eslintrc.js",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "dev:init": "rimraf tmp && node ./bin/moleculer init project tmp",
     "dev:init:answer": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",
     "test:init": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",

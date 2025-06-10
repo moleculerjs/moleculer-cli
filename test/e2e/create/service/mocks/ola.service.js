@@ -31,8 +31,8 @@ module.exports = {
 		test: {
 			async handler(ctx) {
 				return "Hello Moleculer";
-			},
-		},
+			}
+		}
 	},
 
 	/**
@@ -41,7 +41,7 @@ module.exports = {
 	events: {
 		async "some.thing"(ctx) {
 			this.logger.info("Something happened", ctx.params);
-		},
+		}
 	},
 
 	/**
@@ -62,5 +62,5 @@ module.exports = {
 	/**
 	 * Service stopped lifecycle event handler
 	 */
-	async stopped() {},
+	async stopped() {}
 };
