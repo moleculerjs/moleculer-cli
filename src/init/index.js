@@ -286,23 +286,16 @@ async function handler(opts) {
 
 		// Show completeMessage
 		if (templateMeta.completeMessage) {
-			await new Promise((resolve, reject) => {
-				render(templateMeta.completeMessage, metalsmith.metadata(), (err, res) => {
-					if (err) return reject(err);
-
-					console.log(
-						kleur.green().bold(
-							"\n" +
-								res
-									.split(/\r?\n/g)
-									.map(line => "   " + line)
-									.join("\n")
-						)
-					);
-
-					resolve();
-				});
-			});
+			const res = await render(templateMeta.completeMessage, metalsmith.metadata());
+			console.log(
+				kleur.green().bold(
+					"\n" +
+						res
+							.split(/\r?\n/g)
+							.map(line => "   " + line)
+							.join("\n")
+				)
+			);
 		} else {
 			console.log(kleur.green().bold("\nDone!"));
 		}
@@ -364,34 +357,24 @@ function renderTemplate(render, { skipInterpolation }) {
 
 				// interpolate the file contents
 				const str = files[file].contents.toString();
-				await new Promise((resolve, reject) => {
-					render(str, metadata, function (err, res) {
-						if (err) return reject(err);
-						files[file].contents = Buffer.from(res);
-						resolve();
-					});
-				});
+				files[file].contents = Buffer.from(await render(str, metadata));
 
 				// interpolate the file name
 				if (handlebarsMatcher.test(file)) {
-					await new Promise((resolve, reject) => {
-						render(file, metadata, function (err, res) {
-							if (err) return reject(err);
-							// safety check to prevent file deletion in case filename doesn't change
-							if (file === res) return resolve();
-							// safety check to prevent overwriting another file
-							if (files[res]) {
-								return reject(
-									`Cannot rename file ${file} to ${res}. A file with that name already exists.`
-								);
-							}
-							// add entry for interpolated file name
-							files[res] = files[file];
-							// delete entry for template file name
-							delete files[file];
-							resolve();
-						});
-					});
+					const res = await render(file, metadata);
+					// safety check to prevent file deletion in case filename doesn't change
+					if (file !== res) {
+						// safety check to prevent overwriting another file
+						if (files[res]) {
+							throw new Error(
+								`Cannot rename file ${file} to ${res}. A file with that name already exists.`
+							);
+						}
+						// add entry for interpolated file name
+						files[res] = files[file];
+						// delete entry for template file name
+						delete files[file];
+					}
 				}
 			}
 			done();
