@@ -36,9 +36,9 @@ export default class {{className}}Service extends Service {
 						ctx: Context<{ name: string }>
 					): Promise<string> {
 						return this.ActionWelcome(ctx.params.name);
-					},
-				},
-			},
+					}
+				}
+			}
 		});
 	}
 

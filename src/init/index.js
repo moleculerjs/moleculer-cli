@@ -113,13 +113,13 @@ async function handler(opts) {
 		values.projectPath = values.projectPath ?? path.resolve(values.projectName);
 
 		// check for template mapping
-		const configPath = path.join(os.homedir(), ".moleculer-templates.json");
-		if (fs.existsSync(configPath)) {
+		const aliasesPath = path.join(os.homedir(), ".moleculer-templates.json");
+		if (fs.existsSync(aliasesPath)) {
 			try {
-				const config = await fs.promises.readFile(configPath);
-				values.aliasedTemplates = JSON.parse(config);
+				const aliases = await fs.promises.readFile(aliasesPath);
+				values.aliasedTemplates = JSON.parse(aliases);
 			} catch {
-				throw new Error(`Error reading config file from ${configPath}`);
+				throw new Error(`Error reading config file from ${aliasesPath}`);
 			}
 		}
 
@@ -182,18 +182,19 @@ async function handler(opts) {
 
 		// Check target directory
 		if (fs.existsSync(values.projectPath)) {
-			if (templateMeta.promptForProjectOverwrite === false) return;
-			const answers = await inquirer.prompt([
-				{
-					type: "confirm",
-					name: "continue",
-					message: kleur
-						.yellow()
-						.bold(`The '${values.projectName} directory is exists! Continue?`),
-					default: false
-				}
-			]);
-			if (!answers.continue) process.exit(0);
+			if (templateMeta.promptForProjectOverwrite !== false) {
+				const answers = await inquirer.prompt([
+					{
+						type: "confirm",
+						name: "continue",
+						message: kleur
+							.yellow()
+							.bold(`The '${values.projectName} directory is exists! Continue?`),
+						default: false
+					}
+				]);
+				if (!answers.continue) process.exit(0);
+			}
 		} else {
 			console.log(`Create '${values.projectName}' folder...`);
 			await mkdirp(values.projectPath);
@@ -201,10 +202,10 @@ async function handler(opts) {
 
 		// Install dependencies
 		if (templateMeta.dependencies) {
-			console.log("Installing dependencies...");
 			const deps = Object.entries(templateMeta.dependencies).map(
 				([name, version]) => `${name}@${version}`
 			);
+			console.log("Installing dependencies...", deps.join(" "));
 			await exeq(["npm install --no-save --legacy-peer-deps " + deps.join(" ")]);
 		}
 

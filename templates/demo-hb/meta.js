@@ -67,6 +67,8 @@ module.exports = function (values) {
 			}
 		},
 
+		// promptForProjectOverwrite: false,
+
 		completeMessage: `
 
   √  Created project '{{projectName}}'!

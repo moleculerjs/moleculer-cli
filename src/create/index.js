@@ -26,6 +26,10 @@ module.exports = {
 		switch (fileType) {
 			case "service":
 				return addService(opts);
+			default:
+				console.error(`Unknown file type: ${fileType}`);
+				console.error("Supported file types: service");
+				process.exit(1);
 		}
 	}
 };

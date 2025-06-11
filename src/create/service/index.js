@@ -6,15 +6,15 @@
 
 const fs = require("fs");
 const path = require("path");
-const inquirer = require("inquirer");
 const render = require("@ladjs/consolidate").handlebars.render;
-const glob = require("glob").sync;
 const { fail } = require("../../utils");
 
 module.exports = async opts => {
 	const values = Object.assign({}, opts);
 	const _typescript = values.typescript ? true : false;
 	const name = opts._[2];
+
+	const inquirer = (await import("inquirer")).default;
 
 	return (
 		Promise.resolve()

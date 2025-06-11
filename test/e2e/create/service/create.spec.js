@@ -1,6 +1,6 @@
 const YargsPromise = require("yargs-promise");
 const yargs = require("yargs");
-const inquirer = require("inquirer");
+const inquirerModule = (async () => (await import("inquirer")).default)();
 const rm = require("rimraf").sync;
 const path = require("path");
 const fs = require("fs");
@@ -8,6 +8,7 @@ const create = require("../../../../src/create");
 const answers = require("./create_answers.json");
 const answers_ts = require("./create_answers_ts.json");
 const tmp = path.resolve(__dirname, "../../../../tmp");
+let inquirer;
 
 describe("test create", () => {
 	beforeAll(() => {
@@ -15,6 +16,12 @@ describe("test create", () => {
 			fs.mkdirSync(tmp, { mode: 0o777 });
 		}
 	});
+	beforeEach(async () => {
+		jest.mock("inquirer");
+		inquirer = await inquirerModule;
+		inquirer.prompt = jest.fn().mockResolvedValue(answers);
+	});
+
 	afterEach(() => {
 		jest.clearAllMocks();
 	});
@@ -31,8 +38,6 @@ describe("test create", () => {
 			`./mocks/${answers.serviceName}.service.js`
 		);
 
-		jest.mock("inquirer");
-		inquirer.prompt = jest.fn().mockResolvedValue(answers);
 		yargs.usage("Usage: $0 <command> [options]").version().command(create).help().argv;
 		const parser = new YargsPromise(yargs);
 		return parser
@@ -61,8 +66,6 @@ describe("test create", () => {
 			`./mocks/${answers.serviceName}.service.ts`
 		);
 
-		jest.mock("inquirer");
-		inquirer.prompt = jest.fn().mockResolvedValue(answers);
 		yargs
 			.usage("Usage: $0 <command> [options]")
 			.version()

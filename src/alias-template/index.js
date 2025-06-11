@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 
-const inquirer = require("inquirer");
 const kleur = require("kleur");
 const { fail } = require("../utils");
 
@@ -24,61 +23,54 @@ let values = {
  *
  * @param {any} opts
  */
-function handler(opts) {
+async function handler(opts) {
 	Object.assign(values, opts);
 
 	const configPath = path.join(os.homedir(), ".moleculer-templates.json");
-	return (
-		Promise.resolve()
-			//check for existing template alias config file
-			.then(() => {
-				return new Promise((resolve, reject) => {
-					fs.exists(configPath, exists => {
-						if (exists) {
-							fs.readFile(configPath, (err, config) => {
-								if (err) {
-									reject();
-								}
-								values.aliasedTemplates = JSON.parse(config);
-								resolve();
-							});
-						} else {
-							resolve();
-						}
-					});
-				});
-			})
-			// check if template name already exists
-			.then(() => {
-				const { templateName, aliasedTemplates } = values;
-				if (aliasedTemplates[templateName]) {
-					// if exists ask for overwrite
-					return inquirer
-						.prompt([
-							{
-								type: "confirm",
-								name: "continue",
-								message: kleur
-									.yellow()
-									.bold(
-										`The alias '${templateName}' already exists with value '${aliasedTemplates[templateName]}'! Overwrite?`
-									),
-								default: false
-							}
-						])
-						.then(answers => {
-							if (!answers.continue) process.exit(0);
-						});
+
+	try {
+		// Check for existing template alias config file
+		if (fs.existsSync(configPath)) {
+			const config = await fs.promises.readFile(configPath);
+			values.aliasedTemplates = JSON.parse(config);
+		}
+
+		// Check if template name already exists
+		const { templateName, aliasedTemplates } = values;
+		if (aliasedTemplates[templateName]) {
+			const inquirer = (await import("inquirer")).default;
+
+			const answers = await inquirer.prompt([
+				{
+					type: "confirm",
+					name: "continue",
+					message: kleur
+						.yellow()
+						.bold(
+							`The alias '${templateName}' already exists with value '${aliasedTemplates[templateName]}'! Overwrite?`
+						),
+					default: false
 				}
-			})
-			// write template name and repo url
-			.then(() => {
-				const { templateName, templateUrl, aliasedTemplates } = values;
-				const newAliases = JSON.stringify(
-					Object.assign(aliasedTemplates, { [templateName]: templateUrl })
-				);
-				fs.writeFileSync(configPath, newAliases);
-			})
-			.catch(err => fail(err))
-	);
+			]);
+			if (!answers.continue) process.exit(0);
+		}
+
+		// Write template name and repo url
+		const { templateUrl } = values;
+		const newAliases = JSON.stringify(
+			Object.assign(aliasedTemplates, { [templateName]: templateUrl })
+		);
+
+		await fs.promises.writeFile(configPath, newAliases);
+
+		console.log(
+			kleur
+				.green()
+				.bold(
+					`Template alias '${templateName}' with value '${templateUrl}' has been saved!`
+				)
+		);
+	} catch (err) {
+		fail(err);
+	}
 }

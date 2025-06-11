@@ -10,6 +10,8 @@
     "dev:init:hb": "rimraf c:/tmp/cli-demo && node ./bin/moleculer init ./templates/demo-hb cli-demo c:/tmp/cli-demo",
     "dev:init:nj": "rimraf c:/tmp/cli-demo && node ./bin/moleculer init ./templates/demo-nj cli-demo c:/tmp/cli-demo",
     "dev:init:answer": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",
+    "dev:create": "node ./bin/moleculer create service asd",
+    "dev:alias": "node ./bin/moleculer alias-template p project",
     "test:init": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",
     "test:create": "jest --config jest.config.js --detectOpenHandles --forceExit",
     "test": "npm run test:init && npm run test:create"
