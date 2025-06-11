@@ -1,4 +1,5 @@
 {
 	"serviceFolder": "tmp",
-	"serviceName": "ola"
+	"serviceName": "ola",
+	"sure": true
 }

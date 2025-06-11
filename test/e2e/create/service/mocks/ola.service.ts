@@ -36,9 +36,9 @@ export default class OlaService extends Service {
 						ctx: Context<{ name: string }>
 					): Promise<string> {
 						return this.ActionWelcome(ctx.params.name);
-					},
-				},
-			},
+					}
+				}
+			}
 		});
 	}
 

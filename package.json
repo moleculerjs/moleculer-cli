@@ -13,7 +13,7 @@
     "dev:create": "node ./bin/moleculer create service asd",
     "dev:alias": "node ./bin/moleculer alias-template p project",
     "test:init": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",
-    "test:create": "jest --config jest.config.js --detectOpenHandles --forceExit",
+    "test:create": "vitest",
     "test": "npm run test:init && npm run test:create"
   },
   "bin": {
@@ -61,6 +61,7 @@
     "nats": "^2.29.3",
     "npm-check-updates": "^18.0.1",
     "prettier": "^3.5.3",
+    "vitest": "^3.2.3",
     "yargs-promise": "^1.1.0"
   },
   "repository": {
