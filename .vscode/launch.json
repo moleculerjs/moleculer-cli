@@ -13,7 +13,7 @@
 			"args": [
 				"init",
 				"--no-install",
-				"./templates/demo",
+				"./templates/demo-nj",
 				"cli-demo",
 				"c:/tmp/cli-demo"
 			],

@@ -31,24 +31,39 @@ module.exports = function (values) {
 				default() {
 					return values.projectName.replace("moleculer-", "");
 				}
+			},
+			{
+				type: "confirm",
+				name: "lint",
+				message: "Use ESLint to lint your code?",
+				default: true
 			}
 		],
 
 		filters: {
-			".eslintrc.js": "eslint"
+			".eslintrc.js": "lint"
 		},
 
 		metalsmith: {
 			async before(metalsmith, helpers) {
 				console.log("Before");
+				await new Promise(resolve => setTimeout(resolve, 1000));
 			},
 
 			async after(metalsmith, helpers) {
 				console.log("After");
+				await new Promise(resolve => setTimeout(resolve, 1000));
 			},
 
 			async complete(metalsmith, helpers) {
-				console.log("Complete");
+				console.log("Complete", values);
+				await new Promise(resolve => setTimeout(resolve, 1000));
+				if (values.lint && values.wasNpmInstall) {
+					console.log(
+						"Linting:",
+						await helpers.exec([`cd ${values.projectPath}`, "npm run lint:fix"])
+					);
+				}
 			}
 		},
 

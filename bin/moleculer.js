@@ -13,7 +13,6 @@ async function init() {
 
 	updateNotifier({ pkg }).notify();
 
-	//console.log();
 	process.on("exit", function () {
 		//console.log();
 	});

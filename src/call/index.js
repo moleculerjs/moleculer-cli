@@ -51,7 +51,7 @@ module.exports = {
 
 	async handler(opts) {
 		try {
-			//console.log(opts);
+			// console.log(opts);
 			const broker = await connectHandler(opts);
 
 			const params = {};
@@ -59,9 +59,9 @@ module.exports = {
 			const headers = {};
 
 			Object.keys(opts).map(key => {
-				if (key.startsWith("$")) params[key.slice(1)] = opts[key];
+				if (key.startsWith("@")) params[key.slice(1)] = opts[key];
 				if (key.startsWith("#")) meta[key.slice(1)] = opts[key];
-				if (key.startsWith("@")) headers[key.slice(1)] = opts[key];
+				// if (key.startsWith("@")) headers[key.slice(1)] = opts[key];
 			});
 
 			if (opts.level != "silent") {

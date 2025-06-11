@@ -92,7 +92,9 @@ async function handler(opts) {
 	const helpers = {
 		exec: exeq,
 		inquirer,
-		Handlebars
+		Handlebars,
+		Consolidate,
+		kleur
 	};
 
 	try {
@@ -197,6 +199,15 @@ async function handler(opts) {
 			await mkdirp(values.projectPath);
 		}
 
+		// Install dependencies
+		if (templateMeta.dependencies) {
+			console.log("Installing dependencies...");
+			const deps = Object.entries(templateMeta.dependencies).map(
+				([name, version]) => `${name}@${version}`
+			);
+			await exeq(["npm install --no-save --legacy-peer-deps " + deps.join(" ")]);
+		}
+
 		const render = Consolidate[rendererLib]?.render;
 		if (!render) {
 			throw new Error(
@@ -217,14 +228,17 @@ async function handler(opts) {
 		}
 
 		// metalsmith.before
-		if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.before)) {
+		if (_.isFunction(templateMeta.metalsmith?.before)) {
 			await templateMeta.metalsmith.before.call(templateMeta, metalsmith, helpers);
 		}
 
 		await new Promise((resolve, reject) => {
-			metalsmith
-				.use(filterFiles(templateMeta.filters, templateMeta.skip))
-				.use(renderTemplate(render, templateMeta.skipInterpolation));
+			metalsmith.use(filterFiles(templateMeta));
+			if (_.isFunction(templateMeta.metalsmith?.render)) {
+				metalsmith.use(templateMeta.metalsmith.render);
+			} else {
+				metalsmith.use(renderTemplate(render, templateMeta));
+			}
 
 			// Build
 			metalsmith
@@ -239,7 +253,7 @@ async function handler(opts) {
 		});
 
 		// metalsmith.after
-		if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.after)) {
+		if (_.isFunction(templateMeta.metalsmith?.after)) {
 			await templateMeta.metalsmith.after.call(templateMeta, metalsmith, helpers);
 		}
 
@@ -265,7 +279,7 @@ async function handler(opts) {
 		}
 
 		// metalsmith.complete
-		if (templateMeta.metalsmith && _.isFunction(templateMeta.metalsmith.complete)) {
+		if (_.isFunction(templateMeta.metalsmith?.complete)) {
 			await templateMeta.metalsmith.complete.call(templateMeta, metalsmith, helpers);
 		}
 
@@ -302,7 +316,7 @@ async function handler(opts) {
  * @param {Object?} filters
  * @returns
  */
-function filterFiles(filters) {
+function filterFiles({ filters }) {
 	return function (files, metalsmith, done) {
 		if (!filters) return done();
 
@@ -326,7 +340,7 @@ function filterFiles(filters) {
 /**
  * Render a template file
  */
-function renderTemplate(render, skipInterpolation) {
+function renderTemplate(render, { skipInterpolation }) {
 	skipInterpolation =
 		typeof skipInterpolation === "string" ? [skipInterpolation] : skipInterpolation;
 	const handlebarsMatcher = /{{([^{}]+)}}/;

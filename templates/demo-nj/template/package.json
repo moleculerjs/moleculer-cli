@@ -8,7 +8,7 @@
     "demow": "nodemon examples/index.js",
     "ci": "jest --watch",
     "test": "jest --coverage",
-    "lint": "eslint --ext=.js src test",
+    {% if lint %}"lint": "eslint --ext=.js src test",{% endif %}
     "deps": "npm-check -u",
     "coverall": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
@@ -25,7 +25,9 @@
   "devDependencies": {
     "benchmarkify": "2.1.0",
     "coveralls": "2.13.1",
+    {% if lint -%}
     "eslint": "3.19.0",
+    {%- endif %}
     "jest": "20.0.0",
     "jest-cli": "20.0.0",
     "lolex": "1.6.0",
