@@ -3,7 +3,7 @@ import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { execa } from "execa";
 import path from "node:path";
 
-const binPath = path.resolve(__dirname, "../../../bin/moleculer.js");
+const binPath = path.resolve(__dirname, "./bin/moleculer.js");
 
 describe("E2E: call command", () => {
 	const transporter = "NATS";
@@ -32,8 +32,8 @@ describe("E2E: call command", () => {
 
 		await broker.start();
 
-		console.log((await execa("ls")).stdout);
-		console.log((await execa("ls bin")).stdout);
+		console.log((await execa("ls -al")).stdout);
+		console.log((await execa("ls -al bin/")).stdout);
 	});
 
 	afterAll(async () => {
