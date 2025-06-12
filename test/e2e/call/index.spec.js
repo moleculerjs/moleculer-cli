@@ -33,7 +33,7 @@ describe("E2E: call command", () => {
 		await broker.start();
 
 		console.log((await execa("ls")).stdout);
-		console.log((await execa("ls '../../../bin'")).stdout);
+		console.log((await execa("ls bin")).stdout);
 	});
 
 	afterAll(async () => {
