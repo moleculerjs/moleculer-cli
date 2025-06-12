@@ -37,9 +37,22 @@ describe("E2E: connect command", () => {
 		await broker.stop();
 	});
 
+	let stdout = "";
+
+	async function waitFor(condition) {
+		if (typeof condition === "string") {
+			condition = [condition];
+		}
+		for (const cond of condition) {
+			await vi.waitFor(() => stdout.includes(cond) || Promise.reject(new Error()), {
+				timeout: 5000
+			});
+		}
+		stdout = "";
+	}
+
 	it("should connect to the broker", async () => {
 		const rs = new Stream.Readable({ read() {} });
-		let stdout = "";
 		new Promise(async () => {
 			for await (const line of execa({
 				input: rs
@@ -49,55 +62,29 @@ describe("E2E: connect command", () => {
 			}
 		});
 
-		await vi.waitFor(
-			() =>
-				stdout.includes("ServiceBroker with 1 service(s) started successfully") ||
-				Promise.reject(new Error()),
-			{ timeout: 5000 }
-		);
-		stdout = "";
+		await waitFor("ServiceBroker with 1 service(s) started successfully");
 
 		rs.push("nodes\n");
-		await vi.waitFor(() => stdout.includes("cli-client (*)") || Promise.reject(new Error()), {
-			timeout: 5000
-		});
-		await vi.waitFor(() => stdout.includes("cli-server") || Promise.reject(new Error()), {
-			timeout: 5000
-		});
-		stdout = "";
+		await waitFor(["cli-client (*)", "cli-server"]);
 
 		rs.push("call greeter.welcome --name Icebob\n");
-		await vi.waitFor(() => stdout.includes("Hello Icebob!") || Promise.reject(new Error()), {
-			timeout: 5000
-		});
-		stdout = "";
+		await waitFor("Hello Icebob!");
 
 		// Test the custom commands
 		rs.push("hello\n");
-		await vi.waitFor(() => stdout.includes("Hello!") || Promise.reject(new Error()), {
-			timeout: 5000
-		});
-		stdout = "";
+		await waitFor("Hello!");
 
 		// Test the custom commands
 		rs.push("hi\n");
-		await vi.waitFor(() => stdout.includes("Hi!") || Promise.reject(new Error()), {
-			timeout: 5000
-		});
-		stdout = "";
+		await waitFor("Hi!");
 
 		// Test the custom commands
 		rs.push("bye\n");
-		await vi.waitFor(() => stdout.includes("Bye!") || Promise.reject(new Error()), {
-			timeout: 5000
-		});
-		stdout = "";
+		await waitFor("Bye!");
 
 		rs.push("q\n");
 		rs.push(null);
-		await vi.waitFor(() => stdout.includes("Good bye.") || Promise.reject(new Error()), {
-			timeout: 5000
-		});
+		await waitFor("Good bye.");
 
 		expect(true).toBe(true);
 	});
