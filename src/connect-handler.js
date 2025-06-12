@@ -78,7 +78,7 @@ module.exports = async function handler(opts) {
 
 	if (opts.hot) config.hotReload = opts.hot;
 
-	if (replCommands) config.replCommands = replCommands;
+	if (replCommands) config.replOptions = { customCommands: replCommands };
 
 	const broker = new Moleculer.ServiceBroker(config);
 

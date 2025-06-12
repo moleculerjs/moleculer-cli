@@ -1,6 +1,6 @@
 /*
  * moleculer-cli
- * Copyright (c) 2021 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2025 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
 
@@ -10,7 +10,7 @@ const addService = require("./service");
  * Yargs command
  */
 module.exports = {
-	command: ["create", "<fileType>", "<name>"],
+	command: ["create", "<fileType>", "[name]"],
 	describe: "Create a Moleculer service ",
 	builder(yargs) {
 		yargs.options({
