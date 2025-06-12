@@ -1,8 +1,9 @@
 import { ServiceBroker } from "moleculer";
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { execa } from "execa";
+import path from "node:path";
 
-const binPath = "bin/moleculer.js";
+const binPath = path.resolve(__dirname, "../../../bin/moleculer.js");
 
 describe("E2E: call command", () => {
 	const transporter = "NATS";
