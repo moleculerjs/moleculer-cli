@@ -59,7 +59,8 @@ module.exports = defineConfig([
 			"security/detect-non-literal-require": ["off"],
 			"security/detect-non-literal-fs-filename": ["off"],
 			"no-process-exit": ["off"],
-			"node/no-unpublished-require": 0
+			"node/no-unpublished-require": 0,
+			"no-async-promise-executor": 0
 		}
 	}
 ]);
