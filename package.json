@@ -15,7 +15,7 @@
     "test:init": "rimraf tmp && node ./bin/moleculer init --answers test/demo-hb-answers.json --no-install ./templates/demo-hb tmp",
     "test:init:project": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",
     "ci": "vitest",
-    "test": "vitest --run --coverage"
+    "test": "vitest --run"
   },
   "bin": {
     "moleculer": "./bin/moleculer.js"

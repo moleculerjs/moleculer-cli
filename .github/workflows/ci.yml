@@ -35,6 +35,7 @@ jobs:
 
     - name: Execute tests
       run: npm test
+	  working-directory: ./
 
     - name: Stop containers
       run: docker compose down -v

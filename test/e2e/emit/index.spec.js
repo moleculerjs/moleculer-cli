@@ -6,7 +6,7 @@ const binPath = "bin/moleculer.js";
 
 describe("E2E: call command", () => {
 	const transporter = "NATS";
-	const ns = "test-call";
+	const ns = "test-emit";
 
 	let broker;
 	const eventHandler = vi.fn();
