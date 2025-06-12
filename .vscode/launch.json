@@ -13,9 +13,12 @@
 			"args": [
 				"init",
 				"--no-install",
-				"./templates/demo-nj",
+				"./templates/demo-hb",
 				"cli-demo",
-				"c:/tmp/cli-demo"
+				"c:/tmp/cli-demo",
+				"--@username=icebob",
+				"--@fullName=\"Ice Bob\"",
+				"--@lint=false"
 			],
 			"console": "integratedTerminal"
 		}

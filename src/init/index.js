@@ -90,6 +90,7 @@ async function handler(opts) {
 	const inquirer = (await import("inquirer")).default;
 
 	const helpers = {
+		_,
 		exec: exeq,
 		inquirer,
 		Handlebars,
@@ -102,6 +103,31 @@ async function handler(opts) {
 		if (opts.answers) {
 			loadedAnswers = require(path.resolve(opts.answers));
 			console.log("Loaded answers:", loadedAnswers);
+		} else {
+			// Load answers from CLI parameters
+			const hasAnswers = !!Object.keys(opts).find(key => key.startsWith("@"));
+			if (hasAnswers) {
+				loadedAnswers = {};
+				Object.entries(opts)
+					.filter(([key]) => key.startsWith("@"))
+					.forEach(([key, value]) => {
+						const name = key.slice(1);
+						if (!name) {
+							throw new Error(`Invalid answer key: ${name}`);
+						}
+
+						if (value === "true") {
+							value = true;
+						} else if (value === "false") {
+							value = false;
+						} else if (!Number.isNaN(Number(value))) {
+							value = Number(value);
+						}
+
+						loadedAnswers[name] = value;
+					});
+				console.log("Answers from CLI parameters:", loadedAnswers);
+			}
 		}
 
 		// Resolve project name & folder
@@ -196,7 +222,7 @@ async function handler(opts) {
 				if (!answers.continue) process.exit(0);
 			}
 		} else {
-			console.log(`Create '${values.projectName}' folder...`);
+			console.log(`Create '${values.projectPath}' folder...`);
 			await mkdirp(values.projectPath);
 		}
 
@@ -245,7 +271,11 @@ async function handler(opts) {
 			metalsmith
 				.clean(false)
 				.source(values.templateDir)
-				.destination(values.projectPath)
+				.destination(
+					path.isAbsolute(values.projectPath)
+						? values.projectPath
+						: path.join(process.cwd(), values.projectPath)
+				)
 				.build(err => {
 					if (err) return reject(err);
 

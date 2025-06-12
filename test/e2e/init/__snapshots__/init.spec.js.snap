@@ -1,0 +1,325 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`E2E: init command > Init 'custom-renderer' template > should generate template with custom renderer 1`] = `
+"/*
+ * e2e-demo
+ * Copyright (c) 2025 Jane Doe (https://github.com//e2e-demo)
+ * MIT Licensed
+ */
+
+module.exports = require("./src");
+"
+`;
+
+exports[`E2E: init command > Init 'custom-renderer' template > should generate template with custom renderer 2`] = `
+"{
+  "name": "e2e-demo",
+  "version": "0.1.0",
+  "description": "Test project",
+  "main": "index.js",
+  "scripts": {
+    "demo": "node examples/index.js",
+    "lint": "eslint --ext=.js src test",
+    "deps": "npm-check -u"
+  },
+  "author": "Jane Doe",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "3.19.0",
+    "jest": "20.0.0",
+    "jest-cli": "20.0.0"
+  }
+}
+"
+`;
+
+exports[`E2E: init command > Init 'custom-renderer' template > should generate template with custom renderer 3`] = `
+"![Moleculer logo](http://moleculer.services/images/banner.png)
+
+# e2e-demo [![NPM version](https://img.shields.io/npm/v/e2e-demo.svg)](https://www.npmjs.com/package/e2e-demo)
+
+Test project
+
+## Features
+
+## Install
+\`\`\`
+npm install e2e-demo --save
+\`\`\`
+
+
+# License
+The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
+
+# Contact
+Copyright (c) 2025 Jane Doe
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template with lint file 1`] = `
+"e2e-demo
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template with lint file 2`] = `
+"/*
+ * e2e-demo
+ * Copyright (c) 2025 John Doe (https://github.com//e2e-demo)
+ * MIT Licensed
+ */
+
+module.exports = require("./src");
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template with lint file 3`] = `
+"![Moleculer logo](http://moleculer.services/images/banner.png)
+
+# e2e-demo [![NPM version](https://img.shields.io/npm/v/e2e-demo.svg)](https://www.npmjs.com/package/e2e-demo)
+
+Test project
+
+## Features
+
+## Install
+\`\`\`
+npm install e2e-demo --save
+\`\`\`
+
+
+# License
+The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
+
+# Contact
+Copyright (c) 2025 John Doe
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template with lint file 4`] = `
+"![Moleculer logo](http://moleculer.services/images/banner.png)
+
+# {{projectName}} [![NPM version](https://img.shields.io/npm/v/{{projectName}}.svg)](https://www.npmjs.com/package/{{projectName}})
+
+{{projectDescription}}
+
+## Features
+
+## Install
+\`\`\`
+npm install {{projectName}} --save
+\`\`\`
+
+
+# License
+The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
+
+# Contact
+Copyright (c) {{year}} {{fullName}}
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template with lint file 5`] = `
+"module.exports = {
+	root: true,
+
+	rules: {
+		indent: ["warn", "tab"]
+	}
+};
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template without lint file 1`] = `
+"e2e-demo
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template without lint file 2`] = `
+"/*
+ * e2e-demo
+ * Copyright (c) 2025 John Doe (https://github.com//e2e-demo)
+ * MIT Licensed
+ */
+
+module.exports = require("./src");
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template without lint file 3`] = `
+"![Moleculer logo](http://moleculer.services/images/banner.png)
+
+# e2e-demo [![NPM version](https://img.shields.io/npm/v/e2e-demo.svg)](https://www.npmjs.com/package/e2e-demo)
+
+Test project
+
+## Features
+
+## Install
+\`\`\`
+npm install e2e-demo --save
+\`\`\`
+
+
+# License
+The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
+
+# Contact
+Copyright (c) 2025 John Doe
+"
+`;
+
+exports[`E2E: init command > Init 'handlebars' template > should generate template without lint file 4`] = `
+"![Moleculer logo](http://moleculer.services/images/banner.png)
+
+# {{projectName}} [![NPM version](https://img.shields.io/npm/v/{{projectName}}.svg)](https://www.npmjs.com/package/{{projectName}})
+
+{{projectDescription}}
+
+## Features
+
+## Install
+\`\`\`
+npm install {{projectName}} --save
+\`\`\`
+
+
+# License
+The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
+
+# Contact
+Copyright (c) {{year}} {{fullName}}
+"
+`;
+
+exports[`E2E: init command > Init 'no-meta' template > should generate template 1`] = `
+"e2e-demo
+"
+`;
+
+exports[`E2E: init command > Init 'no-meta' template > should generate template 2`] = `
+"/*
+ * e2e-demo
+ * Copyright (c) 2025 
+ * MIT Licensed
+ */
+
+module.exports = require("./src");
+"
+`;
+
+exports[`E2E: init command > Init 'no-meta' template > should generate template 3`] = `
+"# e2e-demo [![NPM version](https://img.shields.io/npm/v/e2e-demo.svg)](https://www.npmjs.com/package/e2e-demo)
+
+
+
+## Features
+
+## Install
+\`\`\`
+npm install e2e-demo --save
+\`\`\`
+
+
+# License
+The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
+
+# Contact
+Copyright (c) 2025 
+"
+`;
+
+exports[`E2E: init command > Init 'nunjucks' template > should generate template with lint file 1`] = `
+"e2e-demo
+"
+`;
+
+exports[`E2E: init command > Init 'nunjucks' template > should generate template with lint file 2`] = `
+"{
+  "name": "e2e-demo",
+  "version": "0.1.0",
+  "description": "Test project",
+  "main": "index.js",
+  "scripts": {
+    "demo": "node examples/index.js","lint": "eslint --ext=.js src test",
+    "deps": "npm-check -u"
+  },
+  "author": "John Doe",
+  "license": "MIT",
+  "devDependencies": {"eslint": "3.19.0",
+    "jest": "20.0.0",
+    "jest-cli": "20.0.0"
+  }
+}
+"
+`;
+
+exports[`E2E: init command > Init 'nunjucks' template > should generate template with lint file 3`] = `
+"![Moleculer logo](http://moleculer.services/images/banner.png)
+
+# e2e-demo [![NPM version](https://img.shields.io/npm/v/e2e-demo.svg)](https://www.npmjs.com/package/e2e-demo)
+
+Test project
+
+## Features
+
+## Install
+\`\`\`
+npm install e2e-demo --save
+\`\`\`
+
+
+# License
+The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
+
+# Contact
+Copyright (c) 2025 John Doe
+"
+`;
+
+exports[`E2E: init command > Init 'nunjucks' template > should generate template without lint file 1`] = `
+"e2e-demo
+"
+`;
+
+exports[`E2E: init command > Init 'nunjucks' template > should generate template without lint file 2`] = `
+"{
+  "name": "e2e-demo",
+  "version": "0.1.0",
+  "description": "Test project",
+  "main": "index.js",
+  "scripts": {
+    "demo": "node examples/index.js",
+    "deps": "npm-check -u"
+  },
+  "author": "John Doe",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "20.0.0",
+    "jest-cli": "20.0.0"
+  }
+}
+"
+`;
+
+exports[`E2E: init command > Init 'nunjucks' template > should generate template without lint file 3`] = `
+"![Moleculer logo](http://moleculer.services/images/banner.png)
+
+# e2e-demo [![NPM version](https://img.shields.io/npm/v/e2e-demo.svg)](https://www.npmjs.com/package/e2e-demo)
+
+Test project
+
+## Features
+
+## Install
+\`\`\`
+npm install e2e-demo --save
+\`\`\`
+
+
+# License
+The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
+
+# Contact
+Copyright (c) 2025 John Doe
+"
+`;

@@ -11,6 +11,16 @@ const { fail } = require("../utils");
 module.exports = {
 	command: "alias-template <template-name> <template-url>",
 	describe: "Alias a template url by name for usage in moleculer-cli init command.",
+	builder(yargs) {
+		yargs.options({
+			force: {
+				alias: "f",
+				default: false,
+				describe: "Force overwrite existing template alias",
+				type: "boolean"
+			}
+		});
+	},
 	handler: handler
 };
 
@@ -37,7 +47,7 @@ async function handler(opts) {
 
 		// Check if template name already exists
 		const { templateName, aliasedTemplates } = values;
-		if (aliasedTemplates[templateName]) {
+		if (aliasedTemplates[templateName] && !values.force) {
 			const inquirer = (await import("inquirer")).default;
 
 			const answers = await inquirer.prompt([
