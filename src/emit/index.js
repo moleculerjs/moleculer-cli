@@ -70,7 +70,7 @@ module.exports = {
 			const meta = {};
 			const headers = {};
 
-			Object.keys(opts).map(key => {
+			Object.keys(opts).forEach(key => {
 				if (key.startsWith("@")) params[key.slice(1)] = opts[key];
 				if (key.startsWith("#")) meta[key.slice(1)] = opts[key];
 				// if (key.startsWith("@")) headers[key.slice(1)] = opts[key];
