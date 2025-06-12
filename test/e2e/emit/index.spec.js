@@ -4,7 +4,7 @@ import { execa } from "execa";
 
 const binPath = "./bin/moleculer.js";
 
-describe.skip("E2E: call command", () => {
+describe("E2E: call command", () => {
 	const transporter = "NATS";
 	const ns = "test-emit";
 
