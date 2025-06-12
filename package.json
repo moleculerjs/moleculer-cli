@@ -14,8 +14,8 @@
     "dev:alias": "node ./bin/moleculer alias-template p project",
     "test:init": "rimraf tmp && node ./bin/moleculer init --answers test/demo-hb-answers.json --no-install ./templates/demo-hb tmp",
     "test:init:project": "rimraf tmp && node ./bin/moleculer init --answers test/answers.json --no-install project tmp",
-    "test:create": "vitest",
-    "test": "npm run test:init && npm run test:create"
+    "ci": "vitest",
+    "test": "vitest --run --coverage"
   },
   "bin": {
     "moleculer": "./bin/moleculer.js"
@@ -56,6 +56,7 @@
     "eslint-plugin-prettier": "^5.4.1",
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-security": "^3.0.1",
+    "execa": "^9.6.0",
     "globals": "^16.2.0",
     "jest": "^30.0.0",
     "jest-cli": "^30.0.0",
