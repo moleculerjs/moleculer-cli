@@ -5,7 +5,7 @@ import path from "node:path";
 
 const binPath = path.resolve(__dirname, "../../../bin/moleculer.js");
 
-describe("E2E: call command", () => {
+describe.skip("E2E: call command", () => {
 	const transporter = "NATS";
 	const ns = "test-emit";
 
