@@ -32,8 +32,8 @@ describe("E2E: call command", () => {
 
 		await broker.start();
 
-		console.log((await execa("ls -al")).stdout);
-		console.log((await execa("ls -al bin/")).stdout);
+		console.log((await execa`ls -al`).stdout);
+		console.log((await execa`ls -al bin`).stdout);
 	});
 
 	afterAll(async () => {
