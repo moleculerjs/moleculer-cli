@@ -4,7 +4,7 @@ const Moleculer = require("moleculer");
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
-const glob = require("glob");
+const glob = require("fast-glob");
 
 /**
  * Creates an instance of ServiceBroker

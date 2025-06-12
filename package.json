@@ -27,7 +27,7 @@
     "@ladjs/consolidate": "^1.0.4",
     "download-git-repo": "^3.0.2",
     "exeq": "^3.0.0",
-    "glob": "^11.0.2",
+    "fast-glob": "^3.3.3",
     "handlebars": "^4.7.8",
     "inquirer": "^12.6.3",
     "kleur": "^4.1.5",
