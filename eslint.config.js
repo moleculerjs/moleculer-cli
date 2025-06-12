@@ -48,7 +48,6 @@ module.exports = defineConfig([
 				}
 			],
 
-			quotes: ["warn", "double"],
 			semi: ["error", "always"],
 			"no-var": ["error"],
 			"no-console": 0,

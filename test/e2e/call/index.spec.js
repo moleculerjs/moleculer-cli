@@ -1,9 +1,8 @@
 import { ServiceBroker } from "moleculer";
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { execa } from "execa";
-import path from "node:path";
 
-const binPath = path.resolve(__dirname, "./bin/moleculer.js");
+const binPath = "./bin/moleculer.js";
 
 describe("E2E: call command", () => {
 	const transporter = "NATS";
@@ -31,9 +30,6 @@ describe("E2E: call command", () => {
 		});
 
 		await broker.start();
-
-		console.log((await execa`ls -al`).stdout);
-		console.log((await execa`ls -al bin`).stdout);
 	});
 
 	afterAll(async () => {
@@ -41,20 +37,16 @@ describe("E2E: call command", () => {
 	});
 
 	it("should call an action and return expected output with exitCode 0", async () => {
-		const actionName = "greeter.welcome";
-		const param = "--@name=John";
-		const cmd = `node ${binPath} call --ns ${ns} -t ${transporter} ${actionName} ${param}`;
-		const { stdout, stderr, exitCode } = await execa(cmd);
+		const { stdout, stderr, exitCode } =
+			await execa`node ${binPath} call --ns ${ns} -t ${transporter} greeter.welcome --@name=John`;
 		expect(exitCode).toBe(0);
 		expect(stdout).toBe('"Hello John!"');
 		expect(stderr).toBe("");
 	});
 
 	it("should call an action with meta and return expected output with exitCode 0", async () => {
-		const actionName = "greeter.welcome";
-		const param = "--@name=John --#greeting=Hi";
-		const cmd = `node ${binPath} call --ns ${ns} -t ${transporter} ${actionName} ${param}`;
-		const { stdout, stderr, exitCode } = await execa(cmd);
+		const { stdout, stderr, exitCode } =
+			await execa`node ${binPath} call --ns ${ns} -t ${transporter} greeter.welcome --@name=John --#greeting=Hi`;
 		expect(exitCode).toBe(0);
 		expect(stdout).toBe('"Hi John!"');
 		expect(stderr).toBe("");

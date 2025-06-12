@@ -1,9 +1,8 @@
 import { ServiceBroker } from "moleculer";
 import { vi, describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
 import { execa } from "execa";
-import path from "node:path";
 
-const binPath = path.resolve(__dirname, "../../../bin/moleculer.js");
+const binPath = "./bin/moleculer.js";
 
 describe.skip("E2E: call command", () => {
 	const transporter = "NATS";
@@ -38,8 +37,8 @@ describe.skip("E2E: call command", () => {
 	});
 
 	it("should emit an event", async () => {
-		const cmd = `node ${binPath} emit --ns ${ns} -t ${transporter} test.event --@name=John`;
-		const { stdout, stderr, exitCode } = await execa(cmd);
+		const { stdout, stderr, exitCode } =
+			await execa`node ${binPath} emit --ns ${ns} -t ${transporter} test.event --@name=John`;
 		expect(exitCode).toBe(0);
 		expect(stdout).toBe("OK");
 		expect(stderr).toBe("");
@@ -58,8 +57,8 @@ describe.skip("E2E: call command", () => {
 	});
 
 	it("should broadcast an event", async () => {
-		const cmd = `node ${binPath} emit --ns ${ns} -t ${transporter} --broadcast test.event --@name=Jane`;
-		const { stdout, stderr, exitCode } = await execa(cmd);
+		const { stdout, stderr, exitCode } =
+			await execa`node ${binPath} emit --ns ${ns} -t ${transporter} --broadcast test.event --@name=Jane`;
 		expect(exitCode).toBe(0);
 		expect(stdout).toBe("OK");
 		expect(stderr).toBe("");
@@ -77,8 +76,8 @@ describe.skip("E2E: call command", () => {
 	});
 
 	it("should broadcast an event with group but not called the greeter handler", async () => {
-		const cmd = `node ${binPath} emit --ns ${ns} -t ${transporter} --broadcast --group asd test.event --@name=Jane`;
-		const { stdout, stderr, exitCode } = await execa(cmd);
+		const { stdout, stderr, exitCode } =
+			await execa`node ${binPath} emit --ns ${ns} -t ${transporter} --broadcast --group asd test.event --@name=Jane`;
 		expect(exitCode).toBe(0);
 		expect(stdout).toBe("OK");
 		expect(stderr).toBe("");
@@ -87,8 +86,8 @@ describe.skip("E2E: call command", () => {
 	});
 
 	it("should broadcast an event with group and called the greeter handler", async () => {
-		const cmd = `node ${binPath} emit --ns ${ns} -t ${transporter} --broadcast --group greeter test.event --@name=Jane`;
-		const { stdout, stderr, exitCode } = await execa(cmd);
+		const { stdout, stderr, exitCode } =
+			await execa`node ${binPath} emit --ns ${ns} -t ${transporter} --broadcast --group greeter test.event --@name=Jane`;
 		expect(exitCode).toBe(0);
 		expect(stdout).toBe("OK");
 		expect(stderr).toBe("");
