@@ -36,6 +36,11 @@ module.exports = {
 				describe: "Logging level",
 				type: "string"
 			},
+			"logmeta": {
+				default: true,
+				describe: "Log meta if level is not silent",
+				type: 'boolean'
+			},
 			"id": {
 				default: null,
 				describe: "NodeID",
@@ -66,7 +71,9 @@ module.exports = {
 
 			if (opts.level != "silent") {
 				console.log("Params:", params);
-				console.log("Meta:", meta);
+				if (opts.logmeta) {
+					console.log("Meta:", meta);
+				}
 			}
 
 			const res = await broker.call(opts.actionName, params, { meta });
