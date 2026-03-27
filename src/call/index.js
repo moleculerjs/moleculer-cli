@@ -36,7 +36,7 @@ module.exports = {
 				describe: "Logging level",
 				type: "string"
 			},
-			"logmeta": {
+			"logMeta": {
 				default: true,
 				describe: "Log meta if level is not silent",
 				type: 'boolean'
@@ -71,7 +71,7 @@ module.exports = {
 
 			if (opts.level != "silent") {
 				console.log("Params:", params);
-				if (opts.logmeta) {
+				if (opts.logMeta) {
 					console.log("Meta:", meta);
 				}
 			}
