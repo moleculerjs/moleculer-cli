@@ -35,7 +35,7 @@
     "metalsmith": "^2.6.3",
     "minimatch": "^10.0.1",
     "mkdirp": "^3.0.1",
-    "moleculer": "^0.15.0-beta1",
+    "moleculer": "^0.15.0-beta2",
     "moleculer-repl": "^0.7.4",
     "multimatch": "^7.0.0",
     "nunjucks": "^3.2.4",
@@ -72,6 +72,6 @@
   },
   "homepage": "https://github.com/moleculerjs/moleculer-cli#readme",
   "engines": {
-    "node": ">= 20.x.x"
+    "node": ">= 22.x.x"
   }
 }

@@ -49,6 +49,6 @@
     "moleculer": "*"
   },
   "engines": {
-    "node": ">= 6.x.x"
+    "node": ">= 22.x.x"
   }
 }
