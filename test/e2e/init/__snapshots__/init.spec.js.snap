@@ -3,7 +3,7 @@
 exports[`E2E: init command > Init 'custom-renderer' template > should generate template with custom renderer 1`] = `
 "/*
  * e2e-demo
- * Copyright (c) 2025 Jane Doe (https://github.com//e2e-demo)
+ * Copyright (c) 2026 Jane Doe (https://github.com//e2e-demo)
  * MIT Licensed
  */
 
@@ -52,7 +52,7 @@ npm install e2e-demo --save
 The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 
 # Contact
-Copyright (c) 2025 Jane Doe
+Copyright (c) 2026 Jane Doe
 "
 `;
 
@@ -64,7 +64,7 @@ exports[`E2E: init command > Init 'handlebars' template > should generate templa
 exports[`E2E: init command > Init 'handlebars' template > should generate template with lint file 2`] = `
 "/*
  * e2e-demo
- * Copyright (c) 2025 John Doe (https://github.com//e2e-demo)
+ * Copyright (c) 2026 John Doe (https://github.com//e2e-demo)
  * MIT Licensed
  */
 
@@ -91,7 +91,7 @@ npm install e2e-demo --save
 The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 
 # Contact
-Copyright (c) 2025 John Doe
+Copyright (c) 2026 John Doe
 "
 `;
 
@@ -137,7 +137,7 @@ exports[`E2E: init command > Init 'handlebars' template > should generate templa
 exports[`E2E: init command > Init 'handlebars' template > should generate template without lint file 2`] = `
 "/*
  * e2e-demo
- * Copyright (c) 2025 John Doe (https://github.com//e2e-demo)
+ * Copyright (c) 2026 John Doe (https://github.com//e2e-demo)
  * MIT Licensed
  */
 
@@ -164,7 +164,7 @@ npm install e2e-demo --save
 The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 
 # Contact
-Copyright (c) 2025 John Doe
+Copyright (c) 2026 John Doe
 "
 `;
 
@@ -199,7 +199,7 @@ exports[`E2E: init command > Init 'no-meta' template > should generate template 
 exports[`E2E: init command > Init 'no-meta' template > should generate template 2`] = `
 "/*
  * e2e-demo
- * Copyright (c) 2025 
+ * Copyright (c) 2026 
  * MIT Licensed
  */
 
@@ -224,7 +224,7 @@ npm install e2e-demo --save
 The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 
 # Contact
-Copyright (c) 2025 
+Copyright (c) 2026 
 "
 `;
 
@@ -272,7 +272,7 @@ npm install e2e-demo --save
 The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 
 # Contact
-Copyright (c) 2025 John Doe
+Copyright (c) 2026 John Doe
 "
 `;
 
@@ -320,6 +320,6 @@ npm install e2e-demo --save
 The project is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 
 # Contact
-Copyright (c) 2025 John Doe
+Copyright (c) 2026 John Doe
 "
 `;

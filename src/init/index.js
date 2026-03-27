@@ -14,7 +14,6 @@ const _ = require("lodash");
 const kleur = require("kleur");
 const { mkdirp } = require("mkdirp");
 const exeq = require("exeq");
-const download = require("download-git-repo");
 const Consolidate = require("@ladjs/consolidate");
 const Metalsmith = require("metalsmith");
 const Handlebars = require("handlebars");
@@ -176,15 +175,11 @@ async function handler(opts) {
 
 		// Download template
 		if (values.templateRepo) {
-			await new Promise((resolve, reject) => {
-				console.log("Downloading template...");
-				download(values.templateRepo, values.tmp, {}, err => {
-					if (err) {
-						reject(`Failed to download repo from '${values.templateRepo}'!`);
-					} else {
-						resolve();
-					}
-				});
+			console.log("Downloading template...");
+			const { downloadTemplate } = await import("giget");
+			await downloadTemplate(`github:${values.templateRepo}`, {
+				dir: values.tmp,
+				force: true
 			});
 		}
 
