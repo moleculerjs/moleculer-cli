@@ -15,7 +15,11 @@ const os = require("os");
 
 module.exports = {
 	getTempDir(dir, clear) {
-		const tmp = path.join(os.homedir(), ".moleculer-templates", dir.replace(/[^a-zA-Z0-9]/g, "-"));
+		const tmp = path.join(
+			os.homedir(),
+			".moleculer-templates",
+			dir.replace(/[^a-zA-Z0-9]/g, "-")
+		);
 		if (fs.existsSync(tmp) && clear) {
 			rm(tmp);
 		}
@@ -25,14 +29,12 @@ module.exports = {
 
 	fail(msg) {
 		console.error(kleur.red().bold(msg));
-		if (msg instanceof Error)
-			console.error(msg);
+		if (msg instanceof Error) console.error(msg);
 
 		process.exit(1);
 	},
 
 	evaluate(exp, data) {
-		/* eslint-disable no-new-func */
 		const fn = new Function("data", "with (data) { return " + exp + "}");
 		try {
 			return fn(data);
