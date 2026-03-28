@@ -3,8 +3,8 @@
 
 ## Breaking changes
 - Minimum **Node.js version raised to 22** (aligned with Moleculer 0.15 requirement).
-- Updated `moleculer` dependency to `^0.15.0`.
-- Updated `moleculer-repl` to `^0.7.4`.
+- Updated `moleculer` dependency to `^0.15.0` (stable release).
+- Updated `moleculer-repl` to `^0.8.0`.
 
 ## Changes
 - Replaced `download-git-repo` with [`giget`](https://github.com/unjs/giget) for template downloading (zero dependencies, no more `punycode` deprecation warning on Node 22+).
