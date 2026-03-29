@@ -176,8 +176,23 @@ async function handler(opts) {
 		// Download template
 		if (values.templateRepo) {
 			console.log("Downloading template...");
+
+			// Resolve the default branch from GitHub API (giget defaults to "main"
+			// but many Moleculer templates still use "master").
+			let branch;
+			try {
+				const res = await fetch(`https://api.github.com/repos/${values.templateRepo}`);
+				if (res.ok) {
+					const data = await res.json();
+					branch = data.default_branch;
+				}
+			} catch {
+				// ignore – fall back to giget default
+			}
+
+			const ref = branch ? `#${branch}` : "";
 			const { downloadTemplate } = await import("giget");
-			await downloadTemplate(`github:${values.templateRepo}`, {
+			await downloadTemplate(`github:${values.templateRepo}${ref}`, {
 				dir: values.tmp,
 				force: true
 			});
