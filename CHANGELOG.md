@@ -1,3 +1,13 @@
+<a name="0.9.1"></a>
+# 0.9.1 (2026-03-29)
+
+## Fixes
+- Fix template download failing on repos with `master` as default branch (giget defaults to `main`). Now resolves the actual default branch from the GitHub API before downloading.
+
+## Other
+- Updated README with documentation for all commands.
+
+--------------------------------------------------
 <a name="0.9.0"></a>
 # 0.9.0 (2026-03-27)
 
