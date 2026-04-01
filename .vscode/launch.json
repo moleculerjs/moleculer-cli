@@ -5,15 +5,6 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Attach by Process ID",
-			"processId": "${command:PickProcess}",
-			"request": "attach",
-			"skipFiles": [
-				"<node_internals>/**"
-			],
-			"type": "pwa-node"
-		},
-		{
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
@@ -21,11 +12,13 @@
 			"cwd": "${workspaceRoot}",
 			"args": [
 				"init",
-				"--answers",
-				"test/answers.json",
 				"--no-install",
-				"project",
-				"tmp"
+				"./templates/demo-hb",
+				"cli-demo",
+				"c:/tmp/cli-demo",
+				"--@username=icebob",
+				"--@fullName=\"Ice Bob\"",
+				"--@lint=false"
 			],
 			"console": "integratedTerminal"
 		}

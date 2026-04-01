@@ -1,9 +1,8 @@
 /*
  * moleculer-cli
- * Copyright (c) 2021 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
+ * Copyright (c) 2025 MoleculerJS (https://github.com/moleculerjs/moleculer-cli)
  * MIT Licensed
  */
-
 
 const addService = require("./service");
 
@@ -11,15 +10,15 @@ const addService = require("./service");
  * Yargs command
  */
 module.exports = {
-	command: ["create", "<fileType>", "<name>"],
-	describe: `Create a Moleculer service `,
+	command: ["create", "<fileType>", "[name]"],
+	describe: "Create a Moleculer service ",
 	builder(yargs) {
 		yargs.options({
 			typescript: {
 				describe: "Create service for typescript",
 				type: "boolean",
-				default: false,
-			},
+				default: false
+			}
 		});
 	},
 	handler(opts) {
@@ -27,6 +26,10 @@ module.exports = {
 		switch (fileType) {
 			case "service":
 				return addService(opts);
+			default:
+				console.error(`Unknown file type: ${fileType}`);
+				console.error("Supported file types: service");
+				process.exit(1);
 		}
-	},
+	}
 };

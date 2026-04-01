@@ -1,0 +1,20 @@
+{
+  "name": "{{projectName}}",
+  "version": "0.1.0",
+  "description": "{{projectDescription}}",
+  "main": "index.js",
+  "scripts": {
+    "demo": "node examples/index.js",
+    {{#lint}}"lint": "eslint --ext=.js src test",{{/lint}}
+    "deps": "npm-check -u"
+  },
+  "author": "{{fullName}}",
+  "license": "MIT",
+  "devDependencies": {
+    {{#lint}}
+    "eslint": "3.19.0",
+    {{/lint}}
+    "jest": "20.0.0",
+    "jest-cli": "20.0.0"
+  }
+}

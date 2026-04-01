@@ -1,3 +1,35 @@
+<a name="0.9.1"></a>
+# 0.9.1 (2026-03-29)
+
+## Fixes
+- Fix template download failing on repos with `master` as default branch (giget defaults to `main`). Now resolves the actual default branch from the GitHub API before downloading.
+
+## Other
+- Updated README with documentation for all commands.
+
+--------------------------------------------------
+<a name="0.9.0"></a>
+# 0.9.0 (2026-03-27)
+
+## Breaking changes
+- Minimum **Node.js version raised to 22** (aligned with Moleculer 0.15 requirement).
+- Updated `moleculer` dependency to `^0.15.0` (stable release).
+- Updated `moleculer-repl` to `^0.8.0`.
+
+## Changes
+- Replaced `download-git-repo` with [`giget`](https://github.com/unjs/giget) for template downloading (zero dependencies, no more `punycode` deprecation warning on Node 22+).
+- Migrated from Jest to **Vitest** for testing.
+- Migrated from `.eslintrc.js` to flat config (`eslint.config.js`).
+- Added **Prettier** for code formatting.
+- Rewritten `init` command with async/await, cleaner Metalsmith integration, and support for custom renderers in templates.
+- Rewritten `create service` command with improved interactive prompts and template rendering.
+- Added support for loading answers from CLI parameters (`--@key=value`) in the `init` command.
+- Renamed demo template to `demo-hb` (Handlebars) and added `demo-nj` (Nunjucks) template.
+- Added comprehensive **E2E tests** for `init`, `create`, `call`, `emit`, `connect`, and `start` commands.
+- Removed `.codeclimate.yml` and `.travis.yml` (CI moved to GitHub Actions).
+- Updated all dependencies to latest versions.
+
+--------------------------------------------------
 <a name="0.8.2"></a>
 # 0.8.2 (2025-05-30)
 
