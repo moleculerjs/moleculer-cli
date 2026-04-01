@@ -36,6 +36,11 @@ module.exports = {
 				describe: "Logging level",
 				type: "string"
 			},
+			logMeta: {
+				default: true,
+				describe: "Log meta if level is not silent",
+				type: 'boolean'
+			},
 			id: {
 				default: null,
 				describe: "NodeID",
@@ -66,7 +71,9 @@ module.exports = {
 
 			if (opts.level != "silent") {
 				console.log("Params:", params);
-				console.log("Meta:", meta);
+				if (opts.logMeta) {
+					console.log("Meta:", meta);
+				}
 				console.log("Headers:", headers);
 			}
 
